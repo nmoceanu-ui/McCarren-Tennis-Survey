@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Public tennis courts on the McCarren Park asphalt lot: the plan, the history, and the community survey.">
+<style>html{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Courts Back at McCarren</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap">
+<script type="module" src="https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js"></script>
+<style>
+  /* Layout: one reading column with full-bleed bands; hard-court blue as the single accent, court-line rules as the only ornament. */
+  :root {
+    --bg: #f5f6f2;
+    --bg-band: #e9ecf1;
+    --bg-deep: #14202b;
+    --fg: #14202b;
+    --fg-deep: #f2f5f8;
+    --muted: #5b6771;
+    --line: #cfd6dc;
+    --accent: #1f5fa8;
+    --accent-ink: #ffffff;
+    --court: #2a6fc0;
+    --lawn: #6a9a4c;
+    --clay: #c9a27a;
+    --font-display: "Barlow Condensed", "Arial Narrow", Impact, sans-serif;
+    --font-body: "Public Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0f1720; --bg-band: #16212c; --bg-deep: #0a1119; --fg: #e8edf1; --fg-deep: #f2f5f8;
+      --muted: #9aa7b3; --line: #2b3843; --accent: #5aa0e6; --accent-ink: #0a1119;
+      --court: #3d84d6; --lawn: #7fb060; --clay: #c9a27a; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0f1720; --bg-band: #16212c; --bg-deep: #0a1119; --fg: #e8edf1; --fg-deep: #f2f5f8;
+    --muted: #9aa7b3; --line: #2b3843; --accent: #5aa0e6; --accent-ink: #0a1119;
+    --court: #3d84d6; --lawn: #7fb060; --clay: #c9a27a; color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 17px; line-height: 1.55; margin: 0; }
+  h1, h2, h3 { font-family: var(--font-display); line-height: 1; letter-spacing: 0.005em; text-wrap: balance; margin: 0; }
+  h1 { font-size: clamp(2.8rem, 8vw, 5.6rem); font-weight: 700; }
+  h2 { font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 700; }
+  h3 { font-size: 1.45rem; font-weight: 600; }
+  p { margin: 0; }
+  a { color: var(--accent); }
+  .wrap { max-width: 1100px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .band { padding-block: 64px; }
+  .band.tint { background: var(--bg-band); }
+  .band.deep { background: var(--bg-deep); color: var(--fg-deep); }
+  .eyebrow { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); font-weight: 700; }
+  .deep .eyebrow { color: #a9bccd; }
+  .baseline { height: 0; border-top: 3px solid var(--accent); border-bottom: 3px solid var(--accent); padding-top: 4px; background: transparent; width: 72px; margin: 18px 0 22px; }
+  .lede { font-size: 1.2rem; max-width: 62ch; }
+  .prose { max-width: 66ch; display: grid; gap: 14px; }
+  .muted { color: var(--muted); }
+  .small { font-size: 0.9rem; }
+
+  /* Hero */
+  .hero { padding-block: 56px 48px; }
+  .hero-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 40px; align-items: end; }
+  .numbers { display: grid; gap: 14px; border-left: 2px solid var(--line); padding-left: 22px; }
+  .num { display: grid; gap: 2px; }
+  .num b { font-family: var(--font-display); font-size: 2.6rem; line-height: 1; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .num span { font-size: 0.95rem; color: var(--muted); }
+
+  /* CTA */
+  .cta { display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: center; margin-top: 28px; }
+  .btn { display: inline-block; background: var(--accent); color: var(--accent-ink); font-weight: 700; text-decoration: none; padding: 14px 22px; border-radius: 4px; font-size: 1.05rem; border: 0; cursor: pointer; }
+  .btn:hover { filter: brightness(1.08); }
+  .btn:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+  .btn.ghost { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
+  .deep .btn.ghost { color: var(--fg-deep); border-color: var(--fg-deep); }
+  .cta-note { font-size: 0.92rem; color: var(--muted); max-width: 40ch; }
+  .deep .cta-note { color: #a9bccd; }
+
+  /* Then and now */
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 28px; }
+  figure { margin: 0; display: grid; gap: 10px; }
+  figure img { width: 100%; height: auto; display: block; aspect-ratio: 4 / 3; object-fit: cover; }
+  figcaption { font-size: 0.95rem; }
+  figcaption b { display: block; font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; line-height: 1.1; }
+  figcaption .credit { display: block; color: var(--muted); font-size: 0.82rem; margin-top: 2px; }
+
+  /* Timeline */
+  .timeline { list-style: none; margin: 30px 0 0; padding: 0; display: grid; }
+  .timeline li { display: grid; grid-template-columns: 110px 1fr; gap: 18px; padding: 14px 0; border-top: 1px solid var(--line); }
+  .timeline li:last-child { border-bottom: 1px solid var(--line); }
+  .timeline .yr { font-family: var(--font-display); font-size: 1.7rem; font-weight: 700; color: var(--accent); line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .timeline .what { max-width: 62ch; }
+  .timeline .what .src { color: var(--muted); font-size: 0.84rem; }
+  .timeline li.now .yr { color: var(--fg); }
+  .timeline li.now { background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%); padding-left: 10px; margin-left: -10px; }
+
+  /* Plan / viewers */
+  .viewer-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px; align-items: end; margin-top: 26px; }
+  .tabs { display: inline-flex; border: 2px solid var(--accent); border-radius: 4px; overflow: hidden; }
+  .tabs button { font: inherit; font-weight: 700; padding: 9px 18px; border: 0; background: transparent; color: var(--accent); cursor: pointer; }
+  .tabs button[aria-selected="true"] { background: var(--accent); color: var(--accent-ink); }
+  .viewer { position: relative; margin-top: 14px; background: var(--bg-band); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+  model-viewer[hidden] { display: none !important; }
+  model-viewer { width: 100%; height: min(70vh, 640px); background: var(--bg-band); --poster-color: var(--bg-band); --progress-bar-color: var(--accent); }
+  .viewer-tools { position: absolute; left: 12px; bottom: 12px; display: flex; gap: 8px; align-items: center; }
+  .viewer-tools button { font: inherit; font-size: 0.85rem; font-weight: 700; padding: 7px 12px; border-radius: 4px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); cursor: pointer; }
+  .hint { position: absolute; right: 12px; bottom: 12px; font-size: 0.82rem; color: var(--muted); background: color-mix(in srgb, var(--bg) 85%, transparent); padding: 6px 10px; border-radius: 4px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 14px; font-size: 0.9rem; color: var(--muted); }
+  .legend span::before { content: ""; display: inline-block; width: 12px; height: 12px; border-radius: 2px; margin-right: 7px; vertical-align: -1px; background: var(--sw); }
+  .plan-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 34px; }
+  .plan-grid h3 { margin-bottom: 8px; }
+  .plan-grid p { color: var(--muted); font-size: 0.98rem; }
+
+  /* Footer */
+  footer { padding-block: 40px 56px; font-size: 0.9rem; color: var(--muted); }
+  footer .srcs { display: grid; gap: 6px; margin-top: 12px; }
+  footer a { color: inherit; }
+
+  @media (max-width: 760px) {
+    .hero-grid, .pair, .plan-grid { grid-template-columns: 1fr; }
+    .numbers { border-left: 0; padding-left: 0; border-top: 2px solid var(--line); padding-top: 18px; grid-template-columns: 1fr 1fr; }
+    .timeline li { grid-template-columns: 72px 1fr; gap: 12px; }
+    .timeline .yr { font-size: 1.35rem; }
+    .band { padding-block: 48px; }
+    model-viewer { height: 62vh; }
+    .hint { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; transition: none !important; } }
+
+  .counter-bar { border-top: 3px solid var(--accent); border-bottom: 1px solid var(--line); padding: 14px 0 12px; margin-bottom: 36px; display: grid; gap: 6px; }
+  .counter-main { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; }
+  .counter-big { font-family: var(--font-display); font-size: 2.6rem; line-height: 1; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .counter-text { font-family: var(--font-display); font-size: 1.4rem; font-weight: 600; line-height: 1; }
+  .counter-sup { font-size: 1rem; }
+  .counter-sup strong { font-variant-numeric: tabular-nums; }
+  .counter-more summary { cursor: pointer; font-size: 0.85rem; color: var(--accent); }
+  .counter-breakdown { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px 18px; margin: 12px 0 0; padding: 0; max-width: 640px; }
+  .counter-breakdown div { display: grid; gap: 2px; }
+  .counter-breakdown dt { font-size: 0.82rem; color: var(--muted); }
+  .counter-breakdown dd { margin: 0; font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .counter-note { font-size: 0.8rem; color: var(--muted); margin-top: 8px; max-width: 70ch; }
+  .counter-status { font-size: 0.8rem; color: var(--muted); }
+  @media (max-width: 760px) { .counter-breakdown { grid-template-columns: 1fr; } .counter-breakdown div { display: flex; justify-content: space-between; } .counter-big { font-size: 2.2rem; } .counter-text { font-size: 1.2rem; } }
+</style>
+
+</head>
+<body>
+<header class="hero wrap">
+  
+  <section class="counter-bar" aria-labelledby="counter-heading">
+    <div class="counter-main">
+      <span id="counter-total" class="counter-big">&mdash;</span>
+      <h2 id="counter-heading" class="counter-text">survey responses counted</h2>
+      <p class="counter-sup"><strong id="counter-supporters">&mdash;</strong> support adding public tennis courts.</p>
+    </div>
+    <details class="counter-more">
+      <summary>Who has answered, and how we count</summary>
+      <dl class="counter-breakdown">
+        <div><dt>Residents*</dt><dd id="counter-residents">&mdash;</dd></div>
+        <div><dt>Visiting racquet-sport players</dt><dd id="counter-visitors">&mdash;</dd></div>
+        <div><dt>Other participants&dagger;</dt><dd id="counter-other">&mdash;</dd></div>
+      </dl>
+      <p class="counter-note">*Self-reported North Brooklyn residents in ZIPs 11211, 11222, 11249, 11206 and 11237; residency is not verified. &dagger;People who work or study here, other visitors, and residence answers still being classified.</p>
+      <p class="counter-note">One eligible response per email. All viewpoints count. An open community survey, not a representative poll. Updated periodically.</p>
+    </details>
+    <p id="counter-status" class="counter-status" role="status" aria-live="polite">Loading the latest count&hellip;</p>
+  </section>
+
+  <p class="eyebrow">McCarren Park · N 12th St, Berry St and Bedford Ave</p>
+  <h1>Give McCarren its courts back.</h1>
+  <div class="baseline" aria-hidden="true"></div>
+  <div class="hero-grid">
+    <div>
+      <p class="lede">This corner of the park was still tennis courts in 1947. Today it is seven courts and 78,000 square feet of cracked blacktop. NYC Parks is redesigning the lot right now. We are asking for eleven public courts on it, with the dog run kept and the city's stormwater tank underneath.</p>
+      <div class="cta">
+        <a class="btn js-survey" href="#survey">Take the one-minute survey</a>
+        <p class="cta-note">Six questions. Results go to NYC Parks, Community Board 1 and Council District 33. Closes November 10.</p>
+      </div>
+    </div>
+    <div class="numbers" aria-label="Key figures">
+      <div class="num"><b>9</b><span>Parks courts for 325,000 people in North Brooklyn</span></div>
+      <div class="num"><b>7 of 9</b><span>are paid courts from October to April, $50 to $100 an hour</span></div>
+      <div class="num"><b>+31,000</b><span>residents added in Community District 1 from 2010 to 2020. Courts added: none</span></div>
+    </div>
+  </div>
+</header>
+
+<section class="band tint" id="then">
+  <div class="wrap">
+    <p class="eyebrow">Then and now</p>
+    <h2>The same corner, 79 years apart</h2>
+    <div class="pair">
+      <figure>
+        <img src="img/mccarren_1947.jpg" alt="Black-and-white aerial photograph of fenced tennis courts at McCarren Park in 1947, with the Manhattan skyline behind" width="854" height="620">
+        <figcaption><b>1947: tennis courts</b>Fenced courts fill the corner at North 12th and Berry.<span class="credit">Photo: Brooklyn Public Library, Center for Brooklyn History</span></figcaption>
+      </figure>
+      <figure>
+        <img src="img/lot_today.jpg" alt="Satellite view of the McCarren Park blacktop today, a large cracked asphalt lot beside seven blue tennis courts" width="976" height="938">
+        <figcaption><b>Today: seven courts and a parking-lot-sized slab</b>About 78,000 square feet of asphalt, fenced, used for nothing in particular.<span class="credit">Imagery © Google; imagery date not stated</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="history">
+  <div class="wrap">
+    <p class="eyebrow">A short history of neglect</p>
+    <h2>Williamsburg was a tennis neighborhood</h2>
+    <div class="prose" style="margin-top:18px">
+      <p>McCarren's courts are older than the pool. They drew crowds in the thousands before the Depression, were left to crack for a quarter century, and were saved twice by the people who play on them. The city has not added a court here in living memory. Here is the record.</p>
+    </div>
+    <ol class="timeline">
+      <li><span class="yr">1910</span><div class="what">Parks installs tennis courts at McCarren, along with a quarter-mile track and ball fields. <span class="src">NYC Parks, McCarren Park history</span></div></li>
+      <li><span class="yr">Late 1920s</span><div class="what">The courts host borough-wide tournaments that draw as many as 5,000 spectators. <span class="src">NYC Parks</span></div></li>
+      <li><span class="yr">1936</span><div class="what">The WPA pool opens with room for 6,800 swimmers, one of eleven built across the city that summer. <span class="src">NYC Parks; Living New Deal</span></div></li>
+      <li><span class="yr">1947</span><div class="what">Fenced courts still cover the corner at North 12th and Berry Streets, the photograph above. At some point afterward they came out and the corner became blacktop. No published account has dated it. <span class="src">Center for Brooklyn History</span></div></li>
+      <li><span class="yr">1984</span><div class="what">The pool closes and sits derelict for more than twenty years. It reopens in 2012. <span class="src">NYC Parks</span></div></li>
+      <li><span class="yr">2009</span><div class="what">The seven remaining courts have not been resurfaced in 25 years. Local players resurface one themselves; they go on to found the McCarren Tennis Association. <span class="src">Brooklyn Paper, via Now Frolic</span></div></li>
+      <li><span class="yr">2010</span><div class="what">American Express pays to redo the other six. <span class="src">Brownstoner, via Now Frolic</span></div></li>
+      <li><span class="yr">2013</span><div class="what">Parks licenses all seven courts to a private operator for the winter. Under the bubble, from the day after Columbus Day to late April, a court costs $50 to $100 an hour. <span class="src">NYC Parks concession directory; operator rate sheet, 2026</span></div></li>
+      <li><span class="yr">2022</span><div class="what">Council Member Restler secures $1 million for a dog run on the lot. In 2025, $14.7 million follows for the lot itself, with underground stormwater storage planned beneath it. <span class="src">Greenpointers</span></div></li>
+      <li><span class="yr">May 2026</span><div class="what">325 people join Parks' online workshop on the lot. More tennis courts are among the most-requested uses. <span class="src">Brownstoner</span></div></li>
+      <li><span class="yr">Sept 2026</span><div class="what">New lights come on over all seven courts, paid for by $300,000 raised in the neighborhood plus USTA grants, after two years of design and permitting by volunteers. <span class="src">NYC Parks release; Greenpointers</span></div></li>
+      <li class="now"><span class="yr">Nov 12, 2026</span><div class="what">Parks presents to Community Board 1. The design that follows will set this corner for the next fifty years.</div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="band tint" id="plan">
+  <div class="wrap">
+    <p class="eyebrow">The proposal</p>
+    <h2>Eleven courts, the dog run kept, the tank underneath</h2>
+    <div class="prose" style="margin-top:18px">
+      <p>The city's plan already puts a stormwater storage tank under the lot. Courts are a flat, light use that can sit on top of it; that is the whole idea. Our concept resurfaces the seven existing courts, adds four, keeps about 45,000 square feet of dog run in three sections (one on the lot, two on park land beside it), and turns about 40% of today's asphalt into lawn, berm and dog run. Drag the model to look around it.</p>
+    </div>
+    <div class="viewer-head">
+      <div class="tabs" role="tablist" aria-label="Season">
+        <button type="button" role="tab" id="tab-summer" aria-selected="true" aria-controls="mv-summer">Summer</button>
+        <button type="button" role="tab" id="tab-winter" aria-selected="false" aria-controls="mv-winter">Winter</button>
+      </div>
+      <p class="small muted">Concept model, not a Parks design. Dimensions and the tank's extent are to be confirmed.</p>
+    </div>
+    <div class="viewer">
+      <model-viewer id="mv-summer" src="models/sketchup_summer.gltf.json" poster="img/poster_summer.jpg" alt="3D concept of the McCarren lot in summer: eleven tennis courts, three dog runs, lawns and a berm along Bedford Avenue" camera-controls touch-action="pan-y" camera-orbit="45deg 50deg 330m" camera-target="71.6m 0m -51.8m" field-of-view="30deg" min-camera-orbit="auto 8deg 110m" max-camera-orbit="auto 86deg 650m" min-field-of-view="20deg" max-field-of-view="40deg" shadow-intensity="1" exposure="1" interaction-prompt="none" loading="eager"></model-viewer>
+      <model-viewer id="mv-winter" src="models/sketchup_winter.gltf.json" poster="img/poster_winter.jpg" alt="3D concept of the McCarren lot in winter: the existing seven courts under the bubble, a skating rink over three of the new courts, and a small lodge" camera-controls touch-action="pan-y" camera-orbit="45deg 50deg 330m" camera-target="71.6m 0m -51.8m" field-of-view="30deg" min-camera-orbit="auto 8deg 110m" max-camera-orbit="auto 86deg 650m" min-field-of-view="20deg" max-field-of-view="40deg" shadow-intensity="1" exposure="1" interaction-prompt="none" loading="lazy" hidden></model-viewer>
+      <div class="viewer-tools"><button type="button" id="reset-view">Reset view</button></div>
+      <p class="hint">Drag to orbit · scroll or pinch to zoom</p>
+    </div>
+    <div class="legend" aria-label="Legend">
+      <span style="--sw: var(--court)">Tennis courts, 11 in summer</span>
+      <span style="--sw: var(--lawn)">Lawn and planted berm</span>
+      <span style="--sw: var(--clay)">Dog runs, three sections</span>
+      <span style="--sw: #9ec3e6">Board on the park lawn: extent of the stormwater storage below</span>
+    </div>
+    <div class="plan-grid">
+      <div><h3>Summer</h3><p>Seven courts resurfaced, four new ones along Berry Street including a show court set in a grass bowl, seating and shade, and lawn where there is asphalt today.</p></div>
+      <div><h3>Winter</h3><p>The existing seven stay under their bubble. A skating rink takes three of the new courts, with a learn-to-skate pad and a lodge beside it, so the corner is used all year.</p></div>
+      <div><h3>What does not change</h3><p>The funded dog run, bigger in our layout than the 30,000 square feet dog owners asked for. The city's stormwater storage. The $14.7 million already secured. We are seeking partner funding for the courts.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="why">
+  <div class="wrap">
+    <p class="eyebrow">Why here, why now</p>
+    <h2>The demand is already standing in line</h2>
+    <div class="prose" style="margin-top:18px">
+      <p>North Brooklyn has nine Parks courts for about 325,000 people, and seven of them are paid courts for six months of the year. Community District 1 grew by 31,000 people between 2010 and 2020 and gained no courts. About 53,400 people commute into Williamsburg to work each day, on top of the visitors in roughly 1,600 hotel rooms within a mile of the park, and there is no tennis shop anywhere in North Brooklyn. Players from Manhattan already travel here for padel because tennis is harder to find; put courts here and they will play tennis.</p>
+      <p>The lot is being designed now. Parks has said it will bring a design to Community Board 1 before the end of the year, and design usually runs 10 to 15 months before contractors are chosen. The design that goes to CB1 sets the direction for everything after it. That is why the survey matters this month and not next year.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band deep" id="survey">
+  <div class="wrap">
+    <p class="eyebrow">The survey</p>
+    <h2>Tell Parks you want courts on the lot</h2>
+    <div class="prose" style="margin-top:18px">
+      <p>Six questions, about a minute: your ZIP code, how you are connected to North Brooklyn, whether the lot should include public courts, what you play, what keeps you off McCarren's courts today, and an email so each person counts once. Live here, work here, or travel here to play: all three count, and we report them separately.</p>
+      <p>We share the results in summary with NYC Parks, Community Board 1 and Council District 33 after the survey closes on November 10, and the anonymized data with anyone who asks. Your email is never shared.</p>
+    </div>
+    <div class="cta">
+      <a class="btn js-survey" href="#survey">Take the one-minute survey</a>
+      <a class="btn ghost" href="#plan">Look at the plan again</a>
+      <p class="cta-note js-survey-note"></p>
+    </div>
+  </div>
+</section>
+
+<footer class="wrap">
+  <p><b>Brooklyn Challenger</b> is a group working to add public tennis courts in New York City, starting with McCarren Park. Nothing on this page is an NYC Parks design or position.</p>
+  <div class="srcs">
+    <span>Sources: <a href="https://prd1.nycgovparks.org/parks/mccarren-park/highlights/200">NYC Parks, McCarren Park history</a> · <a href="https://livingnewdeal.org/sites/mccarren-park-improvements-brooklyn-ny/">Living New Deal</a> · <a href="https://nowfrolic.com/p/where-did-the-tennis-courts-go">Now Frolic, "Where did the tennis courts go?"</a> (Brooklyn Paper 2009 and Brownstoner 2010 via that article) · <a href="https://php1-84.nycgovparks.org/opportunities/concessions/directory">NYC Parks concession directory</a> · <a href="https://greenpointers.com/2025/06/04/mccarren-park-asphalt-lot-awarded-14-million-for-renovation-project">Greenpointers, June 2025</a> · <a href="https://www.brownstoner.com/brooklyn-life/mccarren-park-asphalt-lot-green-space/">Brownstoner, May 2026</a> · <a href="https://greenpointers.com/2026/10/05/mccarren-tennis-association-celebrates-completion-of-lighting-project/">Greenpointers, October 2026</a> · Court counts from the NYC Parks tennis directory; population from the 2020 Census community district profiles; commuting from Census LEHD 2022; hotel rooms from published listings.</span>
+    <span>1947 photograph: Brooklyn Public Library, Center for Brooklyn History. Today's imagery © Google. 3D model: Brooklyn Challenger concept drawing.</span>
+  </div>
+</footer>
+
+<script>
+  // Replace with the Google Form link when the survey is live.
+  const SURVEY_URL = "https://docs.google.com/forms/d/e/1FAIpQLScC8Gpj3SyzugOmr8J9Yj9akgQrjezjAlcERD9saM8nNnKpVw/viewform";
+
+  const live = !SURVEY_URL.includes("REPLACE");
+  document.querySelectorAll(".js-survey").forEach(a => {
+    if (live) { a.href = SURVEY_URL; a.target = "_blank"; a.rel = "noopener"; }
+    else { a.removeAttribute("target"); a.href = "#survey"; }
+  });
+  const note = document.querySelector(".js-survey-note");
+  if (note && !live) note.textContent = "";
+
+  const mvS = document.getElementById("mv-summer"), mvW = document.getElementById("mv-winter");
+  const tabS = document.getElementById("tab-summer"), tabW = document.getElementById("tab-winter");
+  const HOME = { orbit: "45deg 50deg 330m", target: "71.6m 0m -51.8m", fov: "30deg" };
+  function show(which) {
+    const summer = which === "summer";
+    mvS.hidden = !summer; mvW.hidden = summer;
+    tabS.setAttribute("aria-selected", String(summer)); tabW.setAttribute("aria-selected", String(!summer));
+    const from = summer ? mvW : mvS, to = summer ? mvS : mvW;
+    try { to.cameraOrbit = from.getCameraOrbit().toString(); to.cameraTarget = from.getCameraTarget().toString(); to.fieldOfView = from.getFieldOfView() + "deg"; } catch (e) {}
+  }
+  tabS.addEventListener("click", () => show("summer"));
+  tabW.addEventListener("click", () => show("winter"));
+  document.getElementById("reset-view").addEventListener("click", () => {
+    [mvS, mvW].forEach(mv => { mv.cameraOrbit = HOME.orbit; mv.cameraTarget = HOME.target; mv.fieldOfView = HOME.fov; });
+  });
+  try { if (location.hash === "#winter") show("winter"); } catch (e) {}
+</script>
+
+<script src="counter.js" defer></script>
+</body>
+</html>
