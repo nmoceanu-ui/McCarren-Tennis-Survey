@@ -18,7 +18,7 @@ exactly these (copy and paste them):
 | 2 | `Your connection to North Brooklyn` | Multiple choice, required: `I live here` / `I work or study here` / `I come here to play tennis, pickleball or padel` / `I visit for other reasons` |
 | 3 | `Should NYC Parks include new public tennis courts in the lot design?` | Multiple choice, required: `Strongly support` / `Support` / `No opinion` / `Oppose` / `Strongly oppose` |
 | 4 | `What do you play?` | Checkboxes, required: `Tennis` / `My child plays tennis` / `Padel or pickleball` / `I'd like to learn tennis` / `I don't play racquet sports` |
-| 5 | `What keeps you from playing tennis at McCarren today?` | Checkboxes, optional, validation "select at most 2": `Courts are always taken` / `Court conditions` / `Winter indoor courts cost too much` / `Too far from home` / `I play padel or pickleball instead` / `Nothing, I play there` / `I don't play tennis` / `Other` |
+| 5 | `What keeps you from playing tennis at McCarren today?` | Checkboxes, optional, no selection limit: `Courts are always taken` / `Court conditions` / `Winter indoor courts cost too much` / `Too far from home` / `I play padel or pickleball instead` / `Nothing, I play there` / `I don't play tennis` / `Other` |
 | 6 | `Email` | Short answer, validation: text, email address, required |
 | 7 | `Add my name to the community letter to NYC Parks asking for public courts on the lot` | Checkbox, optional (the counter never reads it) |
 | 8 | `Name (first name and last initial), only if you ticked the box above` | Short answer, optional (never read) |
