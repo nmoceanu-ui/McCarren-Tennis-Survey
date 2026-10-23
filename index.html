@@ -107,6 +107,7 @@
   .viewer-tools button { font: inherit; font-size: 0.85rem; font-weight: 700; padding: 7px 12px; border-radius: 4px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); cursor: pointer; }
   .hint { position: absolute; right: 12px; bottom: 12px; font-size: 0.82rem; color: var(--muted); background: color-mix(in srgb, var(--bg) 85%, transparent); padding: 6px 10px; border-radius: 4px; }
   .legend { display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 14px; font-size: 0.9rem; color: var(--muted); }
+  .legend .legend-note::before { display: none; }
   .legend span::before { content: ""; display: inline-block; width: 12px; height: 12px; border-radius: 2px; margin-right: 7px; vertical-align: -1px; background: var(--sw); }
   .plan-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 34px; }
   .plan-grid h3 { margin-bottom: 8px; }
@@ -252,7 +253,8 @@
       <span style="--sw: var(--court)">Tennis courts, 11 in summer</span>
       <span style="--sw: var(--lawn)">Lawn and planted berm</span>
       <span style="--sw: var(--clay)">Dog runs, three sections</span>
-      <span style="--sw: #9ec3e6">Board on the park lawn: extent of the stormwater storage below</span>
+      <span style="--sw: #dcebf5">Winter: synthetic ice rink on three of the new courts</span>
+      <span class="legend-note">Not shown: the city's stormwater tank, underground beneath the new courts and lawn</span>
     </div>
     <div class="plan-grid">
       <div><h3>Summer</h3><p>Seven courts resurfaced, four new ones along Berry Street including a show court set in a grass bowl, seating and shade, and lawn where there is asphalt today.</p></div>
