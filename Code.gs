@@ -18,7 +18,7 @@ const CFG = {
   // Reporting filter only. This list does NOT define Community District 1.
   selectedZips: ['11211', '11222', '11249', '11206', '11237'],
   connections: ['I live here', 'I work or study here',
-    'I come here to play tennis, pickleball or padel', 'I visit for other reasons'],
+    'I come here to play tennis, pickleball or padel', 'I visit for other reasons', 'None of these'],   // 'None of these' added Oct 23 (survey open to all New Yorkers); counted with other participants
   opinions: ['Strongly support', 'Support', 'No opinion', 'Oppose', 'Strongly oppose'],
   // Added Oct 23. Optional column: responses from before the question existed are blank and still count.
   youthHeader: 'Would you like to see more free youth programming at McCarren, such as tennis lessons for kids?',
