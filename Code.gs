@@ -5,7 +5,7 @@
 const CFG = {
   sheet: 'Form Responses 1',
   campaignId: 'bctc-mccarren-2026',
-  opens: '2026-10-24T00:00:00-04:00',
+  opens: '2026-10-22T00:00:00-04:00',
   closes: '2026-11-10T21:00:00-05:00',
   headers: {
     time: 'Timestamp', email: 'Email', zip: 'ZIP code where you live',
@@ -19,7 +19,10 @@ const CFG = {
   selectedZips: ['11211', '11222', '11249', '11206', '11237'],
   connections: ['I live here', 'I work or study here',
     'I come here to play tennis, pickleball or padel', 'I visit for other reasons'],
-  opinions: ['Strongly support', 'Support', 'No opinion', 'Oppose', 'Strongly oppose']
+  opinions: ['Strongly support', 'Support', 'No opinion', 'Oppose', 'Strongly oppose'],
+  // Added Oct 23. Optional column: responses from before the question existed are blank and still count.
+  youthHeader: 'Would you like to see more free youth programming at McCarren, such as tennis lessons for kids?',
+  youthChoices: ['Yes', 'No', 'Not sure']
 };
 
 function text_(v) { return String(v == null ? '' : v).trim(); }
@@ -36,6 +39,7 @@ function aggregate_(values, now) {
     }
     idx[k] = headers.indexOf(title);
   });
+  const youthCol = headers.indexOf(CFG.youthHeader);   // -1 until the question is added to the form
   const start = Date.parse(CFG.opens), end = Date.parse(CFG.closes);
   const earliest = new Map();
   let eligibleRows = 0, excluded = 0, invalid = 0, outOfWindow = 0;
@@ -51,6 +55,8 @@ function aggregate_(values, now) {
     const connection = text_(r[idx.connection]);
     const opinion = text_(r[idx.opinion]);
     const source = text_(r[idx.source]).toLowerCase() || 'online';
+    const youthRaw = youthCol >= 0 ? text_(r[youthCol]) : '';
+    const youth = CFG.youthChoices.includes(youthRaw) ? youthRaw : '';
     if (!Number.isFinite(t) || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
       || !/^\d{5}$/.test(zip) || !CFG.connections.includes(connection)
       || !CFG.opinions.includes(opinion) || !text_(r[idx.activities])
@@ -58,7 +64,7 @@ function aggregate_(values, now) {
     if (t < start || t >= end || t > now.getTime()) { outOfWindow++; return; }
     eligibleRows++;
     const old = earliest.get(email);
-    if (!old || t < old.t) earliest.set(email, { t, zip, connection, opinion, source, row: index + 2 });
+    if (!old || t < old.t) earliest.set(email, { t, zip, connection, opinion, source, youth, row: index + 2 });
   });
   const bucket = () => ({ participants: 0, supporters: 0 });
   const counts = {
@@ -68,7 +74,9 @@ function aggregate_(values, now) {
     // Overlapping marginal, not a sixth audience category.
     selectedZipParticipants: 0,
     modes: { online: bucket(), paper: bucket() },
-    opinions: Object.fromEntries(CFG.opinions.map(x => [x, 0]))
+    opinions: Object.fromEntries(CFG.opinions.map(x => [x, 0])),
+    // Free youth programming question: answers among counted responses (blank for responses made before it existed)
+    youth: { yes: 0, no: 0, notSure: 0 }
   };
   earliest.forEach(r => {
     const support = r.opinion === 'Support' || r.opinion === 'Strongly support';
@@ -84,6 +92,9 @@ function aggregate_(values, now) {
     if (support) { counts[key].supporters++; counts.modes[r.source].supporters++; }
     if (selectedZip) counts.selectedZipParticipants++;
     counts.opinions[r.opinion]++;
+    if (r.youth === 'Yes') counts.youth.yes++;
+    else if (r.youth === 'No') counts.youth.no++;
+    else if (r.youth === 'Not sure') counts.youth.notSure++;
   });
   return {
     public: {

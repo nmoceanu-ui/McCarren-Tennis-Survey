@@ -28,6 +28,12 @@ export function sanitize(d) {
   const z = d.counts.selectedZipParticipants;
   if (!integer(z) || z > c.participants) throw Error('Bad ZIP count');
   c.selectedZipParticipants = z;
+  // Optional (added Oct 23): answers to the free youth programming question among counted responses.
+  const y = d.counts.youth;
+  if (y !== undefined) {
+    if (!['yes', 'no', 'notSure'].every(k => integer(y?.[k])) || y.yes + y.no + y.notSure > c.participants) throw Error('Bad youth counts');
+    c.youth = { yes: y.yes, no: y.no, notSure: y.notSure };
+  }
   // Explicit allow-list: never forward arbitrary upstream properties.
   return { schemaVersion: 1, campaignId: d.campaignId, generatedAt: d.generatedAt,
     closesAt: d.closesAt, status: d.status, counts: c };

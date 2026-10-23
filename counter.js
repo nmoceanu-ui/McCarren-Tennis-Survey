@@ -21,6 +21,11 @@
     $('counter-residents').textContent = fmt(c.residentsSelfReported.participants);
     $('counter-visitors').textContent = fmt(c.sportsVisitors.participants);
     $('counter-other').textContent = fmt(c.workStudy.participants + c.otherVisitors.participants + c.residenceNeedsReview.participants);
+    // Free youth programming question (added Oct 23): shown once anyone has answered it.
+    const y = c.youth, yLine = $('counter-youth-line');
+    if (yLine && y && ['yes', 'no', 'notSure'].every(k => count(y[k])) && y.yes + y.no + y.notSure > 0) {
+      $('counter-youth').textContent = fmt(y.yes); yLine.hidden = false;
+    }
     const date = new Intl.DateTimeFormat('en-US', {
       timeZone: 'America/New_York', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZoneName: 'short'
     }).format(new Date(d.generatedAt));
