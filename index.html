@@ -111,8 +111,6 @@
   .viewer-tools { position: absolute; left: 12px; bottom: 12px; display: flex; gap: 8px; align-items: center; }
   .viewer-tools button { font: inherit; font-size: 0.85rem; font-weight: 700; padding: 7px 12px; border-radius: 4px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); cursor: pointer; }
   .hint { position: absolute; right: 12px; bottom: 12px; font-size: 0.82rem; color: var(--muted); background: color-mix(in srgb, var(--bg) 85%, transparent); padding: 6px 10px; border-radius: 4px; }
-  .hotspot { font: 700 0.8rem/1 var(--font-body); color: #fff; background: rgba(20, 32, 43, 0.86); padding: 6px 9px; border-radius: 4px; white-space: nowrap; pointer-events: none; position: relative; transform: translateY(calc(-50% - 7px)); }
-  .hotspot::after { content: ""; position: absolute; left: 50%; top: 100%; margin-left: -6px; border: 6px solid transparent; border-top-color: rgba(20, 32, 43, 0.86); }
   .legend { display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 14px; font-size: 0.9rem; color: var(--muted); }
   .legend .legend-note::before { display: none; }
   .legend span::before { content: ""; display: inline-block; width: 12px; height: 12px; border-radius: 2px; margin-right: 7px; vertical-align: -1px; background: var(--sw); }
@@ -229,17 +227,17 @@
       <p class="small muted">Concept model, not a Parks design. Dimensions and the tank's extent are to be confirmed.</p>
     </div>
     <div class="viewer">
-      <model-viewer id="mv-summer" src="models/plan_summer.gltf.json" poster="img/poster_summer.jpg" alt="3D concept of the McCarren lot in summer: eleven tennis courts, a multi-use flex pad, three dog runs, lawns and a grass seating berm" camera-controls touch-action="pan-y" camera-orbit="45deg 50deg 330m" camera-target="71.6m 0m -51.8m" field-of-view="30deg" min-camera-orbit="auto 8deg 110m" max-camera-orbit="auto 86deg 650m" min-field-of-view="20deg" max-field-of-view="40deg" shadow-intensity="1" exposure="1" interaction-prompt="none" loading="eager"><div class="hotspot" slot="hotspot-flex" data-position="50.3m 0.2m -67.1m" data-normal="0m 1m 0m">Flex pad</div></model-viewer>
-      <model-viewer id="mv-winter" src="models/plan_winter.gltf.json" poster="img/poster_winter.jpg" alt="3D concept of the McCarren lot in winter: the existing seven courts under the bubble, a skating rink over three of the new courts, and a small lodge" camera-controls touch-action="pan-y" camera-orbit="45deg 50deg 330m" camera-target="71.6m 0m -51.8m" field-of-view="30deg" min-camera-orbit="auto 8deg 110m" max-camera-orbit="auto 86deg 650m" min-field-of-view="20deg" max-field-of-view="40deg" shadow-intensity="1" exposure="1" interaction-prompt="none" loading="lazy" hidden><div class="hotspot" slot="hotspot-flex" data-position="50.3m 6m -57.9m" data-normal="0m 1m 0m">Lodge on the flex pad</div></model-viewer>
+      <model-viewer id="mv-summer" src="models/plan_summer.gltf.json" poster="img/poster_summer.jpg" alt="3D concept of the McCarren lot in summer: eleven tennis courts, a multi-use flex pad, three dog runs, lawns and a grass seating berm" camera-controls touch-action="pan-y" camera-orbit="45deg 50deg 330m" camera-target="71.6m 0m -51.8m" field-of-view="30deg" min-camera-orbit="auto 8deg 110m" max-camera-orbit="auto 86deg 650m" min-field-of-view="20deg" max-field-of-view="40deg" shadow-intensity="1" exposure="1" interaction-prompt="none" loading="eager"></model-viewer>
+      <model-viewer id="mv-winter" src="models/plan_winter.gltf.json" poster="img/poster_winter.jpg" alt="3D concept of the McCarren lot in winter: the existing seven courts under the bubble, a skating rink over three of the new courts, and a small lodge" camera-controls touch-action="pan-y" camera-orbit="45deg 50deg 330m" camera-target="71.6m 0m -51.8m" field-of-view="30deg" min-camera-orbit="auto 8deg 110m" max-camera-orbit="auto 86deg 650m" min-field-of-view="20deg" max-field-of-view="40deg" shadow-intensity="1" exposure="1" interaction-prompt="none" loading="lazy" hidden></model-viewer>
       <div class="viewer-tools"><button type="button" id="reset-view">Reset view</button></div>
       <p class="hint">Drag to orbit · scroll or pinch to zoom</p>
     </div>
     <div class="legend" aria-label="Legend">
       <span style="--sw: var(--court)">Tennis courts, 11 in summer</span>
-      <span style="--sw: var(--flex)">Flex pad: open court surface for pickleball, red-ball tennis, clinics or events</span>
+      <span style="--sw: var(--flex)">Flex pad, lighter blue: open court surface for pickleball, red-ball tennis, clinics or events</span>
+      <span style="--sw: #dcebf5">Winter option: skating rink on courts 8 to 10</span>
       <span style="--sw: var(--lawn)">Lawn and planted berm</span>
       <span style="--sw: var(--clay)">Dog runs, three sections</span>
-      <span style="--sw: #dcebf5">Winter option: skating rink on courts 8 to 10</span>
       <span class="legend-note">Not shown: the city's stormwater tank, underground beneath the new courts and lawn</span>
     </div>
     <div class="plan-grid">
