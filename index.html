@@ -74,6 +74,10 @@
   .btn:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
   .btn.ghost { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
   .deep .btn.ghost { color: var(--fg-deep); border-color: var(--fg-deep); }
+  .btn-hero { font-family: var(--font-display); font-size: 1.6rem; line-height: 1.1; letter-spacing: 0.01em; padding: 16px 30px; border-radius: 6px; box-shadow: 0 8px 22px color-mix(in srgb, var(--accent) 38%, transparent); }
+  .btn-hero .arr { display: inline-block; transition: transform 0.15s; }
+  .btn-hero:hover .arr { transform: translateX(4px); }
+  .cta-hero { margin: 4px 0 28px; }
   .cta-note { font-size: 0.92rem; color: var(--muted); max-width: 40ch; }
   .deep .cta-note { color: #a9bccd; }
 
@@ -126,6 +130,8 @@
     .band { padding-block: 48px; }
     model-viewer { height: 62vh; }
     .hint { display: none; }
+    .btn-hero { display: block; width: 100%; text-align: center; padding: 18px 16px; }
+    .cta-hero .cta-note { max-width: none; }
   }
   @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; transition: none !important; } }
 
@@ -174,11 +180,11 @@
   <div class="baseline" aria-hidden="true"></div>
   <div class="hero-grid">
     <div>
-      <p class="lede">This corner was still tennis courts in 1947. Neighbors have already shown what it can be again: the McCarren Tennis Association raised $300,000 to light all seven courts. Now NYC Parks is redesigning the lot next door, and we want to work with Parks to improve everyone's experience of McCarren Park. We're suggesting four new public courts alongside new green space and the dog run. What would you like to see here?</p>
-      <div class="cta">
-        <a class="btn js-survey" href="#survey">Take the one-minute survey</a>
+      <div class="cta cta-hero">
+        <a class="btn btn-hero js-survey" href="#survey">Take the one-minute survey<span class="arr" aria-hidden="true"> &rarr;</span></a>
         <p class="cta-note">Seven quick questions. Just a survey: no newsletter, no mailing list, and your email is never shared. Results go to NYC Parks, Community Board 1 and Council District 33. Closes November 10.</p>
       </div>
+      <p class="lede">This corner was still tennis courts in 1947. Neighbors have already shown what it can be again: the McCarren Tennis Association raised $300,000 to light all seven courts. Now NYC Parks is redesigning the lot next door, and we want to work with Parks to improve everyone's experience of McCarren Park. We're suggesting four new public courts alongside new green space and the dog run. What would you like to see here?</p>
     </div>
     <div class="numbers" aria-label="Key figures">
       <div class="num"><b>9</b><span>Parks courts for 325,000 people in North Brooklyn</span></div>
@@ -205,32 +211,7 @@
   </div>
 </section>
 
-<section class="band" id="history">
-  <div class="wrap">
-    <p class="eyebrow">A short history</p>
-    <h2>Williamsburg was a tennis neighborhood</h2>
-    <div class="prose" style="margin-top:18px">
-      <p>McCarren's courts are older than the pool. They drew crowds in the thousands before the Depression, and twice the people who play here stepped in to bring them back. Here is the record.</p>
-    </div>
-    <ol class="timeline">
-      <li><span class="yr">1910</span><div class="what">Parks installs tennis courts at McCarren, along with a quarter-mile track and ball fields. <span class="src">NYC Parks, McCarren Park history</span></div></li>
-      <li><span class="yr">Late 1920s</span><div class="what">The courts host borough-wide tournaments that draw as many as 5,000 spectators. <span class="src">NYC Parks</span></div></li>
-      <li><span class="yr">1936</span><div class="what">The WPA pool opens with room for 6,800 swimmers, one of eleven built across the city that summer. <span class="src">NYC Parks; Living New Deal</span></div></li>
-      <li><span class="yr">1947</span><div class="what">Fenced courts still cover the corner at North 12th and Berry Streets, the photograph above. <span class="src">Center for Brooklyn History</span></div></li>
-      <li><span class="yr">1971</span><div class="what">A US reconnaissance satellite photograph from June 1971 shows the row of courts that survives today beside the large paved lot, where 14 more courts once stood. By 2009 only those seven remained; no published account records when or why the other 14 came out. <span class="src">KH-9 HEXAGON satellite image, 16 June 1971 (USGS and National Archives, via SpaceFromSpace)</span></div></li>
-      <li><span class="yr">1984</span><div class="what">The pool closes and sits derelict for more than twenty years. It reopens in 2012. <span class="src">NYC Parks</span></div></li>
-      <li><span class="yr">2009</span><div class="what">The seven remaining courts have not been resurfaced in 25 years. Local players resurface one themselves; they go on to found the McCarren Tennis Association. <span class="src">Brooklyn Paper, via Now Frolic</span></div></li>
-      <li><span class="yr">2010</span><div class="what">American Express pays to redo the other six. <span class="src">Brownstoner, via Now Frolic</span></div></li>
-      <li><span class="yr">2013</span><div class="what">Parks licenses all seven courts to a private operator for the winter. Under the bubble, from the day after Columbus Day to late April, a court costs $50 to $100 an hour. <span class="src">NYC Parks concession directory; operator rate sheet, 2026</span></div></li>
-      <li><span class="yr">2022</span><div class="what">Council Member Restler secures $1 million for a dog run on the lot. In 2025, $14.7 million follows for the lot itself, with underground stormwater storage planned beneath it. <span class="src">Greenpointers</span></div></li>
-      <li><span class="yr">May 2026</span><div class="what">325 people join Parks' online workshop on the lot. More tennis courts are among the most-requested uses. <span class="src">Brownstoner</span></div></li>
-      <li><span class="yr">Sept 2026</span><div class="what">The McCarren Tennis Association, an all-volunteer group, lights all seven courts: $300,000 raised from neighbors, USTA grants, NYC Parks approval and two years of volunteer design and permitting. <span class="src">McCarren Tennis Association; NYC Parks release; Greenpointers</span></div></li>
-      <li class="now"><span class="yr">Nov 12, 2026</span><div class="what">Parks presents to Community Board 1. The design that follows will set this corner for the next fifty years.</div></li>
-    </ol>
-  </div>
-</section>
-
-<section class="band tint" id="plan">
+<section class="band" id="plan">
   <div class="wrap">
     <p class="eyebrow">Proposed option</p>
     <h2>Eleven courts, new green space and three dog runs, above the city's storage tank</h2>
@@ -265,6 +246,31 @@
   </div>
 </section>
 
+<section class="band tint" id="history">
+  <div class="wrap">
+    <p class="eyebrow">A short history</p>
+    <h2>Williamsburg was a tennis neighborhood</h2>
+    <div class="prose" style="margin-top:18px">
+      <p>McCarren's courts are older than the pool. They drew crowds in the thousands before the Depression, and twice the people who play here stepped in to bring them back. Here is the record.</p>
+    </div>
+    <ol class="timeline">
+      <li><span class="yr">1910</span><div class="what">Parks installs tennis courts at McCarren, along with a quarter-mile track and ball fields. <span class="src">NYC Parks, McCarren Park history</span></div></li>
+      <li><span class="yr">Late 1920s</span><div class="what">The courts host borough-wide tournaments that draw as many as 5,000 spectators. <span class="src">NYC Parks</span></div></li>
+      <li><span class="yr">1936</span><div class="what">The WPA pool opens with room for 6,800 swimmers, one of eleven built across the city that summer. <span class="src">NYC Parks; Living New Deal</span></div></li>
+      <li><span class="yr">1947</span><div class="what">Fenced courts still cover the corner at North 12th and Berry Streets, the photograph above. <span class="src">Center for Brooklyn History</span></div></li>
+      <li><span class="yr">1971</span><div class="what">A US reconnaissance satellite photograph from June 1971 shows the row of courts that survives today beside the large paved lot, where 14 more courts once stood. By 2009 only those seven remained; no published account records when or why the other 14 came out. <span class="src">KH-9 HEXAGON satellite image, 16 June 1971 (USGS and National Archives, via SpaceFromSpace)</span></div></li>
+      <li><span class="yr">1984</span><div class="what">The pool closes and sits derelict for more than twenty years. It reopens in 2012. <span class="src">NYC Parks</span></div></li>
+      <li><span class="yr">2009</span><div class="what">The seven remaining courts have not been resurfaced in 25 years. Local players resurface one themselves; they go on to found the McCarren Tennis Association. <span class="src">Brooklyn Paper, via Now Frolic</span></div></li>
+      <li><span class="yr">2010</span><div class="what">American Express pays to redo the other six. <span class="src">Brownstoner, via Now Frolic</span></div></li>
+      <li><span class="yr">2013</span><div class="what">Parks licenses all seven courts to a private operator for the winter. Under the bubble, from the day after Columbus Day to late April, a court costs $50 to $100 an hour. <span class="src">NYC Parks concession directory; operator rate sheet, 2026</span></div></li>
+      <li><span class="yr">2022</span><div class="what">Council Member Restler secures $1 million for a dog run on the lot. In 2025, $14.7 million follows for the lot itself, with underground stormwater storage planned beneath it. <span class="src">Greenpointers</span></div></li>
+      <li><span class="yr">May 2026</span><div class="what">325 people join Parks' online workshop on the lot. More tennis courts are among the most-requested uses. <span class="src">Brownstoner</span></div></li>
+      <li><span class="yr">Sept 2026</span><div class="what">The McCarren Tennis Association, an all-volunteer group, lights all seven courts: $300,000 raised from neighbors, USTA grants, NYC Parks approval and two years of volunteer design and permitting. <span class="src">McCarren Tennis Association; NYC Parks release; Greenpointers</span></div></li>
+      <li class="now"><span class="yr">Nov 12, 2026</span><div class="what">Parks presents to Community Board 1. The design that follows will set this corner for the next fifty years.</div></li>
+    </ol>
+  </div>
+</section>
+
 <section class="band" id="why">
   <div class="wrap">
     <p class="eyebrow">Why here, why now</p>
@@ -285,7 +291,7 @@
       <p>Your email is not included in the results. It goes on a private internal list used only to check that each response comes from a different person, and we will not share it with anyone under any circumstances. We share the results in summary with NYC Parks, Community Board 1 and Council District 33 after the survey closes on November 10. Signing the community letter to Parks is a separate, optional box; your response counts either way.</p>
     </div>
     <div class="cta">
-      <a class="btn js-survey" href="#survey">Take the one-minute survey</a>
+      <a class="btn btn-hero js-survey" href="#survey">Take the one-minute survey<span class="arr" aria-hidden="true"> &rarr;</span></a>
       <a class="btn ghost" href="#plan">Look at the plan again</a>
       <p class="cta-note js-survey-note"></p>
     </div>
