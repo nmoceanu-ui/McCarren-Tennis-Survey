@@ -24,6 +24,7 @@
     --court: #2a6fc0;
     --lawn: #6a9a4c;
     --clay: #c9a27a;
+    --flex: #b65640;
     --font-display: "Barlow Condensed", "Arial Narrow", Impact, sans-serif;
     --font-body: "Public Sans", "Helvetica Neue", Arial, sans-serif;
   }
@@ -31,13 +32,13 @@
     :root:not([data-theme="light"]) {
       --bg: #0f1720; --bg-band: #16212c; --bg-deep: #0a1119; --fg: #e8edf1; --fg-deep: #f2f5f8;
       --muted: #9aa7b3; --line: #2b3843; --accent: #5aa0e6; --accent-ink: #0a1119;
-      --court: #3d84d6; --lawn: #7fb060; --clay: #c9a27a; color-scheme: dark;
+      --court: #3d84d6; --lawn: #7fb060; --clay: #c9a27a; --flex: #c4664e; color-scheme: dark;
     }
   }
   :root[data-theme="dark"] {
     --bg: #0f1720; --bg-band: #16212c; --bg-deep: #0a1119; --fg: #e8edf1; --fg-deep: #f2f5f8;
     --muted: #9aa7b3; --line: #2b3843; --accent: #5aa0e6; --accent-ink: #0a1119;
-    --court: #3d84d6; --lawn: #7fb060; --clay: #c9a27a; color-scheme: dark;
+    --court: #3d84d6; --lawn: #7fb060; --clay: #c9a27a; --flex: #c4664e; color-scheme: dark;
   }
   * { box-sizing: border-box; }
   body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 17px; line-height: 1.55; margin: 0; }
@@ -110,6 +111,8 @@
   .viewer-tools { position: absolute; left: 12px; bottom: 12px; display: flex; gap: 8px; align-items: center; }
   .viewer-tools button { font: inherit; font-size: 0.85rem; font-weight: 700; padding: 7px 12px; border-radius: 4px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); cursor: pointer; }
   .hint { position: absolute; right: 12px; bottom: 12px; font-size: 0.82rem; color: var(--muted); background: color-mix(in srgb, var(--bg) 85%, transparent); padding: 6px 10px; border-radius: 4px; }
+  .hotspot { font: 700 0.8rem/1 var(--font-body); color: #fff; background: rgba(20, 32, 43, 0.86); padding: 6px 9px; border-radius: 4px; white-space: nowrap; pointer-events: none; position: relative; transform: translateY(calc(-50% - 7px)); }
+  .hotspot::after { content: ""; position: absolute; left: 50%; top: 100%; margin-left: -6px; border: 6px solid transparent; border-top-color: rgba(20, 32, 43, 0.86); }
   .legend { display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 14px; font-size: 0.9rem; color: var(--muted); }
   .legend .legend-note::before { display: none; }
   .legend span::before { content: ""; display: inline-block; width: 12px; height: 12px; border-radius: 2px; margin-right: 7px; vertical-align: -1px; background: var(--sw); }
@@ -226,21 +229,22 @@
       <p class="small muted">Concept model, not a Parks design. Dimensions and the tank's extent are to be confirmed.</p>
     </div>
     <div class="viewer">
-      <model-viewer id="mv-summer" src="models/plan_summer.gltf.json" poster="img/poster_summer.jpg" alt="3D concept of the McCarren lot in summer: eleven tennis courts, three dog runs, lawns and a grass seating berm" camera-controls touch-action="pan-y" camera-orbit="45deg 50deg 330m" camera-target="71.6m 0m -51.8m" field-of-view="30deg" min-camera-orbit="auto 8deg 110m" max-camera-orbit="auto 86deg 650m" min-field-of-view="20deg" max-field-of-view="40deg" shadow-intensity="1" exposure="1" interaction-prompt="none" loading="eager"></model-viewer>
-      <model-viewer id="mv-winter" src="models/plan_winter.gltf.json" poster="img/poster_winter.jpg" alt="3D concept of the McCarren lot in winter: the existing seven courts under the bubble, a skating rink over three of the new courts, and a small lodge" camera-controls touch-action="pan-y" camera-orbit="45deg 50deg 330m" camera-target="71.6m 0m -51.8m" field-of-view="30deg" min-camera-orbit="auto 8deg 110m" max-camera-orbit="auto 86deg 650m" min-field-of-view="20deg" max-field-of-view="40deg" shadow-intensity="1" exposure="1" interaction-prompt="none" loading="lazy" hidden></model-viewer>
+      <model-viewer id="mv-summer" src="models/plan_summer.gltf.json" poster="img/poster_summer.jpg" alt="3D concept of the McCarren lot in summer: eleven tennis courts, a multi-use flex pad, three dog runs, lawns and a grass seating berm" camera-controls touch-action="pan-y" camera-orbit="45deg 50deg 330m" camera-target="71.6m 0m -51.8m" field-of-view="30deg" min-camera-orbit="auto 8deg 110m" max-camera-orbit="auto 86deg 650m" min-field-of-view="20deg" max-field-of-view="40deg" shadow-intensity="1" exposure="1" interaction-prompt="none" loading="eager"><div class="hotspot" slot="hotspot-flex" data-position="50.3m 0.2m -67.1m" data-normal="0m 1m 0m">Flex pad</div></model-viewer>
+      <model-viewer id="mv-winter" src="models/plan_winter.gltf.json" poster="img/poster_winter.jpg" alt="3D concept of the McCarren lot in winter: the existing seven courts under the bubble, a skating rink over three of the new courts, and a small lodge" camera-controls touch-action="pan-y" camera-orbit="45deg 50deg 330m" camera-target="71.6m 0m -51.8m" field-of-view="30deg" min-camera-orbit="auto 8deg 110m" max-camera-orbit="auto 86deg 650m" min-field-of-view="20deg" max-field-of-view="40deg" shadow-intensity="1" exposure="1" interaction-prompt="none" loading="lazy" hidden><div class="hotspot" slot="hotspot-flex" data-position="50.3m 6m -57.9m" data-normal="0m 1m 0m">Lodge on the flex pad</div></model-viewer>
       <div class="viewer-tools"><button type="button" id="reset-view">Reset view</button></div>
       <p class="hint">Drag to orbit · scroll or pinch to zoom</p>
     </div>
     <div class="legend" aria-label="Legend">
       <span style="--sw: var(--court)">Tennis courts, 11 in summer</span>
+      <span style="--sw: var(--flex)">Flex pad: open court surface for pickleball, red-ball tennis, clinics or events</span>
       <span style="--sw: var(--lawn)">Lawn and planted berm</span>
       <span style="--sw: var(--clay)">Dog runs, three sections</span>
       <span style="--sw: #dcebf5">Winter option: skating rink on courts 8 to 10</span>
       <span class="legend-note">Not shown: the city's stormwater tank, underground beneath the new courts and lawn</span>
     </div>
     <div class="plan-grid">
-      <div><h3>Summer</h3><p>Seven courts resurfaced and four new ones along North 12th Street, including a show court surrounded by a grass seating berm, plus seating, shade and lawn where there is asphalt today. The seating berm can host public theater, community events, graduations and neighborhood viewing parties.</p></div>
-      <div><h3>Winter option</h3><p>The existing seven stay under their bubble. Courts 8 to 10 can host a skating rink, with a learn-to-skate pad and a small lodge, so the corner stays busy all year. We welcome other ideas through the survey.</p></div>
+      <div><h3>Summer</h3><p>Seven courts resurfaced and four new ones along North 12th Street, including a show court surrounded by a grass seating berm. Between the two rows of courts, a flex pad: open court surface that can be set up for pickleball, red-ball tennis for kids, clinics or events. Seating, shade and lawn replace much of today's asphalt. The seating berm can host public theater, community events, graduations and neighborhood viewing parties.</p></div>
+      <div><h3>Winter option</h3><p>The existing seven stay under their bubble. Courts 8 to 10 can host a skating rink, with a learn-to-skate pad and a small lodge on the flex pad, so the corner stays busy all year. We welcome other ideas through the survey.</p></div>
       <div><h3>What does not change</h3><p>The funded dog run, bigger in our layout than the 30,000 square feet dog owners asked for. The city's stormwater storage. The $14.7 million already secured. We already have strong partners to help fund the new courts, and we are seeking more.</p></div>
     </div>
   </div>
