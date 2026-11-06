@@ -66,9 +66,14 @@ nav a:hover{border-bottom-color:var(--ball)}
 .tabbar .ti{width:34px;height:30px;padding:2px 4px;border-radius:12px 15px 11px 14px;overflow:visible;transition:background .15s}
 .tabbar a[aria-current="page"]{color:var(--ink)}
 .tabbar a[aria-current="page"] .ti{background:var(--ball)}
-main > [data-screen]{animation:screenin .25s ease-out}
-@keyframes screenin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-@media (prefers-reduced-motion: reduce){main > [data-screen]{animation:none}}
+/* changing tabs: the page lifts off, all five pages float side by side in tab order, the view glides across
+   and drops onto the new page (built in JS: see "fly" below; skipped when the device asks for reduced motion) */
+.flyer{position:fixed;inset:0;z-index:100;overflow:hidden;background:#d9cfb6;touch-action:none;pointer-events:auto}
+.flyer .strip{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform}
+.flyer .slot{position:absolute;top:0;overflow:hidden;background-color:var(--paper);box-shadow:0 24px 70px rgba(27,29,58,.28),0 0 0 3px var(--ink)}
+.flyer .slot-page{position:absolute;left:0;top:0;width:100%}
+.flyer .slot-label{position:absolute;left:0;right:0;text-align:center;font-family:var(--hand);font-weight:800;color:var(--ink);white-space:nowrap}
+.flyer .slot-sticky{position:absolute;left:0;right:0;top:0}
 
 /* fold-out rows: a short summary, tap for the rest */
 details > summary{list-style:none;cursor:pointer}
@@ -247,8 +252,20 @@ main [id]{scroll-margin-top:84px}
 .pcard b{display:block;font-family:var(--hand);font-size:21px;line-height:1.2}
 .pcard span span{display:block;font-size:16px;color:var(--ink-soft);margin-top:2px}
 .pnum{flex:none;width:38px;height:38px;border-radius:50%;background:var(--ball);border:2.5px solid var(--ink);display:grid;place-items:center;font-family:var(--hand);font-weight:800;font-size:19px}
-.nextcard{display:flex;flex-direction:column;gap:12px;border:3px dashed var(--ink-soft);border-radius:20px 26px 18px 28px / 26px 18px 28px 20px;padding:22px 24px}
-.nextcard .btn{align-self:flex-start}
+#requests{padding-top:28px}
+#mccarren .kicker{margin-bottom:-8px}
+.reqlist{display:flex;flex-direction:column;gap:10px}
+.reqrow{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:6px 14px;align-items:center;background:var(--card);border:3px solid var(--ink);border-radius:14px 20px 12px 22px / 20px 12px 22px 14px;padding:12px 16px}
+.reqrow .icon{width:34px;height:34px}
+.reqrow h4{margin:0;font-family:var(--hand);font-size:19px;font-weight:800;line-height:1.2}
+.reqrow p{font-size:15px;color:var(--ink-soft);margin:2px 0 0}
+.reqrow .cnt{display:block;font-family:var(--hand);font-weight:700;font-size:14px;color:var(--ink-soft);margin-top:2px}
+.askbox{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+.askbox .hand{font-size:19px;font-weight:700}
+.askchips{display:flex;flex-wrap:wrap;gap:8px}
+.askchips .need{text-decoration:none;color:inherit}
+.askchips .need span{padding-right:14px}
+@media (max-width:520px){.reqrow{grid-template-columns:auto minmax(0,1fr);align-items:start}.reqrow .icon{margin-top:2px}.reqrow .metoo{grid-column:2;justify-self:start}}
 
 /* McCarren */
 .mc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:28px 44px;align-items:start}
@@ -710,11 +727,23 @@ main [id]{scroll-margin-top:84px}
 <section class="wrap sec" id="projects" data-screen="projects">
   <div class="sec-head">
     <h2>Projects</h2>
-    <p>The parks Brooklyn Challenger is working on, one by one.</p>
+    <p>What Brooklyn Challenger is working on now, and what Brooklyn players are asking for, park by park. The asks help us choose what to take on next.</p>
   </div>
+  <h3>Working on now</h3>
   <div class="plist">
     <a class="pcard" href="#mccarren"><span class="pnum">1</span><span><b>McCarren Park</b><span>The lot next to the seven courts. NYC Parks is designing it now, through July 2027.</span></span></a>
-    <a class="pcard" href="#next-parks"><span class="pnum">2</span><span><b>More parks to resurface</b><span>Courts that need a new surface. Listed here as each one starts.</span></span></a>
+  </div>
+</section>
+<section class="wrap sec" id="requests" data-screen="projects">
+  <div class="sec-head">
+    <h3>What players are asking for</h3>
+    <p class="small">Lights, a new surface, nets, fences and more. Most-wanted first. Tap Me too if you want it as well.</p>
+  </div>
+  <div class="chips bandchips" id="reqfilter" aria-label="Show one kind of ask"></div>
+  <div class="reqlist" id="reqlist"></div>
+  <div class="askbox">
+    <p class="hand">Ask for something at a park:</p>
+    <div class="askchips" id="askchips"></div>
   </div>
 </section>
 <section class="wrap sec" id="mccarren" data-screen="projects">
@@ -762,14 +791,7 @@ main [id]{scroll-margin-top:84px}
     </div>
   </div>
 </section>
-<section class="wrap sec" id="next-parks" data-screen="projects">
-  <div class="nextcard">
-    <p class="kicker">Next</p>
-    <h2>More parks to resurface</h2>
-    <p>Brooklyn Challenger is taking on more parks whose courts need a new surface. Each one will be listed here as it starts. Know a court that needs it?</p>
-    <a class="btn ask" href="#board" id="askpark">Ask for a park</a>
-  </div>
-</section>
+
 <section class="wrap sec goal" id="goal" data-screen="home">
   <div class="copy">
     <p class="kicker">The ten-year goal</p>
@@ -853,18 +875,87 @@ const visibleEvery = (fn, ms) => setInterval(() => { if (!document.hidden) fn();
 
 /* ---------- tabs: one screen at a time. The address keeps #courts, #board... so links, sharing and Back all work. ---------- */
 const TABS = { home: 'Brooklyn Challenger', courts: 'Courts', book: 'Book a court', board: 'The board', projects: 'Projects' };
-function route() {
+function target() {
   const id = decodeURIComponent(location.hash.slice(1));
   const el = id && !(id in TABS) ? document.getElementById(id) : null;
   const tab = id in TABS ? id : (el && el.closest('[data-screen]') ? el.closest('[data-screen]').dataset.screen : 'home');
+  return { id, el, tab };
+}
+function show({ id, el, tab }, smooth) {
   const changed = document.body.dataset.tab !== tab;
   document.body.dataset.tab = tab;
   document.querySelectorAll('main > [data-screen]').forEach(sc => { sc.hidden = sc.dataset.screen !== tab; });
   document.querySelectorAll('a[data-tab]').forEach(a => a.dataset.tab === tab ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'));
   document.title = tab === 'home' ? TABS.home : `${TABS[tab]} · Brooklyn Challenger`;
   if (changed) dispatchEvent(new Event('resize'));          // drawings that measure themselves redraw now they're visible
-  if (el && el.closest('[data-screen]') && id !== 'top') el.scrollIntoView({ behavior: 'instant', block: 'start' });
+  if (el && el.closest('[data-screen]') && id !== 'top') el.scrollIntoView({ behavior: smooth && !reduce ? 'smooth' : 'instant', block: 'start' });
   else if (changed) window.scrollTo({ top: 0, behavior: 'instant' });
+}
+let flying = false;
+function route() {
+  if (flying) return;                                       // a flight in progress lands wherever the address says
+  const t = target(), from = document.body.dataset.tab;
+  if (!from || from === t.tab || reduce || !Element.prototype.animate) { show(t); return; }
+  fly(from, t.tab, () => { const now = target(); show(now.tab === t.tab ? t : now, true); });
+}
+
+/* The flight: copies of all five pages laid out in a row (in tab order) on a "desk". The view starts exactly on
+   the page you're reading, pulls back until the pages float as sheets with their names, glides across the row,
+   and drops onto the new page at its top, where the real page is waiting underneath. */
+function fly(from, to, land) {
+  flying = true;
+  const order = Object.keys(TABS), names = { home: 'Home', courts: 'Courts', book: 'Book', board: 'Board', projects: 'Projects' };
+  const vw = document.documentElement.clientWidth, vh = innerHeight, sy = scrollY;
+  const phone = matchMedia('(max-width:860px)').matches;
+  const gap = Math.round(vw * .14), s = phone ? .42 : .3;
+  const kf = order.indexOf(from), kt = order.indexOf(to), dist = Math.abs(kt - kf);
+  const header = document.querySelector('.topbar'), bar = document.querySelector('.tabbar');
+  const sticky = phone ? bar : header;
+  const stuck = sticky.getBoundingClientRect().top <= 0.5 && sy > 0;
+  const bg = getComputedStyle(document.body).backgroundImage;
+  const strip = document.createElement('div'); strip.className = 'strip';
+  const copy = (node, tab) => {
+    const c = node.cloneNode(true);
+    c.hidden = false; c.removeAttribute('id'); c.querySelectorAll('[id]').forEach(n => n.removeAttribute('id'));
+    c.querySelectorAll('a[data-tab]').forEach(a => a.dataset.tab === tab ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'));
+    return c;
+  };
+  const slots = order.map((tab, k) => {
+    const slot = document.createElement('div'); slot.className = 'slot';
+    Object.assign(slot.style, { left: k * (vw + gap) + 'px', width: vw + 'px', height: vh + 'px', backgroundImage: bg, backgroundSize: '260px 260px' });
+    const page = document.createElement('div'); page.className = 'slot-page';
+    page.append(copy(header, tab), copy(bar, tab));
+    const main = document.createElement('main');
+    document.querySelectorAll(`main > [data-screen="${tab}"]`).forEach(sec => main.appendChild(copy(sec, tab)));
+    page.append(main);
+    page.style.transform = `translateY(${tab === from ? -sy : 0}px)`;
+    slot.append(page);
+    if (tab === from && stuck) { const st = copy(sticky, tab); st.classList.add('slot-sticky'); slot.append(st); }
+    const label = document.createElement('span'); label.className = 'slot-label'; label.textContent = names[tab];
+    Object.assign(label.style, { left: k * (vw + gap) + 'px', width: vw + 'px', top: -Math.round(vh * .16) + 'px', fontSize: Math.round(vh * .085) + 'px', opacity: 0 });
+    strip.append(slot, label);
+    return { slot, label };
+  });
+  const flyer = document.createElement('div'); flyer.className = 'flyer'; flyer.setAttribute('aria-hidden', 'true');
+  flyer.append(strip); document.body.append(flyer);
+  const at = (k, sc) => `translate(${vw / 2 - sc * (k * (vw + gap) + vw / 2)}px, ${vh / 2 - sc * vh / 2 + (sc < 1 ? vh * .05 : 0)}px) scale(${sc})`;
+  const ms = Math.min(1700, 1150 + 120 * (dist - 1));
+  const off = [0, .28, .72, 1];
+  const ease = ['cubic-bezier(.5,0,.3,1)', 'cubic-bezier(.45,0,.35,1)', 'cubic-bezier(.4,0,.2,1)'];
+  const anim = strip.animate([
+    { transform: at(kf, 1), offset: off[0], easing: ease[0] },
+    { transform: at(kf, s), offset: off[1], easing: ease[1] },
+    { transform: at(kt, s), offset: off[2], easing: ease[2] },
+    { transform: at(kt, 1), offset: off[3] }
+  ], { duration: ms, fill: 'forwards' });
+  slots.forEach(({ slot, label }) => {
+    slot.animate([{ borderRadius: '0px' }, { borderRadius: '34px', offset: off[1] }, { borderRadius: '34px', offset: off[2] }, { borderRadius: '0px' }], { duration: ms, fill: 'forwards' });
+    label.animate([{ opacity: 0 }, { opacity: 1, offset: off[1] }, { opacity: 1, offset: off[2] }, { opacity: 0 }], { duration: ms, fill: 'forwards' });
+  });
+  // swap the target page's copy to the real page underneath just before touchdown, then lift the desk away
+  const done = () => { land(); flyer.remove(); flying = false; const now = target(); if (now.tab !== document.body.dataset.tab) route(); };
+  anim.finished.then(done, done);
+  flyer.addEventListener('click', () => anim.finish(), { once: true });    // a tap mid-flight lands straight away
 }
 addEventListener('hashchange', route);
 document.addEventListener('click', e => {                  // tapping the tab you're on goes back to the top
@@ -1341,8 +1432,36 @@ document.getElementById('stats').innerHTML = [
     notes.innerHTML = list.length ? list.map(card).join('') : `<p class="empty">${failed ? "The board couldn't load just now. Try again in a minute." : 'Nothing here yet. Be the first to post.'}</p>`;
     if (window.mapMarkReports) window.mapMarkReports(new Set(active.filter(p => p.type === 'report' && p.ci >= 0).map(p => p.ci)));
     if (window.mapShow) window.mapShow(window.mapSel());
+    renderRequests();
   }
-  notes.addEventListener('click', async e => {
+
+  /* Projects screen: the board's asks grouped by park and need, most-wanted first (each ask = 1 + its Me too taps) */
+  const reqBox = $('reqlist'), reqF = $('reqfilter');
+  let reqNeed = null;
+  function renderRequests() {
+    const groups = new Map();
+    for (const p of P.filter(x => x.type === 'request' && !x.mine)) {
+      const k = p.court + '|' + p.need;
+      const g = groups.get(k) || { court: p.court, need: p.need, posts: [], total: 0, last: 0 };
+      g.posts.push(p); g.total += 1 + p.n; g.last = Math.max(g.last, p.t); groups.set(k, g);
+    }
+    const all = [...groups.values()].sort((a, b) => b.total - a.total || b.last - a.last);
+    const have = NEEDS.filter(([k]) => all.some(g => g.need === k));
+    if (reqNeed && !have.some(([k]) => k === reqNeed)) reqNeed = null;
+    reqF.innerHTML = all.length ? [`<button type="button" class="chip" data-rf="" aria-pressed="${reqNeed === null}">All (${all.length})</button>`]
+      .concat(have.map(([k, l]) => `<button type="button" class="chip" data-rf="${k}" aria-pressed="${reqNeed === k}">${l} (${all.filter(g => g.need === k).length})</button>`)).join('') : '';
+    const list = all.filter(g => !reqNeed || g.need === reqNeed);
+    reqBox.innerHTML = list.length ? list.map(g => {
+      const lead = g.posts.slice().sort((a, b) => b.n - a.n || a.t - b.t)[0];
+      const text = g.posts.map(p => p.text).find(Boolean);
+      return `<article class="reqrow">${icon(g.need)}<div><h4>${NL[g.need]} at ${esc(g.court)}</h4>${text ? `<p>${esc(text)}</p>` : ''}<span class="cnt">${g.total} ${g.total === 1 ? 'person has' : 'people have'} asked</span></div><button type="button" class="metoo" data-id="${lead.id}" aria-pressed="${lead.voted ? 'true' : 'false'}">Me too</button></article>`;
+    }).join('') : `<p class="empty">${failed ? "The asks couldn't load just now. Try again in a minute." : 'No asks yet. Be the first: pick what a park needs below.'}</p>`;
+  }
+  reqF.addEventListener('click', e => { const b = e.target.closest('[data-rf]'); if (!b) return; reqNeed = b.dataset.rf || null; renderRequests(); });
+  $('askchips').innerHTML = NEEDS.map(([k, l]) => `<a class="need" href="#board" data-ask="${k}"><span>${icon(k)}${l}</span></a>`).join('');
+  $('askchips').addEventListener('click', e => { const a = e.target.closest('[data-ask]'); if (a) window.compose('request', '', a.dataset.ask); });
+
+  async function boardClick(e) {
     const f = e.target.closest('[data-fix]');
     if (f) {
       f.disabled = true;
@@ -1361,7 +1480,9 @@ document.getElementById('stats').innerHTML = [
       store.set('bc-voted', JSON.stringify(voted));
     } catch { p.voted = was.voted; p.n = was.n; }
     render();
-  });
+  }
+  notes.addEventListener('click', boardClick);
+  reqBox.addEventListener('click', boardClick);
 
   // hooks for the map card
   window.boardFor = name => {
@@ -1376,7 +1497,6 @@ document.getElementById('stats').innerHTML = [
     if (need) { const r = document.getElementById('need-' + need); if (r) r.checked = true; }
     setTimeout(() => sel.focus({ preventScroll: true }), 450);
   };
-  $('askpark').addEventListener('click', () => window.compose('request', '', 'resurf'));
 
   form.addEventListener('submit', e => {
     e.preventDefault();
