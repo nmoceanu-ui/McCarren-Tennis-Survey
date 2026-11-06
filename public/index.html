@@ -51,12 +51,46 @@ button{font:inherit;color:inherit}
 @media (prefers-reduced-motion: reduce){.widget:hover .wob,.widget:focus-visible .wob{filter:url(#wob)}}
 
 /* header */
-.top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:18px 8px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:12px}
 .mark{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--hand);font-weight:800;font-size:24px;line-height:1}
 .mark svg{width:34px;height:34px;flex:none}
 nav{display:flex;gap:6px 18px;flex-wrap:wrap;font-family:var(--hand);font-size:18px;font-weight:600}
 nav a{text-decoration:none;padding:4px 2px;border-bottom:3px solid transparent}
 nav a:hover{border-bottom-color:var(--ball)}
+
+/* app shell: one screen at a time. Computer: the header sticks to the top with the tabs. Phone: a tab bar at the bottom. */
+.topbar{position:sticky;top:0;z-index:30;background:rgba(235,227,207,.93);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:2px solid rgba(27,29,58,.1)}
+.tabs a[aria-current="page"]{border-bottom-color:var(--ball)}
+.tabbar{display:none}
+.tabbar a{display:flex;flex-direction:column;align-items:center;gap:0;text-decoration:none;font-family:var(--hand);font-weight:700;font-size:12.5px;line-height:1.2;color:var(--ink-soft);padding:2px 0;min-width:0}
+.tabbar .ti{width:34px;height:30px;padding:2px 4px;border-radius:12px 15px 11px 14px;overflow:visible;transition:background .15s}
+.tabbar a[aria-current="page"]{color:var(--ink)}
+.tabbar a[aria-current="page"] .ti{background:var(--ball)}
+main > [data-screen]{animation:screenin .25s ease-out}
+@keyframes screenin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){main > [data-screen]{animation:none}}
+
+/* fold-out rows: a short summary, tap for the rest */
+details > summary{list-style:none;cursor:pointer}
+details > summary::-webkit-details-marker{display:none}
+details.listing{gap:0}
+details.listing > summary{display:flex;flex-direction:column;gap:4px;position:relative;padding-right:34px}
+details.listing > summary::after,.more > summary::after,.rulesbox > summary::after{content:"+";position:absolute;right:0;top:-2px;font-family:var(--hand);font-weight:800;font-size:26px;line-height:1;color:var(--ink)}
+details.listing[open] > summary::after,.more[open] > summary::after,.rulesbox[open] > summary::after{content:"\2212"}
+details.listing > summary .key{font-family:var(--hand);font-weight:700;font-size:16px;color:var(--blue)}
+details.listing[open] > summary{margin-bottom:8px}
+details.listing > :not(summary){margin-top:6px}
+.more,.rulesbox{display:flex;flex-direction:column;gap:8px}
+main [id]{scroll-margin-top:84px}
+.more > summary,.rulesbox > summary{position:relative;padding:8px 34px 8px 0;font-family:var(--hand);font-weight:700;font-size:17px;border-bottom:2px dashed var(--ink-soft)}
+.rulesbox > summary{border-bottom-color:var(--band-ink);color:var(--band-ink);align-self:flex-start;min-width:12em}
+.rulesbox > summary::after{color:var(--band-ink)}
+.more > summary::after,.rulesbox > summary::after{top:50%;transform:translateY(-52%)}
+.composer{display:flex;flex-direction:column;gap:18px}
+.composer > summary{align-self:flex-start;background:var(--ball);color:#1b1d3a;border-color:#1b1d3a}
+.composer[open] > summary{background:var(--card)}
+.composer[open] > summary .open-label,.composer:not([open]) > summary .close-label{display:none}
+.composer .form{max-width:620px}
 
 /* hero */
 .hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:28px 40px;align-items:end;padding-block:36px 24px}
@@ -218,11 +252,11 @@ nav a:hover{border-bottom-color:var(--ball)}
 .lotbtns{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 
 /* request band */
-.band{background:var(--band);color:var(--band-ink);margin-top:64px}
+.band{background:var(--band);color:var(--band-ink);margin-top:0}
 .band .wrap{padding-block:56px 64px;display:flex;flex-direction:column;gap:32px}
 .band h2,.band p{color:var(--band-ink)}
 .band .small{color:var(--band-ink);opacity:.88}
-.reqgrid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:32px 48px;align-items:start}
+.reqgrid{display:flex;flex-direction:column;gap:28px}
 .form{display:flex;flex-direction:column;gap:16px;min-width:0}
 .field{display:flex;flex-direction:column;gap:6px;border:0;margin:0;padding:0;min-width:0}
 .field label,.field legend{font-family:var(--hand);font-weight:700;font-size:18px;color:var(--band-ink);padding:0}
@@ -253,6 +287,7 @@ nav a:hover{border-bottom-color:var(--ball)}
 .metoo[aria-pressed="true"]{background:var(--ball);color:#1b1d3a;border-color:#1b1d3a}
 .bandchips .chip[aria-pressed="false"]{opacity:1}
 .bandchips .chip[aria-pressed="true"]{background:var(--ball);color:#1b1d3a;border-color:#1b1d3a}
+.notes .empty{grid-column:1/-1}
 .empty{font-family:var(--hand);font-size:18px;font-weight:600;color:var(--band-ink)}
 .ask{align-self:flex-start;font-size:17px;padding:8px 14px 9px}
 .reqline{font-size:15px;color:var(--ink-soft)}
@@ -274,6 +309,11 @@ nav a:hover{border-bottom-color:var(--ball)}
 .todo{display:inline-block;font-family:var(--hand);font-weight:700;font-size:14px;color:var(--red);border:2px dashed var(--red);border-radius:8px;padding:0 6px;margin-left:4px;vertical-align:1px}
 
 @media (max-width:860px){
+  .topbar{position:static;background:none;-webkit-backdrop-filter:none;backdrop-filter:none;border-bottom:0}
+  .tabs{display:none}
+  .tabbar{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(235,227,207,.97);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-top:2.5px solid var(--ink);padding:6px max(6px,env(safe-area-inset-left)) calc(6px + env(safe-area-inset-bottom)) max(6px,env(safe-area-inset-right))}
+  body{padding-bottom:calc(74px + env(safe-area-inset-bottom))}
+  main [id]{scroll-margin-top:12px}
   .hero,.mapgrid,.mc,.reqgrid,.goal,.foot,.bookgrid{grid-template-columns:1fr}
   .playground{height:250px}
   .sec{padding-block:48px 16px}
@@ -302,23 +342,31 @@ nav a:hover{border-bottom-color:var(--ball)}
   </defs>
 </svg>
 
-<header class="wrap top">
-  <a class="mark" href="#top" id="top">
+<header class="topbar">
+<div class="wrap top">
+  <a class="mark" href="#home" id="top">
     <svg viewBox="-30 -30 60 60" aria-hidden="true"><g class="wob"><use href="#tball" x="-30" y="-30" width="60" height="60"/></g></svg>
     Brooklyn Challenger
   </a>
-  <nav aria-label="Sections">
-    <a href="#courts">Courts</a>
-    <a href="#book">Book</a>
-    <a href="#board">Board</a>
-    <a href="#stringing">Stringing</a>
-    <a href="#mccarren">McCarren</a>
-    <a href="#goal">The goal</a>
+  <nav class="tabs" aria-label="Sections">
+    <a href="#home" data-tab="home">Home</a>
+    <a href="#courts" data-tab="courts">Courts</a>
+    <a href="#book" data-tab="book">Book</a>
+    <a href="#board" data-tab="board">Board</a>
+    <a href="#mccarren" data-tab="mccarren">McCarren</a>
   </nav>
+</div>
 </header>
+<nav class="tabbar" aria-label="Sections">
+  <a href="#home" data-tab="home"><svg class="ti" viewBox="0 0 40 34" aria-hidden="true"><g class="wob" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6,16 L20,4 L34,16 M10,13 V30 H30 V13"/><path d="M17,30 V21 H23 V30"/></g></svg><span>Home</span></a>
+  <a href="#courts" data-tab="courts"><svg class="ti" viewBox="0 0 40 34" aria-hidden="true"><g class="wob" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20,32 C13,23 9,18 9,13 a11,11 0 0 1 22,0 C31,18 27,23 20,32 Z"/><circle cx="20" cy="13" r="4"/></g></svg><span>Courts</span></a>
+  <a href="#book" data-tab="book"><svg class="ti" viewBox="0 0 40 34" aria-hidden="true"><g class="wob" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="28" height="25" rx="4"/><path d="M6,13 H34 M13,2 V9 M27,2 V9"/><path d="M14,22 l4,4 l8,-8"/></g></svg><span>Book</span></a>
+  <a href="#board" data-tab="board"><svg class="ti" viewBox="0 0 40 34" aria-hidden="true"><g class="wob" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7,6 H33 V24 L26,31 H7 Z M26,31 V24 H33"/><path d="M12,13 H27 M12,19 H22"/></g></svg><span>Board</span></a>
+  <a href="#mccarren" data-tab="mccarren"><svg class="ti" viewBox="0 0 40 34" aria-hidden="true"><g class="wob" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="30" height="24" rx="2"/><path d="M20,5 V29 M5,10 H35 M5,24 H35 M12,10 V24 M28,10 V24 M12,17 H28"/></g></svg><span>McCarren</span></a>
+</nav>
 
 <main>
-<section class="wrap hero">
+<section class="wrap hero" data-screen="home">
   <div class="copy">
     <h1>Tennis for all of <span class="hi">Brooklyn</span>.</h1>
     <p class="lede">New York hosts the biggest tennis tournament on earth, and it's the hardest place to play tennis. Brooklyn Challenger is working on three things: court time you can count on, real hours for kids, and courts nobody has fixed in years.</p>
@@ -351,7 +399,7 @@ nav a:hover{border-bottom-color:var(--ball)}
   </div>
 </section>
 
-<section class="wrap sec" id="work">
+<section class="wrap sec" id="work" data-screen="home">
   <div class="sec-head">
     <h2>What we're working on</h2>
     <p>We're an independent group working for every court in the borough. McCarren is our first project. Tap the drawings.</p>
@@ -446,7 +494,7 @@ nav a:hover{border-bottom-color:var(--ball)}
   </div>
 </section>
 
-<section class="wrap sec" id="courts">
+<section class="wrap sec" id="courts" data-screen="courts">
   <div class="sec-head">
     <h2>Every court we could find in Brooklyn</h2>
     <p>Park, school and private courts from NYC Parks and OpenStreetMap, each graded from a satellite photo against a well-kept public court: even two-tone surface, crisp lines, no bare patches. At a court right now? Tap it and tell everyone how busy it is.</p>
@@ -474,7 +522,7 @@ nav a:hover{border-bottom-color:var(--ball)}
   </div>
 </section>
 
-<section class="wrap sec" id="book">
+<section class="wrap sec" id="book" data-screen="book">
   <div class="sec-head">
     <h2>Where you can book a court</h2>
     <p>Most Brooklyn courts are first come, first served. These are the ways to book ahead, with prices as each one posts them. Checked November 4, 2026.</p>
@@ -483,86 +531,102 @@ nav a:hover{border-bottom-color:var(--ball)}
     <div class="bookcol">
       <h3>Winter bubbles in Brooklyn</h3>
       <p class="small">Private operators put domes over Parks courts for the cold months and charge by the hour, under licenses from NYC Parks.</p>
-      <article class="listing">
-        <h4><svg class="icon" viewBox="0 0 40 40" aria-hidden="true"><g class="wob"><path d="M4,32 A16,16 0 0 1 36,32 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M2,33 H38" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></g></svg>Prospect Park Tennis Center</h4>
+      <details class="listing">
+        <summary><h4><svg class="icon" viewBox="0 0 40 40" aria-hidden="true"><g class="wob"><path d="M4,32 A16,16 0 0 1 36,32 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M2,33 H38" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></g></svg>Prospect Park Tennis Center</h4>
         <span class="where">Parade Ground, Coney Island Ave and Parkside Ave</span>
+        <span class="key">Indoors Oct 19 to May 2 · $44 to $92 an hour</span></summary>
         <p>Indoor season October 19, 2026 to May 2, 2027, open 6 am to 11 pm. $44 to $92 an hour depending on the day and time; weekend mornings cost the most. Book up to 7 days ahead, with 24 hours' notice to cancel.</p>
         <a href="https://www.prospectpark.org/visit-the-park/places-to-go/tennis-center/outdoor-tennis-information/" target="_blank" rel="noopener">Hours, rates and booking →</a>
-      </article>
-      <article class="listing">
-        <h4><svg class="icon" viewBox="0 0 40 40" aria-hidden="true"><g class="wob"><path d="M4,32 A16,16 0 0 1 36,32 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M2,33 H38" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></g></svg>McCarren Tennis Center</h4>
+      </details>
+      <details class="listing">
+        <summary><h4><svg class="icon" viewBox="0 0 40 40" aria-hidden="true"><g class="wob"><path d="M4,32 A16,16 0 0 1 36,32 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M2,33 H38" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></g></svg>McCarren Tennis Center</h4>
         <span class="where">McCarren Park, all seven courts</span>
+        <span class="key">Mid-October to late April · about $50 to $100 an hour</span></summary>
         <p>Under the bubble from the day after Columbus Day to late April. About $50 to $100 an hour on the 2026 rate sheet. Parks' license for the bubble runs to 2031.</p>
-      </article>
-      <article class="listing">
-        <h4><svg class="icon" viewBox="0 0 40 40" aria-hidden="true"><g class="wob"><path d="M4,32 A16,16 0 0 1 36,32 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M2,33 H38" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></g></svg>MatchPoint NYC Bensonhurst</h4>
+      </details>
+      <details class="listing">
+        <summary><h4><svg class="icon" viewBox="0 0 40 40" aria-hidden="true"><g class="wob"><path d="M4,32 A16,16 0 0 1 36,32 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M2,33 H38" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></g></svg>MatchPoint NYC Bensonhurst</h4>
         <span class="where">Bensonhurst Park, 9000 Bay Parkway</span>
+        <span class="key">Eight courts under a bubble · rates on their site</span></summary>
         <p>Eight courts under a bubble, run by MatchPoint NYC. Parks' license runs to 2034. Rates are on their site.</p>
         <a href="https://matchpoint.nyc/our-clubs/bensonhurst/" target="_blank" rel="noopener">MatchPoint Bensonhurst →</a>
-      </article>
+      </details>
     </div>
     <div class="bookcol">
       <h3>Outdoor courts you can book on NYC Parks</h3>
       <p class="small">$15 per court per hour, plus a season or single-play permit. Up to 7 days ahead, never the same day, one booking per person per day. Every other court is walk-on.</p>
       <ul class="parks">
         <li><span class="nm">McCarren Park<span class="bk">Brooklyn</span></span><span class="ct">2 bookable<br>7 walk-on</span><span class="bo">May 4 to September 20. Parks' McCarren page currently says reservations are suspended.</span></li>
-        <li><span class="nm">Central Park</span><span class="ct">6 bookable<br>26 walk-on</span><span class="bo">Manhattan. Also books in person or by phone.</span></li>
-        <li><span class="nm">Riverside Park at 96 St</span><span class="ct">2 bookable<br>10 walk-on</span><span class="bo">Manhattan, with the Riverside Clay Tennis Association</span></li>
-        <li><span class="nm">Riverside Park at 119 St</span><span class="ct">2 bookable<br>10 walk-on</span><span class="bo">Manhattan</span></li>
-        <li><span class="nm">Randall's Island Park</span><span class="ct">4 bookable<br>8 walk-on</span><span class="bo">Manhattan, with Sportime</span></li>
-        <li><span class="nm">Queensborough Oval</span><span class="ct">2 bookable<br>6 walk-on</span><span class="bo">Manhattan, with Sutton East</span></li>
-        <li><span class="nm">Alley Pond Park</span><span class="ct">4 bookable<br>15 walk-on</span><span class="bo">Queens, with Commonpoint Tennis</span></li>
-        <li><span class="nm">Mill Pond Park</span><span class="ct">3 bookable<br>8 walk-on</span><span class="bo">The Bronx</span></li>
       </ul>
+      <details class="more">
+        <summary>The other 7 sites, outside Brooklyn</summary>
+        <ul class="parks">
+          <li><span class="nm">Central Park</span><span class="ct">6 bookable<br>26 walk-on</span><span class="bo">Manhattan. Also books in person or by phone.</span></li>
+          <li><span class="nm">Riverside Park at 96 St</span><span class="ct">2 bookable<br>10 walk-on</span><span class="bo">Manhattan, with the Riverside Clay Tennis Association</span></li>
+          <li><span class="nm">Riverside Park at 119 St</span><span class="ct">2 bookable<br>10 walk-on</span><span class="bo">Manhattan</span></li>
+          <li><span class="nm">Randall's Island Park</span><span class="ct">4 bookable<br>8 walk-on</span><span class="bo">Manhattan, with Sportime</span></li>
+          <li><span class="nm">Queensborough Oval</span><span class="ct">2 bookable<br>6 walk-on</span><span class="bo">Manhattan, with Sutton East</span></li>
+          <li><span class="nm">Alley Pond Park</span><span class="ct">4 bookable<br>15 walk-on</span><span class="bo">Queens, with Commonpoint Tennis</span></li>
+          <li><span class="nm">Mill Pond Park</span><span class="ct">3 bookable<br>8 walk-on</span><span class="bo">The Bronx</span></li>
+        </ul>
+      </details>
       <a class="btn" style="align-self:flex-start" href="https://www.nycgovparks.org/tennisreservation" target="_blank" rel="noopener">Book on NYC Parks →</a>
     </div>
   </div>
 </section>
 
-<section class="wrap sec" id="stringing">
+<section class="wrap sec" id="stringing" data-screen="book">
   <div class="sec-head">
     <h2>Stringing and shops</h2>
     <p>There's no tennis shop in North Brooklyn. Here is where Brooklyn players get racquets strung. Nobody paid to be listed. Know a stringer or shop we're missing? Post it on the board under "Something else."</p>
   </div>
   <div class="dir">
-    <article class="listing">
-      <h4>The Traveling Stringer</h4>
+    <details class="listing">
+        <summary><h4>The Traveling Stringer</h4>
       <span class="where">Brooklyn · a stringing truck that comes to the courts</span>
+        <span class="key">Comes to McCarren Tuesday and Thursday mornings</span></summary>
       <p>Weekly stops: McCarren Park Tuesday and Thursday, 9 am to noon. Prospect Park Tennis Center Monday and Wednesday, 9 am to noon. Fort Greene Park Friday, 9 am to noon. 209 Taaffe Place every day, 4 to 7 pm.</p>
       <p>Back within 3 days, or the same day for $10 more. $30 labor with your own strings. The winter schedule can differ.</p>
       <a href="https://thetravelingstringer.com/" target="_blank" rel="noopener">thetravelingstringer.com →</a>
-    </article>
-    <article class="listing">
-      <h4>NYC Racquet Sports</h4>
+    </details>
+    <details class="listing">
+        <summary><h4>NYC Racquet Sports</h4>
       <span class="where">Midtown Manhattan, 157A West 35th St, plus a stringing counter in Grand Central</span>
+        <span class="key">Same-day stringing · courier to Greenpoint and Williamsburg</span></summary>
       <p>Full racquet shop with same-day stringing. Their courier now picks up and drops off in Greenpoint and Williamsburg.</p>
       <a href="https://www.nycracquetsports.com/" target="_blank" rel="noopener">nycracquetsports.com →</a>
-    </article>
-    <article class="listing">
-      <h4>Tennis Lab FX</h4>
+    </details>
+    <details class="listing">
+        <summary><h4>Tennis Lab FX</h4>
       <span class="where">Midtown Manhattan, 235 East 51st St</span>
+        <span class="key">About 48 hours · mail-in from anywhere</span></summary>
       <p>Stringing and racquet customization, about 48 hours. Same-day or next-day rush when the queue allows, and mail-in from anywhere.</p>
       <a href="https://tennislabfx.com/" target="_blank" rel="noopener">tennislabfx.com →</a>
-    </article>
+    </details>
   </div>
 </section>
 
 
 
-<section class="band" id="board">
+<section class="band" id="board" data-screen="board">
   <div class="wrap">
     <div class="sec-head">
       <h2>The board</h2>
       <p>Ask Parks for something, warn people about a court, find someone to hit with, or get a group together. It's the Brooklyn tennis noticeboard.</p>
     </div>
-    <ul class="rules">
+    <details class="rulesbox">
+      <summary>House rules</summary>
+      <ul class="rules">
       <li>A moderator reads every post before it goes up.</li>
       <li>Posts are about courts and tennis, not people. Be kind.</li>
       <li>Hitter and event posts are for adults. Under 18? Ask a parent to post.</li>
       <li>No selling and no private messages. Add a handle if you want people to reach you.</li>
       <li>Problem reports fade after 3 days unless someone confirms them. Hitter and event posts come down after their day.</li>
     </ul>
+    </details>
     <div class="reqgrid">
+      <details class="composer" id="composer">
+      <summary class="btn"><span class="open-label">Post something</span><span class="close-label">Close the form</span></summary>
       <form class="form" id="postform" novalidate>
         <fieldset class="field">
           <legend>What are you posting?</legend>
@@ -621,6 +685,7 @@ nav a:hover{border-bottom-color:var(--ball)}
         <p class="formmsg" id="formmsg" aria-live="polite"></p>
         <p class="small">Emails are never shown or shared. Under 13? Ask a grown-up to post with you.</p>
       </form>
+      </details>
       <div class="board">
         <h3>On the board now</h3>
         <div class="chips bandchips" id="typefilter" aria-label="Filter the board"></div>
@@ -630,7 +695,7 @@ nav a:hover{border-bottom-color:var(--ball)}
     </div>
   </div>
 </section>
-<section class="wrap sec" id="mccarren">
+<section class="wrap sec" id="mccarren" data-screen="mccarren">
   <div class="mc">
     <div class="copy">
       <h2>First up: <span class="hi">McCarren Park</span></h2>
@@ -674,7 +739,7 @@ nav a:hover{border-bottom-color:var(--ball)}
     </div>
   </div>
 </section>
-<section class="wrap sec goal" id="goal">
+<section class="wrap sec goal" id="goal" data-screen="home">
   <div class="copy">
     <p class="kicker">The ten-year goal</p>
     <h2>A New York kid in the US Open quarterfinals</h2>
@@ -754,6 +819,28 @@ async function api(path, data) {
 }
 const readJSON = (k, fallback) => { try { const v = JSON.parse(store.get(k)); return v == null ? fallback : v; } catch { return fallback; } };
 const visibleEvery = (fn, ms) => setInterval(() => { if (!document.hidden) fn(); }, ms);
+
+/* ---------- tabs: one screen at a time. The address keeps #courts, #board... so links, sharing and Back all work. ---------- */
+const TABS = { home: 'Brooklyn Challenger', courts: 'Courts', book: 'Book a court', board: 'The board', mccarren: 'McCarren' };
+function route() {
+  const id = decodeURIComponent(location.hash.slice(1));
+  const el = id && !(id in TABS) ? document.getElementById(id) : null;
+  const tab = id in TABS ? id : (el && el.closest('[data-screen]') ? el.closest('[data-screen]').dataset.screen : 'home');
+  const changed = document.body.dataset.tab !== tab;
+  document.body.dataset.tab = tab;
+  document.querySelectorAll('main > [data-screen]').forEach(sc => { sc.hidden = sc.dataset.screen !== tab; });
+  document.querySelectorAll('a[data-tab]').forEach(a => a.dataset.tab === tab ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'));
+  document.title = tab === 'home' ? TABS.home : `${TABS[tab]} · Brooklyn Challenger`;
+  if (changed) dispatchEvent(new Event('resize'));          // drawings that measure themselves redraw now they're visible
+  if (el && el.closest('[data-screen]') && id !== 'top') el.scrollIntoView({ behavior: 'instant', block: 'start' });
+  else if (changed) window.scrollTo({ top: 0, behavior: 'instant' });
+}
+addEventListener('hashchange', route);
+document.addEventListener('click', e => {                  // tapping the tab you're on goes back to the top
+  const a = e.target.closest('a[data-tab]');
+  if (a && a.dataset.tab === document.body.dataset.tab) { e.preventDefault(); window.scrollTo({ top: 0, behavior: reduce ? 'instant' : 'smooth' }); if (location.hash !== '#' + a.dataset.tab && a.dataset.tab !== 'home') history.replaceState(null, '', '#' + a.dataset.tab); }
+});
+route();
 
 /* ---------- stats from the court data ---------- */
 const sum = f => SITES.filter(f).reduce((a, s) => a + s[3], 0);
@@ -1248,7 +1335,7 @@ document.getElementById('stats').innerHTML = [
     return (reps.length ? `<ul class="reports">${reps.map(p => `<li>${icon(PI[p.prob])}${PL[p.prob]} <span>${ago(p.t)}</span></li>`).join('')}</ul>` : '')
       + (others ? `<p class="reqline">${others} post${others > 1 ? 's' : ''} about this court on <a href="#board">the board</a>.</p>` : '');
   };
-  window.compose = (t, i) => { setType(t); sel.value = String(i); whereWrap.hidden = true; setTimeout(() => sel.focus({ preventScroll: true }), 450); };
+  window.compose = (t, i) => { $('composer').open = true; setType(t); sel.value = String(i); whereWrap.hidden = true; setTimeout(() => sel.focus({ preventScroll: true }), 450); };
 
   form.addEventListener('submit', e => {
     e.preventDefault();
