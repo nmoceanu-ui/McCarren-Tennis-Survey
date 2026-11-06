@@ -24,6 +24,7 @@ const board = (await import('../netlify/functions/board.mjs')).default;
 const checkins = (await import('../netlify/functions/checkins.mjs')).default;
 const rally = (await import('../netlify/functions/rally.mjs')).default;
 const mod = (await import('../netlify/functions/mod.mjs')).default;
+const message = (await import('../netlify/functions/message.mjs')).default;
 
 const dev = n => n.toString(16).padStart(32, '0');
 const call = async (fn, method, data, { ip = '1.1.1.1', key } = {}) => {
@@ -129,6 +130,24 @@ r = await call(mod, 'GET', null, { key: 'test-moderator-pass' });
 await call(mod, 'POST', { a: 'rally-remove', k: r.body.rally.find(x => x.ini === 'BASS').k }, { key: 'test-moderator-pass' });
 r = await call(rally, 'GET');
 ok('moderator removes a leaderboard row', r.body.top.length === 1);
+
+// private messages ("Message us"): only the moderator page shows them
+r = await call(message, 'POST', { d: dev(12), m: { about: 'help', text: 'I can help on Saturdays.', name: 'Sam', email: 'sam@example.com' } }, { ip: '6.6.6.6' });
+ok('message sent', r.status === 200);
+r = await call(message, 'POST', { d: dev(12), m: { about: 'nope', text: 'Hi' } }, { ip: '6.6.6.6' });
+ok('message with unknown topic refused', r.status === 400);
+r = await call(message, 'POST', { d: dev(12), m: { about: 'other', text: '' } }, { ip: '6.6.6.6' });
+ok('empty message refused', r.status === 400);
+r = await call(board, 'GET');
+ok('messages never reach the public board', !JSON.stringify(r.body).includes('Saturdays'));
+r = await call(mod, 'GET', null, { key: 'test-moderator-pass' });
+const inMsg = r.body.messages.find(m => m.text === 'I can help on Saturdays.');
+ok('moderator sees the message with its email', inMsg && inMsg.email === 'sam@example.com' && !('by' in inMsg));
+await call(mod, 'POST', { a: 'msg-done', id: inMsg.id }, { key: 'test-moderator-pass' });
+r = await call(mod, 'GET', null, { key: 'test-moderator-pass' });
+ok('moderator marks a message done', r.body.messages.find(m => m.id === inMsg.id).done > 0);
+for (let i = 0; i < 6; i++) last = await call(message, 'POST', { d: dev(13), m: { about: 'other', text: 'Hello there' } }, { ip: '7.7.7.7' });
+ok('sixth message in an hour is refused', last.status === 429);
 
 // a sign-in whose Origin doesn't match the request host still works (it was refused on iPhone before)
 const x = await rally(new Request('https://internal.example/api/rally', { method: 'POST', headers: { origin: 'https://brooklynchallenger.netlify.app', 'content-type': 'application/json' }, body: JSON.stringify({ d: dev(11), ini: 'NIKO', best: 7 }) }), { ip: '5.5.5.5' });

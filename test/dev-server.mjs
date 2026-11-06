@@ -17,12 +17,12 @@ const { port: bport } = await blobs.start();
 setEnvironmentContext({ siteID: 'dev', token: 'dev', edgeURL: `http://localhost:${bport}`, uncachedEdgeURL: `http://localhost:${bport}` });
 
 const routes = {};
-for (const name of ['board', 'checkins', 'rally', 'mod']) {
+for (const name of ['board', 'checkins', 'rally', 'mod', 'message']) {
   const mod = await import(`../netlify/functions/${name}.mjs`);
   routes[mod.config.path] = mod.default;
 }
 const root = resolve('public');
-const types = { '.html': 'text/html; charset=utf-8', '.svg': 'image/svg+xml', '.txt': 'text/plain', '.js': 'text/javascript' };
+const types = { '.html': 'text/html; charset=utf-8', '.svg': 'image/svg+xml', '.txt': 'text/plain', '.js': 'text/javascript', '.png': 'image/png' };
 const port = +(process.argv[2] || 8888);
 
 createServer(async (req, res) => {

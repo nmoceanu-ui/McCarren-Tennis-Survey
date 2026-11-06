@@ -4,10 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Brooklyn Challenger</title>
-<meta name="description" content="An independent group working for Brooklyn tennis: every court on one map, where to book, a public board for court problems and hitting partners, and kids' hours after school.">
+<meta name="description" content="The helping hand of Brooklyn tennis: every court on one map, where to book, a public board for court needs and hitting partners, and a path for kids and juniors.">
 <meta property="og:title" content="Brooklyn Challenger">
-<meta property="og:description" content="Tennis for all of Brooklyn: every court on one map, where to book, and a board for players.">
+<meta property="og:description" content="Tennis for all of Brooklyn: every court on one map, where to book, a board for players, and a path for kids.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://brooklynchallenger.netlify.app/">
+<meta property="og:image" content="https://brooklynchallenger.netlify.app/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Brooklyn Challenger: tennis for all of Brooklyn">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="color-scheme" content="only light">
 <meta name="theme-color" content="#ebe3cf">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -262,6 +268,24 @@ main [id]{scroll-margin-top:84px}
 .reqrow p{font-size:15px;color:var(--ink-soft);margin:2px 0 0}
 .reqrow .cnt{display:block;font-family:var(--hand);font-weight:700;font-size:14px;color:var(--ink-soft);margin-top:2px}
 .askbox{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+/* Youth and "Work with us": plain cards on the paper */
+.ycards{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:18px;align-items:start}
+.ycard h3 .dot{display:inline-block;width:.55em;height:.55em;border-radius:50%;margin-right:.3em;vertical-align:.08em;background:var(--c)}
+.ycard{background:var(--card);border:3px solid var(--ink);border-radius:20px 26px 18px 28px / 26px 18px 28px 20px;padding:20px 22px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.ycard h3{font-size:24px}
+.ycard p{font-size:17px}
+.ycard .btn{align-self:flex-start;font-size:17px;padding:8px 14px 9px}
+.stages{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+.stages li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;font-size:16px;line-height:1.4}
+.stages .b{width:20px;height:20px;border-radius:50%;border:2.5px solid var(--ink);background:var(--c);margin-top:2px}
+.stages b{font-family:var(--hand)}
+.msgbox{display:flex;flex-direction:column;gap:18px}
+.msgbox > summary{align-self:flex-start;list-style:none;background:var(--ball);color:#1b1d3a;border-color:#1b1d3a}
+.msgbox > summary::-webkit-details-marker{display:none}
+.msgbox[open] > summary{background:var(--card)}
+.msgbox[open] > summary .open-label,.msgbox:not([open]) > summary .close-label{display:none}
+.msgbox .form{max-width:620px}
+.msgbox .formmsg{color:var(--ink)}
 .askbox .hand{font-size:19px;font-weight:700}
 .askchips{display:flex;flex-wrap:wrap;gap:8px}
 .askchips .need{text-decoration:none;color:inherit}
@@ -381,7 +405,7 @@ main [id]{scroll-margin-top:84px}
   <nav class="tabs" aria-label="Sections">
     <a href="#home" data-tab="home">Home</a>
     <a href="#courts" data-tab="courts">Courts</a>
-    <a href="#book" data-tab="book">Book</a>
+    <a href="#youth" data-tab="youth">Youth</a>
     <a href="#board" data-tab="board">Board</a>
     <a href="#projects" data-tab="projects">Projects</a>
   </nav>
@@ -390,7 +414,7 @@ main [id]{scroll-margin-top:84px}
 <nav class="tabbar" aria-label="Sections">
   <a href="#home" data-tab="home"><svg class="ti" viewBox="0 0 40 34" aria-hidden="true"><g class="wob" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6,16 L20,4 L34,16 M10,13 V30 H30 V13"/><path d="M17,30 V21 H23 V30"/></g></svg><span>Home</span></a>
   <a href="#courts" data-tab="courts"><svg class="ti" viewBox="0 0 40 34" aria-hidden="true"><g class="wob" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20,32 C13,23 9,18 9,13 a11,11 0 0 1 22,0 C31,18 27,23 20,32 Z"/><circle cx="20" cy="13" r="4"/></g></svg><span>Courts</span></a>
-  <a href="#book" data-tab="book"><svg class="ti" viewBox="0 0 40 34" aria-hidden="true"><g class="wob" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="28" height="25" rx="4"/><path d="M6,13 H34 M13,2 V9 M27,2 V9"/><path d="M14,22 l4,4 l8,-8"/></g></svg><span>Book</span></a>
+  <a href="#youth" data-tab="youth"><svg class="ti" viewBox="0 0 40 34" aria-hidden="true"><g class="wob" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="16" cy="13" rx="8" ry="10.5" transform="rotate(-38 16 13)"/><path d="M21.5,20.5 L33,31"/><circle cx="32" cy="7" r="3.6"/></g></svg><span>Youth</span></a>
   <a href="#board" data-tab="board"><svg class="ti" viewBox="0 0 40 34" aria-hidden="true"><g class="wob" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7,6 H33 V24 L26,31 H7 Z M26,31 V24 H33"/><path d="M12,13 H27 M12,19 H22"/></g></svg><span>Board</span></a>
   <a href="#projects" data-tab="projects"><svg class="ti" viewBox="0 0 40 34" aria-hidden="true"><g class="wob" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11,32 V3"/><path d="M12,5 H32 L27,11 L32,17 H12"/><path d="M5,32 H19"/></g></svg><span>Projects</span></a>
 </nav>
@@ -399,7 +423,7 @@ main [id]{scroll-margin-top:84px}
 <section class="wrap hero" data-screen="home">
   <div class="copy">
     <h1>Tennis for all of <span class="hi">Brooklyn</span>.</h1>
-    <p class="lede">New York hosts the biggest tennis tournament on earth, and it's the hardest place to play tennis. Brooklyn Challenger is working on three things: court time you can count on, real hours for kids, and courts nobody has fixed in years.</p>
+    <p class="lede">New York hosts the biggest tennis tournament on earth, and it's the hardest place to play tennis. Brooklyn Challenger brings people, connections and a love of the game to help Brooklyn get court time you can count on, real hours for kids, and every worn-out court back in play.</p>
     <div class="ctas">
       <a class="btn go" href="#courts">See every court</a>
       <a class="btn" href="#board">Post on the board</a>
@@ -432,7 +456,7 @@ main [id]{scroll-margin-top:84px}
 <section class="wrap sec" id="work" data-screen="home">
   <div class="sec-head">
     <h2>What we're working on</h2>
-    <p>We're an independent group working for every court in the borough. McCarren is our first project. Tap the drawings.</p>
+    <p>We work for every court and every kid in the borough. Tap the drawings.</p>
   </div>
   <div class="three">
     <article class="thing">
@@ -465,7 +489,7 @@ main [id]{scroll-margin-top:84px}
       </button>
       <span class="hint" id="h-book">Tap to sort it out</span>
       <h3><span class="dot" style="--c:var(--blue)"></span>Court time you can count on</h3>
-      <p>Right now most people walk to a court and hope it's free. We're asking NYC Parks to put more Brooklyn courts on online booking, keep the yearly permit price the same, and publish when courts are free so anyone can see it. Until then, players can check in on our map.</p>
+      <p>Right now most people walk to a court and hope it's empty. We're bringing NYC Parks a simple plan: more Brooklyn courts on online booking, the same yearly permit price, and a public list of when courts are free. Until then, check in on our map so everyone can see what's open.</p>
     </article>
 
     <article class="thing">
@@ -490,7 +514,7 @@ main [id]{scroll-margin-top:84px}
       </button>
       <span class="hint" id="h-kids">Tap the clock</span>
       <h3><span class="dot" style="--c:var(--green)"></span>Kids get the courts after school</h3>
-      <p>Kids are in school all day. We're asking for weekday kids' hours from 4 to 6 pm, when juniors get the courts first.</p>
+      <p>Kids are in school all day. We're working for weekday hours from 4 to 6 pm, when juniors get the courts first.</p>
     </article>
 
     <article class="thing">
@@ -519,9 +543,45 @@ main [id]{scroll-margin-top:84px}
       </button>
       <span class="hint" id="h-fix">Tap to resurface it</span>
       <h3><span class="dot" style="--c:var(--red)"></span>Bring forgotten courts back</h3>
-      <p>Of the <span data-stat="total">257</span> courts we mapped, <span data-stat="fix">87</span> look like they need resurfacing and <span data-stat="aband">6</span> look abandoned. We want every one of them playable.</p>
+      <p>Of the <span data-stat="total">257</span> courts we mapped, <span data-stat="fix">87</span> look like they need resurfacing, <span data-stat="aband">6</span> of them abandoned. We want every one back in play.</p>
     </article>
   </div>
+</section>
+
+<section class="wrap sec" id="help" data-screen="home">
+  <div class="sec-head">
+    <h2>Work with us</h2>
+    <p>What we bring: people who show up, connections across Brooklyn tennis, and a lot of love for the game. Here's how to join in.</p>
+  </div>
+  <div class="ycards">
+    <article class="ycard"><h3>Players</h3><p>Check in when you're at a court, post what it needs, and tap Me too on asks you agree with. Every ask counts when we bring it to the people who can fix it.</p><a class="btn" href="#board">Go to the board</a></article>
+    <article class="ycard"><h3>Park groups</h3><p>Tell us about your courts, what you've already tried, and where you're stuck. Your group keeps its own voice; we add hands and connections.</p></article>
+    <article class="ycard"><h3>Businesses and brands</h3><p>Racquets, balls, strings and court time for kids go a long way. We're not a nonprofit yet, so we don't take donations, but we'd like to talk.</p></article>
+  </div>
+  <details class="msgbox" id="message">
+    <summary class="btn"><span class="open-label">Message us</span><span class="close-label">Close the form</span></summary>
+    <form class="form" id="msgform" novalidate>
+      <div class="field">
+        <label for="m-about">What's it about?</label>
+        <select id="m-about"><option value="help">I want to help</option><option value="park">My park needs help</option><option value="partner">Gear, sponsorship or partnership</option><option value="other">Something else</option></select>
+      </div>
+      <div class="field">
+        <label for="m-text">Your message</label>
+        <textarea id="m-text" maxlength="1200" placeholder="Tell us what's on your mind"></textarea>
+      </div>
+      <div class="field">
+        <label for="m-name">Your name <span class="opt">(optional)</span></label>
+        <input id="m-name" type="text" maxlength="40" autocomplete="name">
+      </div>
+      <div class="field">
+        <label for="m-email">Email <span class="opt">(optional, only we see it; leave it if you'd like a reply)</span></label>
+        <input id="m-email" type="email" maxlength="120" autocomplete="email">
+      </div>
+      <button class="btn post" type="submit">Send</button>
+      <p class="formmsg" id="msgmsg" aria-live="polite"></p>
+      <p class="small">Messages are private: only the moderator reads them, and we never share an email address. Under 13? Ask a grown-up to write to us.</p>
+    </form>
+  </details>
 </section>
 
 <section class="wrap sec" id="courts" data-screen="courts">
@@ -547,12 +607,12 @@ main [id]{scroll-margin-top:84px}
     <div class="side">
       <div class="chips" id="chips" aria-label="Show or hide court types"></div>
       <div class="card" id="detail" aria-live="polite"></div>
-      <p class="small">Each grade comes from one undated satellite photo, so treat it as a lead to check in person. Cracks and dead spots don't show from above, so the real number needing work is likely higher. Courts under winter bubbles can't be seen from above.</p>
+      <p class="small">Each grade comes from one undated satellite photo, so treat it as a lead to check in person. Cracks and dead spots don't show from above, so the real number needing work is likely higher. Courts under winter bubbles can't be seen from above. Been to one lately? Report what you find.</p>
     </div>
   </div>
 </section>
 
-<section class="wrap sec" id="book" data-screen="book">
+<section class="wrap sec" id="book" data-screen="courts">
   <div class="sec-head">
     <h2>Where you can book a court</h2>
     <p>Most Brooklyn courts are first come, first served. These are the ways to book ahead, with prices as each one posts them. Checked November 4, 2026.</p>
@@ -572,21 +632,21 @@ main [id]{scroll-margin-top:84px}
         <summary><h4><svg class="icon" viewBox="0 0 40 40" aria-hidden="true"><g class="wob"><path d="M4,32 A16,16 0 0 1 36,32 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M2,33 H38" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></g></svg>McCarren Tennis Center</h4>
         <span class="where">McCarren Park, all seven courts</span>
         <span class="key">Mid-October to late April · about $50 to $100 an hour</span></summary>
-        <p>Under the bubble from the day after Columbus Day to late April. About $50 to $100 an hour on the 2026 rate sheet. Parks' license for the bubble runs to 2031.</p>
+        <p>Under the bubble from the day after Columbus Day to late April. About $50 to $100 an hour on the 2026 rate sheet.</p>
       </details>
       <details class="listing">
         <summary><h4><svg class="icon" viewBox="0 0 40 40" aria-hidden="true"><g class="wob"><path d="M4,32 A16,16 0 0 1 36,32 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M2,33 H38" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></g></svg>MatchPoint NYC Bensonhurst</h4>
         <span class="where">Bensonhurst Park, 9000 Bay Parkway</span>
         <span class="key">Eight courts under a bubble · rates on their site</span></summary>
-        <p>Eight courts under a bubble, run by MatchPoint NYC. Parks' license runs to 2034. Rates are on their site.</p>
+        <p>Eight courts under a bubble, run by MatchPoint NYC. Rates are on their site.</p>
         <a href="https://matchpoint.nyc/our-clubs/bensonhurst/" target="_blank" rel="noopener">MatchPoint Bensonhurst →</a>
       </details>
     </div>
     <div class="bookcol">
       <h3>Outdoor courts you can book on NYC Parks</h3>
-      <p class="small">$15 per court per hour, plus a season or single-play permit. Up to 7 days ahead, never the same day, one booking per person per day. Every other court is walk-on.</p>
+      <p class="small">$15 per court per hour, plus a season or single-play permit. Up to 7 days ahead, never the same day, one booking per person per day. Every other Parks court is first come, first served.</p>
       <ul class="parks">
-        <li><span class="nm">McCarren Park<span class="bk">Brooklyn</span></span><span class="ct">2 bookable<br>7 walk-on</span><span class="bo">May 4 to September 20. Parks' McCarren page currently says reservations are suspended.</span></li>
+        <li><span class="nm">McCarren Park<span class="bk">Brooklyn</span></span><span class="ct">2 bookable</span><span class="bo">2 of the seven courts, May 4 to September 20. Parks' McCarren page currently says reservations are suspended.</span></li>
       </ul>
       <details class="more">
         <summary>The other 7 sites, outside Brooklyn</summary>
@@ -605,10 +665,10 @@ main [id]{scroll-margin-top:84px}
   </div>
 </section>
 
-<section class="wrap sec" id="stringing" data-screen="book">
+<section class="wrap sec" id="stringing" data-screen="courts">
   <div class="sec-head">
     <h2>Stringing and shops</h2>
-    <p>There's no tennis shop in North Brooklyn. Here is where Brooklyn players get racquets strung. Nobody paid to be listed. Know a stringer or shop we're missing? Post it on the board under "Something else."</p>
+    <p>Need your racquet strung? Here's where Brooklyn players go. Nobody paid to be listed. Know a stringer or shop we're missing? <a href="#message">Tell us</a>.</p>
   </div>
   <div class="dir">
     <details class="listing">
@@ -638,11 +698,79 @@ main [id]{scroll-margin-top:84px}
 
 
 
+<section class="wrap sec" id="youth" data-screen="youth">
+  <div class="sec-head">
+    <h2>Kids and juniors</h2>
+    <p>Brooklyn has the kids. They need courts they can get on, hours that fit a school day, and a clear path from a first rally to wherever they want to take the game.</p>
+  </div>
+  <div class="ycards">
+    <article class="ycard">
+      <h3><span class="dot" style="--c:var(--green)"></span>Kids' hours</h3>
+      <p>Kids are in school all day. We're working for weekday hours from 4 to 6 pm, when juniors get the courts first.</p>
+      <a class="btn" href="#board" id="kidsAsk">Ask for kids' hours at a park</a>
+    </article>
+    <article class="ycard">
+      <h3><span class="dot" style="--c:var(--blue)"></span>A youth program, in the works</h3>
+      <p>For beginners and competitive juniors alike. Affordable, not free, and we're working on scholarships so cost doesn't decide who gets to play. We'll share details here as they're settled.</p>
+      <a class="btn" href="#message">Want in, or want to help?</a>
+    </article>
+    <article class="ycard">
+      <h3><span class="dot" style="--c:var(--red)"></span>Where a beginner starts</h3>
+      <ul class="stages">
+        <li><span class="b" style="--c:var(--red)"></span><span><b>Red ball</b> · youngest beginners, about 4 to 9. A 36-foot court and a 19 to 23-inch racquet.</span></li>
+        <li><span class="b" style="--c:var(--cone)"></span><span><b>Orange ball</b> · usually about 9 to 10. A 60-foot court and a 23 or 25-inch racquet.</span></li>
+        <li><span class="b" style="--c:var(--green)"></span><span><b>Green ball</b> · usually about 11 to 12. The full court and a 25 or 26-inch racquet.</span></li>
+        <li><span class="b" style="--c:var(--ball)"></span><span><b>Yellow ball</b> · the regular ball on the full court.</span></li>
+      </ul>
+      <p class="small">Stages from the <a href="https://playtennis.usta.com/eyesontheballtennis/Stages" target="_blank" rel="noopener">USTA</a>. Go by size and skill, not just age. A full guide for tennis families, from gear to ratings, is in the works.</p>
+    </article>
+  </div>
+</section>
+<section class="wrap sec goal" id="goal" data-screen="youth">
+  <div class="copy">
+    <p class="kicker">The ten-year goal</p>
+    <h2>A New York kid in the US Open quarterfinals</h2>
+    <p>The US Open is played in Queens every summer. By 2037 we want one of its quarterfinalists to be a player who learned the game on New York's public courts.</p>
+    <p>That starts small: courts a kid can get on, after-school hours, junior tournaments close to home, and a professional tournament in Brooklyn they can watch. That's the Brooklyn Challenger we're named for: a Challenger is a pro event one level below the main tour.</p>
+  </div>
+  <div class="thing">
+    <button class="widget" id="w-goal" type="button" aria-label="Move up the draw toward 2037">
+      <svg viewBox="0 0 390 330" aria-hidden="true"><g class="wob">
+        <g id="goalpath" fill="none" stroke="var(--ink-soft)" stroke-width="3" stroke-dasharray="7 8" stroke-linecap="round"></g>
+        <g id="stops"></g>
+        <!-- Lady Liberty with a racquet -->
+        <rect x="262" y="276" width="96" height="40" rx="4" fill="var(--card)" stroke="var(--ink)" stroke-width="3"/>
+        <path d="M268,276 L276,262 H344 L352,276" fill="var(--card)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M286,176 C280,206 276,236 272,262 H348 C344,236 338,206 332,176 C318,168 300,168 286,176 Z" fill="var(--green)" fill-opacity=".45" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M298,182 C296,210 294,236 292,260 M312,184 C312,212 312,238 312,260 M324,182 C326,210 328,236 330,260" fill="none" stroke="var(--ink)" stroke-width="2" opacity=".55"/>
+        <circle cx="309" cy="152" r="15" fill="var(--green)" fill-opacity=".45" stroke="var(--ink)" stroke-width="3"/>
+        <path d="M294,142 L282,128 M300,138 L294,120 M309,136 L309,116 M318,138 L324,120 M324,142 L336,128" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+        <path d="M290,180 C284,160 280,128 278,104" fill="none" stroke="var(--ink)" stroke-width="7" stroke-linecap="round"/>
+        <path d="M290,180 C284,160 280,128 278,104" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+        <path d="M278,104 L274,84" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/>
+        <ellipse cx="270" cy="60" rx="16" ry="22" fill="var(--card)" stroke="var(--red)" stroke-width="4.5"/>
+        <path d="M262,44 V76 M270,39 V81 M278,44 V76 M256,52 H284 M255,60 H285 M256,68 H284" stroke="var(--ink-soft)" stroke-width="1.4"/>
+        <g transform="rotate(-12 336 212)">
+          <rect x="321" y="190" width="32" height="40" rx="3" fill="var(--card)" stroke="var(--ink)" stroke-width="3"/>
+          <text x="337" y="214" font-family="var(--hand)" font-size="10" font-weight="800" fill="var(--ink)" text-anchor="middle">2037</text>
+        </g>
+        <g class="won-only">
+          <path d="M252,30 L246,24 M270,26 V14 M290,30 L298,22 M296,58 H308" stroke="var(--ball)" stroke-width="4" stroke-linecap="round"/>
+          <text x="240" y="36" font-family="var(--hand)" font-size="30" font-weight="800" fill="var(--blue)" text-anchor="end">2037</text>
+          <text x="240" y="56" font-family="var(--hand)" font-size="15" font-weight="700" fill="var(--ink)" text-anchor="end">quarterfinals</text>
+        </g>
+        <g id="goalball"><use href="#tball" x="-13" y="-13" width="26" height="26"/></g>
+      </g></svg>
+    </button>
+    <span class="hint" id="h-goal">Tap to move up the draw</span>
+  </div>
+</section>
+
 <section class="band" id="board" data-screen="board">
   <div class="wrap">
     <div class="sec-head">
       <h2>The board</h2>
-      <p>Ask Parks for something, warn people about a court, find someone to hit with, or get a group together. It's the Brooklyn tennis noticeboard.</p>
+      <p>Tell us what a court needs, warn other players, find someone to hit with, or get a group together. We gather every ask and bring the most-wanted to the people who can fix them.</p>
     </div>
     <details class="rulesbox">
       <summary>House rules</summary>
@@ -713,7 +841,7 @@ main [id]{scroll-margin-top:84px}
         <label class="check" data-for="hitter event" hidden><input type="checkbox" id="p-adult"> I'm 18 or older</label>
         <button class="btn post" type="submit">Post it</button>
         <p class="formmsg" id="formmsg" aria-live="polite"></p>
-        <p class="small">Emails are never shown or shared. Under 13? Ask a grown-up to post with you.</p>
+        <p class="small">Only the moderator sees your email, and only to tell you what happens with your post. We never share it. Under 13? Ask a grown-up to post with you. Want a post taken down? <a href="#message">Message us</a>.</p>
       </form>
       </details>
       <div class="board">
@@ -732,19 +860,8 @@ main [id]{scroll-margin-top:84px}
   </div>
   <h3>Working on now</h3>
   <div class="plist">
-    <a class="pcard" href="#mccarren"><span class="pnum">1</span><span><b>McCarren Park</b><span>The lot next to the seven courts. NYC Parks is designing it now, through July 2027.</span></span></a>
-  </div>
-</section>
-<section class="wrap sec" id="requests" data-screen="projects">
-  <div class="sec-head">
-    <h3>What players are asking for</h3>
-    <p class="small">Lights, a new surface, nets, fences and more. Most-wanted first. Tap Me too if you want it as well.</p>
-  </div>
-  <div class="chips bandchips" id="reqfilter" aria-label="Show one kind of ask"></div>
-  <div class="reqlist" id="reqlist"></div>
-  <div class="askbox">
-    <p class="hand">Ask for something at a park:</p>
-    <div class="askchips" id="askchips"></div>
+    <a class="pcard" href="#mccarren"><span class="pnum">1</span><span><b>McCarren Park</b><span>The lot next to the seven courts. NYC Parks is designing it now; design is projected to finish in July 2027.</span></span></a>
+    <a class="pcard" href="#youth"><span class="pnum">2</span><span><b>Youth</b><span>A program for beginners and competitive juniors, in the works.</span></span></a>
   </div>
 </section>
 <section class="wrap sec" id="mccarren" data-screen="projects">
@@ -752,13 +869,13 @@ main [id]{scroll-margin-top:84px}
     <div class="copy">
       <p class="kicker">Project 1</p>
       <h2>First up: <span class="hi">McCarren Park</span></h2>
-      <p>Next to McCarren's seven courts sits about 78,000 square feet of asphalt. NYC Parks is designing it now, from June 2026 to July 2027, with a stormwater tank planned underneath. At Parks' May workshop, more tennis courts were among the most-requested uses.</p>
+      <p>Next to McCarren's seven courts sits about 78,000 square feet of asphalt. NYC Parks is designing it now, starting June 2026 and projected to finish in July 2027, with a stormwater tank planned underneath. At Parks' May workshop, which drew more than 325 people, more tennis courts were <a href="https://www.brownstoner.com/brooklyn-life/mccarren-park-asphalt-lot-green-space/" target="_blank" rel="noopener">the most popular request</a>.</p>
       <ul class="facts">
         <li><b>9</b><span>NYC Parks courts for about 325,000 people in North Brooklyn</span></li>
         <li><b>7</b><span>of those 9 are paid courts from October to April, $50 to $100 an hour</span></li>
-        <li><b>+31k</b><span>people added in Community District 1 from 2010 to 2020, and no courts added</span></li>
+        <li><b>+31k</b><span>more people in Community District 1 (Greenpoint and Williamsburg) from 2010 to 2020</span></li>
       </ul>
-      <p class="small">In 2026 the McCarren Tennis Association lit all seven courts with $300,000 raised from neighbors and USTA grants.</p>
+      <p class="small">In 2026 the McCarren Tennis Association lit all seven courts, with money raised from neighbors and USTA grants.</p>
     </div>
     <div class="lotview" id="lotview">
       <button class="widget" id="w-lot" type="button" aria-pressed="false" aria-label="Show our idea for the lot">
@@ -788,50 +905,26 @@ main [id]{scroll-margin-top:84px}
       <div class="lotbtns">
         <span class="hint" id="h-lot">Tap the lot to see our idea</span>
       </div>
-      <p class="small" id="lotcap">Sketch, not to scale and not a Parks design. Our idea: resurface the seven, add four public courts with a show court, plus lawn, a flex pad and the dog run. It is one option we're bringing to Parks and Community Board 1.</p>
+      <p class="small" id="lotcap">Sketch, not to scale and not a Parks design. Our idea: resurface the seven and add four public courts, one of them a show court, plus a lawn, a flex pad (pickleball in summer, a warming lodge in winter) and the dog run. In winter, three of the new courts could become a skating rink. It is one option we're bringing to Parks and Community Board 1.</p>
+      <a class="btn" style="align-self:flex-start;font-size:17px;padding:8px 14px 9px" href="#board" id="mcAsk">Tell us what it should include</a>
     </div>
   </div>
 </section>
-
-<section class="wrap sec goal" id="goal" data-screen="home">
-  <div class="copy">
-    <p class="kicker">The ten-year goal</p>
-    <h2>A New York kid in the US Open quarterfinals</h2>
-    <p>The US Open is played in Queens every summer. By 2037 we want one of its quarterfinalists to be a player who learned the game on New York's public courts.</p>
-    <p>That starts small: courts a kid can get on, after-school hours, junior tournaments close to home, and a pro event in Brooklyn they can watch.</p>
+<section class="wrap sec" id="requests" data-screen="projects">
+  <div class="sec-head">
+    <h3>What players are asking for</h3>
+    <p class="small">Lights, a new surface, nets, fences and more. Most-wanted first. Tap Me too if you want it as well.</p>
   </div>
-  <div class="thing">
-    <button class="widget" id="w-goal" type="button" aria-label="Move up the draw toward 2037">
-      <svg viewBox="0 0 390 330" aria-hidden="true"><g class="wob">
-        <g id="goalpath" fill="none" stroke="var(--ink-soft)" stroke-width="3" stroke-dasharray="7 8" stroke-linecap="round"></g>
-        <g id="stops"></g>
-        <!-- Lady Liberty with a racquet -->
-        <rect x="262" y="276" width="96" height="40" rx="4" fill="var(--card)" stroke="var(--ink)" stroke-width="3"/>
-        <path d="M268,276 L276,262 H344 L352,276" fill="var(--card)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
-        <path d="M286,176 C280,206 276,236 272,262 H348 C344,236 338,206 332,176 C318,168 300,168 286,176 Z" fill="var(--green)" fill-opacity=".45" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
-        <path d="M298,182 C296,210 294,236 292,260 M312,184 C312,212 312,238 312,260 M324,182 C326,210 328,236 330,260" fill="none" stroke="var(--ink)" stroke-width="2" opacity=".55"/>
-        <circle cx="309" cy="152" r="15" fill="var(--green)" fill-opacity=".45" stroke="var(--ink)" stroke-width="3"/>
-        <path d="M294,142 L282,128 M300,138 L294,120 M309,136 L309,116 M318,138 L324,120 M324,142 L336,128" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
-        <path d="M290,180 C284,160 280,128 278,104" fill="none" stroke="var(--ink)" stroke-width="7" stroke-linecap="round"/>
-        <path d="M290,180 C284,160 280,128 278,104" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" opacity=".8"/>
-        <path d="M278,104 L274,84" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/>
-        <ellipse cx="270" cy="60" rx="16" ry="22" fill="var(--card)" stroke="var(--red)" stroke-width="4.5"/>
-        <path d="M262,44 V76 M270,39 V81 M278,44 V76 M256,52 H284 M255,60 H285 M256,68 H284" stroke="var(--ink-soft)" stroke-width="1.4"/>
-        <g transform="rotate(-12 336 212)">
-          <rect x="321" y="190" width="32" height="40" rx="3" fill="var(--card)" stroke="var(--ink)" stroke-width="3"/>
-          <text x="337" y="214" font-family="var(--hand)" font-size="10" font-weight="800" fill="var(--ink)" text-anchor="middle">2037</text>
-        </g>
-        <g class="won-only">
-          <path d="M252,30 L246,24 M270,26 V14 M290,30 L298,22 M296,58 H308" stroke="var(--ball)" stroke-width="4" stroke-linecap="round"/>
-          <text x="240" y="36" font-family="var(--hand)" font-size="30" font-weight="800" fill="var(--blue)" text-anchor="end">2037</text>
-          <text x="240" y="56" font-family="var(--hand)" font-size="15" font-weight="700" fill="var(--ink)" text-anchor="end">quarterfinals</text>
-        </g>
-        <g id="goalball"><use href="#tball" x="-13" y="-13" width="26" height="26"/></g>
-      </g></svg>
-    </button>
-    <span class="hint" id="h-goal">Tap to move up the draw</span>
+  <div class="chips bandchips" id="reqfilter" aria-label="Show one kind of ask"></div>
+  <div class="reqlist" id="reqlist"></div>
+  <div class="askbox">
+    <p class="hand">Ask for something at a park:</p>
+    <div class="askchips" id="askchips"></div>
   </div>
 </section>
+
+
+
 </main>
 
 
@@ -839,10 +932,10 @@ main [id]{scroll-margin-top:84px}
 <footer class="wrap foot">
   <div style="display:flex;flex-direction:column;gap:10px">
     <p class="hand" style="font-size:22px;font-weight:800;color:var(--ink)">Brooklyn Challenger</p>
-    <p>An independent group working for Brooklyn tennis.</p>
+    <p>The helping hand of Brooklyn tennis.</p>
     <p>Nothing on this site is an NYC Parks design or position.</p>
   </div>
-  <p>Sources: NYC Parks tennis directory and capital project tracker (project 10971, McCarren Park Multipurpose Play Area); OpenStreetMap; NYC property records; Brownstoner on Parks' May 2026 workshop; McCarren Tennis Association; 2020 Census community district profiles. Court grades are our reading of satellite imagery.</p>
+  <p>Sources: NYC Parks <a href="https://www.nycgovparks.org/facilities/tennis" target="_blank" rel="noopener">tennis directory</a> and <a href="https://www.nycgovparks.org/planning-and-building/capital-project-tracker/project/10971" target="_blank" rel="noopener">capital project tracker (project 10971)</a>; <a href="https://www.openstreetmap.org" target="_blank" rel="noopener">OpenStreetMap</a>; NYC property records; <a href="https://www.brownstoner.com/brooklyn-life/mccarren-park-asphalt-lot-green-space/" target="_blank" rel="noopener">Brownstoner</a> on Parks' May 2026 workshop; <a href="https://www.mccarrentennisassociation.org/" target="_blank" rel="noopener">McCarren Tennis Association</a>; 2020 Census community district profiles; <a href="https://playtennis.usta.com/eyesontheballtennis/Stages" target="_blank" rel="noopener">USTA</a> stages of play. Court grades are our reading of satellite imagery.</p>
 </footer>
 
 <script>
@@ -875,7 +968,7 @@ const readJSON = (k, fallback) => { try { const v = JSON.parse(store.get(k)); re
 const visibleEvery = (fn, ms) => setInterval(() => { if (!document.hidden) fn(); }, ms);
 
 /* ---------- tabs: one screen at a time. The address keeps #courts, #board... so links, sharing and Back all work. ---------- */
-const TABS = { home: 'Brooklyn Challenger', courts: 'Courts', book: 'Book a court', board: 'The board', projects: 'Projects' };
+const TABS = { home: 'Brooklyn Challenger', courts: 'Courts and booking', youth: 'Youth', board: 'The board', projects: 'Projects' };
 function target() {
   const id = decodeURIComponent(location.hash.slice(1));
   const el = id && !(id in TABS) ? document.getElementById(id) : null;
@@ -889,6 +982,7 @@ function show({ id, el, tab }, smooth) {
   document.querySelectorAll('a[data-tab]').forEach(a => a.dataset.tab === tab ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'));
   document.title = tab === 'home' ? TABS.home : `${TABS[tab]} · Brooklyn Challenger`;
   if (changed) dispatchEvent(new Event('resize'));          // drawings that measure themselves redraw now they're visible
+  if (el && el.matches('details')) el.open = true;          // "Message us" links open the form they point at
   if (el && el.closest('[data-screen]') && id !== 'top') el.scrollIntoView({ behavior: smooth && !reduce ? 'smooth' : 'instant', block: 'start' });
   else if (changed) window.scrollTo({ top: 0, behavior: 'instant' });
 }
@@ -917,7 +1011,7 @@ function route() {
    and drops onto the new page at its top, where the real page is waiting underneath. */
 function fly(from, to, land) {
   flying = true;
-  const order = Object.keys(TABS), names = { home: 'Home', courts: 'Courts', book: 'Book', board: 'Board', projects: 'Projects' };
+  const order = Object.keys(TABS), names = { home: 'Home', courts: 'Courts', youth: 'Youth', board: 'Board', projects: 'Projects' };
   const vw = document.documentElement.clientWidth, vh = innerHeight, sy = scrollY;
   const phone = matchMedia('(max-width:860px)').matches;
   const gap = Math.round(vw * .14), s = phone ? .42 : .3;
@@ -998,7 +1092,7 @@ document.querySelectorAll('[data-stat]').forEach(e => e.textContent = ST[e.datas
 document.getElementById('stats').innerHTML = [
   [ST.total, `tennis courts at ${ST.sites} sites`, 'var(--ink)'],
   [ST.good, 'look in good shape', 'var(--green)'],
-  [ST.fix, `need resurfacing, ${ST.aband} of them look abandoned`, 'var(--red)'],
+  [ST.fix, `may need resurfacing, including ${ST.aband} that look abandoned`, 'var(--red)'],
   [ST.dome, 'sit under winter bubbles', 'var(--blue)']
 ].map(([n, t, c]) => `<div class="stat" style="--c:${c}"><b>${n}</b><span>${t}</span></div>`).join('');
 
@@ -1131,7 +1225,7 @@ document.getElementById('stats').innerHTML = [
     list.hidden = !open;
   }
   async function load() {
-    try { rows = (await api('rally')).top; me = await meP; lb.hidden = false; render(); } catch { /* stays hidden */ }
+    try { rows = (await api('rally')).top; me = await meP; lb.hidden = rows.length < 3 && !mine; render(); } catch { /* stays hidden */ }
   }
   toggle.addEventListener('click', () => { open = !open; toggle.setAttribute('aria-expanded', open); render(); if (open) load(); });
   async function save(initials, n, quiet) {
@@ -1242,12 +1336,12 @@ document.getElementById('stats').innerHTML = [
   const WAIT = { none: 'no wait', some: '1 or 2 groups waiting', lots: '3 or more groups waiting' };
   function liveBlock(i) {
     const s = SITES[i], c = CHECK[i], n = s[3];
-    const f = draft.free == null ? n : draft.free;
+    const f = draft.free == null ? '?' : draft.free;
     return `<div class="live">
       ${s[2] === 'c' ? '<p class="small" style="font-size:15px">From October to April these courts sit under a paid winter bubble.</p>' : ''}
-      ${c ? `<p class="now">${c.free} of ${n} free · ${WAIT[c.wait]} <span style="font-weight:600;font-size:15px;color:var(--ink-soft)">(${ago(c.t)})</span></p>` : '<p class="now none">No one has checked in here in the last hour.</p>'}
-      <div class="row"><span class="lbl">Here now? Free courts</span>
-        <span class="step"><button type="button" data-free="-1" aria-label="One fewer free court">−</button><b id="freeN">${f} of ${n}</b><button type="button" data-free="1" aria-label="One more free court">+</button></span></div>
+      ${c ? `<p class="now">${c.free} of ${n} empty · ${WAIT[c.wait]} <span style="font-weight:600;font-size:15px;color:var(--ink-soft)">(${ago(c.t)})</span></p>` : '<p class="now none">No one has checked in here in the last hour.</p>'}
+      <div class="row"><span class="lbl">Here now? Count the empty courts</span>
+        <span class="step"><button type="button" data-free="-1" aria-label="One fewer empty court">−</button><b id="freeN">${f} of ${n}</b><button type="button" data-free="1" aria-label="One more empty court">+</button></span></div>
       <div class="row"><span class="lbl">Anyone waiting?</span>
         <span class="pick">${Object.entries({ none: 'No', some: '1–2 groups', lots: '3+' }).map(([k, l]) => `<button type="button" data-wait="${k}" aria-pressed="${draft.wait === k}">${l}</button>`).join(' ')}</span></div>
       <button type="button" class="btn checkin" id="checkin">Check in</button>
@@ -1257,16 +1351,20 @@ document.getElementById('stats').innerHTML = [
     const n = SITES[i][3];
     detail.querySelectorAll('[data-free]').forEach(b => b.addEventListener('click', () => {
       const cur = draft.free == null ? n : draft.free; draft.free = Math.max(0, Math.min(n, cur + +b.dataset.free));
-      detail.querySelector('#freeN').textContent = `${draft.free} of ${n}`;
+      detail.querySelector('#freeN').textContent = `${draft.free} of ${n}`; const hint = detail.querySelector('.counthint'); if (hint) hint.remove();
     }));
     detail.querySelectorAll('[data-wait]').forEach(b => b.addEventListener('click', () => {
       draft.wait = b.dataset.wait; detail.querySelectorAll('[data-wait]').forEach(x => x.setAttribute('aria-pressed', x === b));
     }));
     const go = detail.querySelector('#checkin');
     if (go) go.addEventListener('click', async () => {
+      if (draft.free == null) {
+        if (!detail.querySelector('.counthint')) { const p = document.createElement('p'); p.className = 'small counthint'; p.textContent = 'Count the empty courts first with − and +.'; go.after(p); }
+        return;
+      }
       go.disabled = true; go.textContent = 'Checking in\u2026';
       try {
-        const r = await api('checkins', { i, free: draft.free == null ? n : draft.free, wait: draft.wait || 'none' });
+        const r = await api('checkins', { i, free: draft.free, wait: draft.wait || 'none' });
         CHECK[i] = r.checkin; draft = { free: null, wait: null }; markPulses(); show(i);
       } catch (e) {
         go.disabled = false; go.textContent = 'Check in';
@@ -1281,7 +1379,7 @@ document.getElementById('stats').innerHTML = [
       <h3>${s[0]}</h3>
       <dl><dt>Courts</dt><dd>${s[3]}</dd><dt>Kind</dt><dd>${CAT[s[1]]}</dd></dl>
       ${s[6] ? `<p style="font-size:16px">${s[6]}</p>` : ''}
-      ${s[0] === 'McCarren Park' ? '<p class="bookline">2 of these courts can be booked on <a href="https://www.nycgovparks.org/tennisreservation" target="_blank" rel="noopener">NYC Parks online reservations</a>, May 4 to September 20. It is the only Brooklyn site on the system.</p>' : ''}
+      ${s[0] === 'McCarren Park' ? '<p class="bookline">2 of these courts can be booked on <a href="https://www.nycgovparks.org/tennisreservation" target="_blank" rel="noopener">NYC Parks online reservations</a>, May 4 to September 20, the only Brooklyn site on the system. Parks\' McCarren page currently says reservations are suspended.</p>' : ''}
       ${s[2] === 'c' ? '<p class="bookline">In winter: <a href="#book">see where to book</a> under the bubble.</p>' : ''}
       ${window.boardFor ? window.boardFor(s[0]) : ''}
       ${liveBlock(i)}
@@ -1309,7 +1407,7 @@ document.getElementById('stats').innerHTML = [
   Object.entries(TYPE).forEach(([k, T]) => {
     const n = SITES.filter(s => s[2] === k).length;
     const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.id = 'chip-' + k; b.setAttribute('aria-pressed', 'true');
-    b.innerHTML = `<i class="${T.mark}" style="--c:${T.c}"></i>${T.label} (${n})`;
+    b.innerHTML = `<i class="${T.mark}" style="--c:${T.c}"></i>${T.label} · ${n} site${n === 1 ? '' : 's'}`;
     b.addEventListener('click', () => { visible[k] = !visible[k]; b.setAttribute('aria-pressed', visible[k]); nodes.forEach((nd, j) => nd.style.display = visible[SITES[j][2]] ? '' : 'none'); });
     chips.appendChild(b);
   });
@@ -1549,6 +1647,31 @@ document.getElementById('stats').innerHTML = [
   });
   load();
   visibleEvery(load, 120000);
+})();
+
+/* ---------- Youth and McCarren shortcuts into the board form ---------- */
+(() => {
+  const mcIdx = SITES.findIndex(x => x[0] === 'McCarren Park');
+  document.getElementById('kidsAsk').addEventListener('click', () => window.compose && window.compose('request', '', 'kids'));
+  document.getElementById('mcAsk').addEventListener('click', () => window.compose && window.compose('request', mcIdx, 'other'));
+})();
+
+/* ---------- Message us: private, read only on the moderator page ---------- */
+(() => {
+  const form = document.getElementById('msgform'), msg = document.getElementById('msgmsg'), $ = id => document.getElementById(id);
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const m = { about: $('m-about').value, text: $('m-text').value.trim(), name: $('m-name').value.trim() };
+    const em = $('m-email').value.trim(); if (em) m.email = em;
+    if (m.text.length < 2) { msg.textContent = 'Write your message first.'; $('m-text').focus(); return; }
+    const btn = form.querySelector('.post'); btn.disabled = true; msg.textContent = 'Sending…';
+    try {
+      await api('message', { m });
+      form.reset();
+      msg.textContent = em ? "Sent. Thank you. We'll write back." : 'Sent. Thank you.';
+    } catch (err) { msg.textContent = err.message; }
+    finally { btn.disabled = false; }
+  });
 })();
 
 /* ---------- ten-year draw ---------- */

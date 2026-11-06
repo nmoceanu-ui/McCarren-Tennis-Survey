@@ -67,6 +67,11 @@ td.ini{font-family:var(--hand);font-weight:800;letter-spacing:.1em}
       <div class="list" id="pending"></div>
     </section>
     <section class="list" style="margin-top:28px">
+      <h2>Messages <span class="count" id="nMsgs">0</span></h2>
+      <p class="small">Sent through "Message us". Never public. Mark one done when it's handled; done messages, and any email in them, are deleted after 30 days.</p>
+      <div class="list" id="msgs"></div>
+    </section>
+    <section class="list" style="margin-top:28px">
       <h2>On the board now <span class="count" id="nBoard">0</span></h2>
       <div class="list" id="board"></div>
     </section>
@@ -87,6 +92,7 @@ const esc = t => String(t ?? '').replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': 
 const NEED = { lights: 'Lights', resurf: 'Resurfacing', nets: 'Nets', drain: 'Drainage', fence: 'Fences and gates', booking: 'Booking', kids: "Kids' hours", other: 'Something else' };
 const PROB = { construction: 'Under construction', nets: 'Nets down or torn', locked: 'Gates locked', flood: 'Flooded', lightsout: 'Lights out', closed: 'Closed for an event', other: 'Something else' };
 const KIND = p => p.type === 'request' ? 'Ask: ' + NEED[p.need] : p.type === 'report' ? 'Problem: ' + PROB[p.prob] : p.type === 'hitter' ? 'Find a hitter' : 'Event';
+const ABOUT = { help: 'Wants to help', park: 'A park needs help', partner: 'Gear, sponsorship or partnership', other: 'Something else' };
 const when = t => new Date(t).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
 const day = v => v ? new Date(v + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) : '';
 let key = '';
@@ -115,17 +121,30 @@ function item(p, acts) {
     <div class="acts">${acts.map(([a, label, cls]) => `<button class="btn ${cls}" type="button" data-a="${a}" data-id="${esc(p.id)}">${label}</button>`).join('')}</div>
   </article>`;
 }
+function msgItem(m) {
+  return `<article class="item"${m.done ? ' style="opacity:.6"' : ''}>
+    <span class="kind">${esc(ABOUT[m.about] || m.about)} · ${esc(when(m.t))}${m.done ? ' · done' : ''}</span>
+    <p style="white-space:pre-wrap">${esc(m.text)}</p>
+    ${m.name ? `<p class="small">From: ${esc(m.name)}</p>` : ''}
+    ${m.email ? `<p class="private">Email (private): ${esc(m.email)}</p>` : '<p class="small">No email left, so no reply is possible.</p>'}
+    <div class="acts">${m.done ? `<button class="btn" type="button" data-a="msg-open" data-id="${esc(m.id)}">Not done</button>` : `<button class="btn yes" type="button" data-a="msg-done" data-id="${esc(m.id)}">Done</button>`}</div>
+  </article>`;
+}
 async function load() {
   $('msg').textContent = '';
   try {
     const d = await call();
     $('login').hidden = true; $('panel').hidden = false; $('bar').hidden = false;
     $('nPending').textContent = d.pending.length; $('nBoard').textContent = d.board.length;
+    const msgs = d.messages || [], open = msgs.filter(m => !m.done).length;
+    $('nMsgs').textContent = open;
+    $('msgs').innerHTML = msgs.map(msgItem).join('') || '<p class="empty">No messages.</p>';
     $('pending').innerHTML = d.pending.map(p => item(p, [['approve', 'Approve', 'yes'], ['reject', 'Reject', 'no']])).join('') || '<p class="empty">Nothing waiting.</p>';
     $('board').innerHTML = d.board.map(p => item(p, [['remove', 'Take down', 'no']])).join('') || '<p class="empty">The board is empty.</p>';
     $('removed').innerHTML = d.removed.map(p => item(p, [['restore', 'Put back', '']])).join('') || '<p class="empty">Nothing taken down.</p>';
     $('rally').innerHTML = d.rally.map(r => `<tr><td class="ini">${esc(r.ini)}</td><td>${r.best}</td><td class="small">${esc(when(r.t))}</td><td><button class="btn no" type="button" data-a="rally-remove" data-k="${esc(r.k)}">Remove</button></td></tr>`).join('') || '<tr><td class="small">No rallies yet.</td></tr>';
-    document.title = (d.pending.length ? `(${d.pending.length}) ` : '') + 'Moderator · Brooklyn Challenger';
+    const waiting = d.pending.length + open;
+    document.title = (waiting ? `(${waiting}) ` : '') + 'Moderator · Brooklyn Challenger';
   } catch (e) {
     if (e.status === 401 || e.status === 503) { signOut(); $('msg').textContent = e.message; }
     else $('msg').textContent = e.message;
