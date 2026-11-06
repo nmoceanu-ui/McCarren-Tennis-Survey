@@ -891,12 +891,24 @@ function show({ id, el, tab }, smooth) {
   if (el && el.closest('[data-screen]') && id !== 'top') el.scrollIntoView({ behavior: smooth && !reduce ? 'smooth' : 'instant', block: 'start' });
   else if (changed) window.scrollTo({ top: 0, behavior: 'instant' });
 }
-let flying = false;
+let flying = false, viaLink = false;
+// Links inside a page ("See every court", "Report a problem", "Post on the board"...) take the long flight;
+// the tabs themselves, and Back, use a quick slide in the direction of the tab.
+document.addEventListener('click', e => {
+  const a = e.target.closest('a[href^="#"]');
+  viaLink = !!a && !a.hasAttribute('data-tab') && !a.closest('.top .mark');
+}, true);
 function route() {
   if (flying) return;                                       // a flight in progress lands wherever the address says
-  const t = target(), from = document.body.dataset.tab;
+  const t = target(), from = document.body.dataset.tab, link = viaLink;
+  viaLink = false;
   if (!from || from === t.tab || reduce || !Element.prototype.animate) { show(t); return; }
-  fly(from, t.tab, () => { const now = target(); show(now.tab === t.tab ? t : now, true); });
+  if (link) { fly(from, t.tab, () => { const now = target(); show(now.tab === t.tab ? t : now, true); }); return; }
+  const order = Object.keys(TABS), dir = order.indexOf(t.tab) > order.indexOf(from) ? 1 : -1;
+  show(t);
+  document.querySelectorAll(`main > [data-screen="${t.tab}"]`).forEach(sc => sc.animate(
+    [{ opacity: 0, transform: `translateX(${dir * 28}px)` }, { opacity: 1, transform: 'none' }],
+    { duration: 240, easing: 'cubic-bezier(.2,.7,.3,1)' }));
 }
 
 /* The flight: copies of all five pages laid out in a row (in tab order) on a "desk". The view starts exactly on
