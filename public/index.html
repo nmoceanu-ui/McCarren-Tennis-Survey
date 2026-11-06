@@ -70,7 +70,8 @@ nav a:hover{border-bottom-color:var(--ball)}
    and drops onto the new page (built in JS: see "fly" below; skipped when the device asks for reduced motion) */
 .flyer{position:fixed;inset:0;z-index:100;overflow:hidden;background:#d9cfb6;touch-action:none;pointer-events:auto}
 .flyer .strip{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform}
-.flyer .slot{position:absolute;top:0;overflow:hidden;background-color:var(--paper);box-shadow:0 24px 70px rgba(27,29,58,.28),0 0 0 3px var(--ink)}
+.flyer .slot{position:absolute;top:0;overflow:hidden;contain:strict;background-color:var(--paper);box-shadow:0 18px 44px rgba(27,29,58,.24),0 0 0 3px var(--ink)}
+.flyer .topbar,.flyer .tabbar{-webkit-backdrop-filter:none;backdrop-filter:none;background:var(--paper)}
 .flyer .slot-page{position:absolute;left:0;top:0;width:100%}
 .flyer .slot-label{position:absolute;left:0;right:0;text-align:center;font-family:var(--hand);font-weight:800;color:var(--ink);white-space:nowrap}
 .flyer .slot-sticky{position:absolute;left:0;right:0;top:0}
@@ -932,7 +933,11 @@ function fly(from, to, land) {
     c.querySelectorAll('a[data-tab]').forEach(a => a.dataset.tab === tab ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'));
     return c;
   };
-  const slots = order.map((tab, k) => {
+  // only the pages between here and there, plus one on each side: less for the phone to draw
+  const lo = Math.max(0, Math.min(kf, kt) - 1), hi = Math.min(order.length - 1, Math.max(kf, kt) + 1);
+  const labels = [];
+  order.forEach((tab, k) => {
+    if (k < lo || k > hi) return;
     const slot = document.createElement('div'); slot.className = 'slot';
     Object.assign(slot.style, { left: k * (vw + gap) + 'px', width: vw + 'px', height: vh + 'px', backgroundImage: bg, backgroundSize: '260px 260px' });
     const page = document.createElement('div'); page.className = 'slot-page';
@@ -946,28 +951,33 @@ function fly(from, to, land) {
     const label = document.createElement('span'); label.className = 'slot-label'; label.textContent = names[tab];
     Object.assign(label.style, { left: k * (vw + gap) + 'px', width: vw + 'px', top: -Math.round(vh * .16) + 'px', fontSize: Math.round(vh * .085) + 'px', opacity: 0 });
     strip.append(slot, label);
-    return { slot, label };
+    labels.push(label);
   });
   const flyer = document.createElement('div'); flyer.className = 'flyer'; flyer.setAttribute('aria-hidden', 'true');
   flyer.append(strip); document.body.append(flyer);
-  const at = (k, sc) => `translate(${vw / 2 - sc * (k * (vw + gap) + vw / 2)}px, ${vh / 2 - sc * vh / 2 + (sc < 1 ? vh * .05 : 0)}px) scale(${sc})`;
-  const ms = Math.min(1700, 1150 + 120 * (dist - 1));
-  const off = [0, .28, .72, 1];
-  const ease = ['cubic-bezier(.5,0,.3,1)', 'cubic-bezier(.45,0,.35,1)', 'cubic-bezier(.4,0,.2,1)'];
-  const anim = strip.animate([
-    { transform: at(kf, 1), offset: off[0], easing: ease[0] },
-    { transform: at(kf, s), offset: off[1], easing: ease[1] },
-    { transform: at(kt, s), offset: off[2], easing: ease[2] },
-    { transform: at(kt, 1), offset: off[3] }
-  ], { duration: ms, fill: 'forwards' });
-  slots.forEach(({ slot, label }) => {
-    slot.animate([{ borderRadius: '0px' }, { borderRadius: '34px', offset: off[1] }, { borderRadius: '34px', offset: off[2] }, { borderRadius: '0px' }], { duration: ms, fill: 'forwards' });
-    label.animate([{ opacity: 0 }, { opacity: 1, offset: off[1] }, { opacity: 1, offset: off[2] }, { opacity: 0 }], { duration: ms, fill: 'forwards' });
-  });
-  // swap the target page's copy to the real page underneath just before touchdown, then lift the desk away
+
+  // One continuous move, sampled finely so it never stops between steps: the view pulls back while it
+  // starts to glide, crosses the row, and settles onto the new page as it arrives.
+  const clamp = x => Math.min(1, Math.max(0, x));
+  const smooth = (a, b, x) => { const t = clamp((x - a) / (b - a)); return t * t * (3 - 2 * t); };
+  const glide = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+  const cx0 = kf * (vw + gap) + vw / 2, cx1 = kt * (vw + gap) + vw / 2;
+  const frames = [];
+  for (let i = 0, N = 40; i <= N; i++) {
+    const t = i / N, out = smooth(0, .34, t) * (1 - smooth(.66, 1, t));
+    const z = 1 - (1 - s) * out, cx = cx0 + (cx1 - cx0) * glide(clamp((t - .12) / .76));
+    frames.push({ offset: t, transform: `translate(${vw / 2 - z * cx}px, ${vh / 2 - z * vh / 2 + vh * .05 * out}px) scale(${z})` });
+  }
+  const ms = Math.min(1150, 820 + 110 * (dist - 1));
+  let anim = null;
   const done = () => { land(); flyer.remove(); flying = false; const now = target(); if (now.tab !== document.body.dataset.tab) route(); };
-  anim.finished.then(done, done);
-  flyer.addEventListener('click', () => anim.finish(), { once: true });    // a tap mid-flight lands straight away
+  flyer.addEventListener('click', () => { if (anim) anim.finish(); }, { once: true });    // a tap mid-flight lands straight away
+  // let the copies paint once while they still look exactly like the page, then move
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    anim = strip.animate(frames, { duration: ms, easing: 'linear', fill: 'forwards' });
+    labels.forEach(l => l.animate([{ opacity: 0 }, { opacity: 1, offset: .34 }, { opacity: 1, offset: .66 }, { opacity: 0 }], { duration: ms, fill: 'forwards' }));
+    anim.finished.then(done, done);
+  }));
 }
 addEventListener('hashchange', route);
 document.addEventListener('click', e => {                  // tapping the tab you're on goes back to the top
