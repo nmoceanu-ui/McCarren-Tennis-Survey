@@ -1,0 +1,12 @@
+{
+  "name": "brooklyn-challenger-site",
+  "private": true,
+  "type": "module",
+  "description": "Brooklyn Challenger website: static page in public/, API in netlify/functions (Netlify Blobs storage).",
+  "scripts": {
+    "test": "node test/api.test.mjs && node test/words.test.mjs"
+  },
+  "dependencies": {
+    "@netlify/blobs": "11.1.7"
+  }
+}

@@ -1,0 +1,1308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Brooklyn Challenger</title>
+<meta name="description" content="An independent group working for Brooklyn tennis: every court on one map, where to book, a public board for court problems and hitting partners, and kids' hours after school.">
+<meta property="og:title" content="Brooklyn Challenger">
+<meta property="og:description" content="Tennis for all of Brooklyn: every court on one map, where to book, and a board for players.">
+<meta property="og:type" content="website">
+<meta name="color-scheme" content="only light">
+<meta name="theme-color" content="#ebe3cf">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;700&family=Shantell+Sans:ital,wght,BNCE,INFM@0,300..800,-100..100,0..100&display=swap">
+<style>
+/* Layout: one sheet of textured ivory drawing paper read top to bottom. Text sits left, drawings sit right or in rows; one full-width turquoise band for the community board. Every drawing is a button. */
+:root{
+  --paper:#ebe3cf; --ink:#1b1d3a; --ink-soft:#56546a; --card:#faf6ec;
+  --red:#e3372a; --blue:#2358e6; --green:#0e9a57; --ball:#d3ee2a; --worn:#a7a598; --white:#ffffff;
+  --hi:rgba(211,238,42,.75); --band:#38c7b8; --band-ink:#0b2124; --cone:#ff8a3d;
+  --hand:'Shantell Sans','Comic Sans MS','Chalkboard SE',cursive;
+  --text:'Atkinson Hyperlegible Next','Atkinson Hyperlegible',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --measure:62ch;
+  color-scheme:light;
+}
+/* One look in every mode: the ivory paper stays ivory even when the device is in dark mode. */
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+img{max-width:100%}
+html{scroll-behavior:smooth}
+body{margin:0;background-color:var(--paper);color:var(--ink);font-family:var(--text);font-size:18px;line-height:1.55;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .2  0 0 0 0 .16  0 0 0 0 .1  0 0 0 .13 0'/></filter><filter id='m'><feTurbulence type='fractalNoise' baseFrequency='.012' numOctaves='3' seed='4' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .35  0 0 0 0 .28  0 0 0 0 .15  0 0 0 .13 0'/></filter><rect width='100%25' height='100%25' filter='url(%23m)'/><rect width='100%25' height='100%25' filter='url(%23g)'/></svg>");background-size:260px 260px}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:inherit}
+h1,h2,h3,.hand{font-family:var(--hand);font-variation-settings:'INFM' 60,'BNCE' 0;letter-spacing:-.01em;text-wrap:balance;margin:0}
+h1{font-size:clamp(46px,8.4vw,104px);line-height:.98;font-weight:800}
+h2{font-size:clamp(32px,4.6vw,54px);line-height:1.05;font-weight:750}
+h3{font-size:26px;line-height:1.15;font-weight:700}
+p{margin:0;max-width:var(--measure)}
+.hi{background:linear-gradient(100deg,transparent 2%,var(--hi) 4%,var(--hi) 94%,transparent 97%) 0 62%/100% 58% no-repeat;padding:0 .08em}
+.small{font-size:15px;color:var(--ink-soft)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px dashed var(--blue);outline-offset:4px;border-radius:6px}
+
+/* hand-drawn wobble: static on every drawing, "boiling" while you point at one */
+.wob{filter:url(#wob)}
+.widget:hover .wob,.widget:focus-visible .wob{filter:url(#boil)}
+@media (prefers-reduced-motion: reduce){.widget:hover .wob,.widget:focus-visible .wob{filter:url(#wob)}}
+
+/* header */
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:18px 8px}
+.mark{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--hand);font-weight:800;font-size:24px;line-height:1}
+.mark svg{width:34px;height:34px;flex:none}
+nav{display:flex;gap:6px 18px;flex-wrap:wrap;font-family:var(--hand);font-size:18px;font-weight:600}
+nav a{text-decoration:none;padding:4px 2px;border-bottom:3px solid transparent}
+nav a:hover{border-bottom-color:var(--ball)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:28px 40px;align-items:end;padding-block:36px 24px}
+.hero .copy{display:flex;flex-direction:column;gap:22px;min-width:0}
+.lede{font-size:21px;max-width:44ch}
+.ctas{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--hand);font-weight:700;font-size:20px;text-decoration:none;padding:12px 20px 13px;border:3px solid var(--ink);border-radius:14px 22px 16px 24px / 22px 14px 24px 16px;background:var(--card);cursor:pointer;transition:transform .15s}
+.btn:hover{transform:translate(-2px,-2px) rotate(-1deg)}
+.btn.go{background:var(--blue);color:var(--white);border-color:var(--blue)}
+.playground{position:relative;height:300px;border-radius:18px;cursor:pointer;touch-action:manipulation;user-select:none;-webkit-tap-highlight-color:transparent;background:none;border:0;padding:0;width:100%;text-align:left;display:block;min-width:0}
+.playground svg.court{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.playground .ball{position:absolute;left:0;top:0;width:52px;height:52px;will-change:transform;pointer-events:none;overflow:visible}
+.rally{position:absolute;left:8px;top:6px;font-family:var(--hand);font-size:19px;font-weight:600;pointer-events:none}
+.rally b{font-size:30px}
+.tapme{position:absolute;font-family:var(--hand);font-size:18px;font-weight:600;color:var(--red);pointer-events:none;transition:opacity .3s}
+.tapme svg{display:block}
+.pgcol{min-width:0;display:flex;flex-direction:column}
+/* leaderboard: one small hand-written line under the rally court */
+.lb{align-self:flex-end;font-family:var(--hand);font-size:15px;font-weight:600;color:var(--ink-soft);text-align:right;margin-top:2px;max-width:100%}
+.lb[hidden],.lb [hidden]{display:none!important}
+.lb-toggle{display:inline-flex;align-items:center;gap:6px;background:none;border:0;padding:4px 2px;cursor:pointer;color:inherit;font:inherit}
+.lb-toggle:hover span{text-decoration:underline wavy var(--ball) 2px;text-underline-offset:4px}
+.lb-toggle .cup{width:20px;height:20px;flex:none}
+.lb-toggle .caret{font-size:12px;transition:transform .2s}
+.lb-toggle[aria-expanded="true"] .caret{transform:rotate(180deg)}
+.lb-list{list-style:none;margin:2px 0 0;padding:0;display:grid;gap:1px}
+.lb-list li{display:flex;justify-content:flex-end;align-items:baseline;gap:10px}
+.lb-list .n{opacity:.55;min-width:1.4em}
+.lb-list .ini{letter-spacing:.12em;color:var(--ink);min-width:4.4em;text-align:left}
+.lb-list .sc{color:var(--ink);font-weight:800;min-width:2.2em}
+.lb-list li.me .ini{background:linear-gradient(transparent 45%,var(--hi) 45%,var(--hi) 92%,transparent 92%)}
+.lb-list .rm{background:none;border:0;padding:0 2px;cursor:pointer;color:var(--red);font:inherit;opacity:.6}
+.lb-list .rm:hover{opacity:1}
+.lb-sign{display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:6px 8px;margin-top:4px;color:var(--ink)}
+.lb-sign input{width:5.2em;font:inherit;font-weight:800;letter-spacing:.14em;text-transform:uppercase;text-align:center;color:var(--ink);background:var(--card);border:2px solid var(--ink);border-radius:8px 10px 8px 11px;padding:2px 4px}
+.lb-sign .ok{font:inherit;font-weight:800;background:var(--ball);color:var(--ink);border:2px solid var(--ink);border-radius:10px 8px 11px 8px;padding:2px 10px;cursor:pointer}
+.lb-sign .no{font:inherit;background:none;border:0;color:var(--ink-soft);cursor:pointer;padding:2px 4px}
+.lb-sign .fine{flex-basis:100%;font-size:13px;color:var(--ink-soft);font-weight:500}
+
+/* what we do */
+.sec{padding-block:64px 24px;display:flex;flex-direction:column;gap:28px}
+.sec-head{display:flex;flex-direction:column;gap:12px}
+.three{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:36px 32px}
+.thing{display:flex;flex-direction:column;gap:12px;min-width:0}
+.widget{display:block;width:100%;padding:0;margin:0;background:none;border:0;cursor:pointer;text-align:left;position:relative}
+.widget svg{display:block;width:100%;height:auto;overflow:visible}
+.hint{font-family:var(--hand);font-size:17px;font-weight:600;color:var(--ink-soft)}
+.thing h3 .dot{display:inline-block;width:.55em;height:.55em;border-radius:50%;margin-right:.3em;vertical-align:.08em;background:var(--c)}
+
+/* scribble -> booked slots */
+.scr{transition:opacity .35s, transform .45s cubic-bezier(.3,1.6,.5,1);transform-origin:120px 80px}
+.slots rect,.slots path,.slots circle,.slots text{transition:opacity .3s, transform .45s cubic-bezier(.3,1.6,.5,1);transform-box:fill-box;transform-origin:center}
+.slots>*{opacity:0;transform:scale(.4)}
+.sorted .scr{opacity:0;transform:scale(.6) rotate(-20deg)}
+.sorted .slots>*{opacity:1;transform:none}
+.slots>*:nth-child(2){transition-delay:.05s}.slots>*:nth-child(3){transition-delay:.1s}.slots>*:nth-child(4){transition-delay:.15s}
+.slots>*:nth-child(5){transition-delay:.2s}.slots>*:nth-child(6){transition-delay:.25s}.slots>*:nth-child(7){transition-delay:.3s}
+.slots>*:nth-child(n+8){transition-delay:.35s}
+.kidsfirst{opacity:0;transform:scale(.6) rotate(-8deg);transform-box:fill-box;transform-origin:center;transition:opacity .3s, transform .4s cubic-bezier(.3,1.6,.5,1)}
+.kids-on .kidsfirst{opacity:1;transform:rotate(-6deg)}
+.fixed-note{opacity:0;transition:opacity .4s}
+.is-fixed .fixed-note{opacity:1}
+@media (prefers-reduced-motion: reduce){.scr,.slots>*,.kidsfirst{transition:none}}
+
+/* map */
+.mapgrid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:28px;align-items:start}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px 22px}
+.stat{display:flex;flex-direction:column;gap:2px;min-width:0}
+.stat b{font-family:var(--hand);font-size:46px;line-height:1;font-weight:800;color:var(--c,var(--ink));font-variant-numeric:tabular-nums}
+.stat span{font-size:16px;color:var(--ink-soft)}
+.mapbox{position:relative;min-width:0}
+.mapbox svg{display:block;width:100%;height:auto}
+.land{fill:var(--card);stroke:var(--ink);stroke-width:3;stroke-linejoin:round}
+.hood{fill:var(--ink-soft);font-family:var(--hand);font-size:22px;font-weight:600;text-anchor:middle;pointer-events:none;opacity:.8}
+.site{cursor:pointer}
+.site .ring{fill:none;stroke:var(--ink);stroke-width:0;transition:stroke-width .15s}
+.site.sel .ring,.site:hover .ring,.site:focus-visible .ring{stroke-width:4}
+.site:focus{outline:none}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:8px;font-family:var(--hand);font-weight:600;font-size:16px;color:var(--ink);border:2.5px solid var(--ink);border-radius:999px;padding:5px 13px 6px;background:var(--card);cursor:pointer}
+.chip i{width:13px;height:13px;border-radius:50%;background:var(--c);display:inline-block}
+.chip i.x{background:none;border:2.5px solid var(--c);border-radius:3px;transform:rotate(45deg)}
+.chip i.dome{background:none;border:2.5px solid var(--c);border-bottom:0;border-radius:13px 13px 0 0;height:8px}
+.chip[aria-pressed="false"]{opacity:.4}
+.card{background:var(--card);border:3px solid var(--ink);border-radius:20px 26px 18px 28px / 26px 18px 28px 20px;padding:20px 22px;display:flex;flex-direction:column;gap:10px}
+.card .tag{align-self:flex-start;font-family:var(--hand);font-weight:700;font-size:15px;padding:2px 10px 3px;border-radius:999px;background:var(--c);color:var(--white)}
+.card .tag.dark{color:#1b1d3a}
+.card dl{display:grid;grid-template-columns:auto 1fr;gap:2px 14px;margin:0;font-size:16px}
+.card dt{color:var(--ink-soft)}.card dd{margin:0;font-weight:700}
+.side{display:flex;flex-direction:column;gap:18px;min-width:0}
+
+/* live check-ins */
+.live{display:flex;flex-direction:column;gap:10px;border-top:2.5px dashed var(--ink-soft);padding-top:12px}
+.live .now{font-family:var(--hand);font-weight:800;font-size:19px;line-height:1.2}
+.live .now.none{font-weight:600;font-size:16px;color:var(--ink-soft)}
+.live .row{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.live .lbl{font-family:var(--hand);font-weight:700;font-size:15px;min-width:7.5em}
+.step{display:inline-flex;align-items:center;gap:6px}
+.step button,.pick button{font-family:var(--hand);font-weight:700;font-size:15px;color:var(--ink);background:var(--card);border:2.5px solid var(--ink);border-radius:999px;padding:2px 11px 3px;cursor:pointer}
+.step b{font-family:var(--hand);font-size:18px;min-width:4.6em;text-align:center;font-variant-numeric:tabular-nums}
+.pick button[aria-pressed="true"]{background:var(--ball);color:#1b1d3a;border-color:#1b1d3a}
+.checkin{align-self:flex-start;font-size:16px;padding:7px 14px 8px;background:var(--green);color:var(--white);border-color:var(--green)}
+.bookline{font-size:15px}
+.bookline a{font-weight:700}
+.site .pulse{fill:none;stroke:var(--ball);stroke-width:5;opacity:.9}
+
+/* map card actions */
+.cardbtns{display:flex;flex-wrap:wrap;gap:8px}
+.reports{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.reports li{display:flex;gap:8px;align-items:center;font-family:var(--hand);font-weight:700;font-size:16px;line-height:1.25}
+.reports li span{font-weight:600;color:var(--ink-soft);font-size:14px}
+
+/* where to book */
+.bookgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px 44px;align-items:start}
+.bookcol{display:flex;flex-direction:column;gap:14px;min-width:0}
+.listing{background:var(--card);border:3px solid var(--ink);border-radius:16px 22px 14px 24px / 22px 14px 24px 16px;padding:16px 18px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.listing h4{margin:0;font-family:var(--hand);font-size:21px;font-weight:800;line-height:1.15;display:flex;gap:8px;align-items:center}
+.listing .where{font-size:15px;color:var(--ink-soft)}
+.listing p{font-size:16px}
+.listing a{font-weight:700}
+.parks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.parks li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;padding:10px 0;border-bottom:2px dashed var(--ink-soft)}
+.parks .nm{font-weight:700}
+.parks .bo{font-size:15px;color:var(--ink-soft)}
+.parks .ct{font-family:var(--hand);font-weight:700;font-size:16px;text-align:right;font-variant-numeric:tabular-nums;grid-row:span 2;align-self:center}
+.bk{display:inline-block;font-family:var(--hand);font-weight:800;font-size:13px;background:var(--band);color:var(--band-ink);border-radius:999px;padding:0 8px;margin-left:6px;vertical-align:2px}
+.dir{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+
+/* board extras */
+.rules{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:8px 28px;font-size:16px;max-width:none}
+.rules li{padding-left:24px;position:relative;color:var(--band-ink)}
+.rules li::before{content:"";position:absolute;left:0;top:.42em;width:12px;height:12px;border-radius:50%;background:var(--ball);border:2.5px solid var(--band-ink)}
+.pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.check{display:flex;gap:10px;align-items:center;font-family:var(--hand);font-weight:700;font-size:17px;color:var(--band-ink)}
+.check input{width:22px;height:22px;accent-color:var(--ink)}
+.field .opt{color:var(--band-ink)}
+.note .meta{font-family:var(--hand);font-weight:700;font-size:15px;color:var(--ink);line-height:1.3}
+.note .reach{font-size:15px;font-weight:700;color:var(--ink)}
+.note .fade{font-size:13px;color:var(--ink-soft)}
+.site .rep path{stroke:var(--ink)}
+
+/* McCarren */
+.mc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:28px 44px;align-items:start}
+.mc .copy{display:flex;flex-direction:column;gap:18px;min-width:0}
+.facts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.facts li{display:grid;grid-template-columns:88px 1fr;gap:12px;align-items:baseline}
+.facts b{font-family:var(--hand);font-size:30px;line-height:1;font-weight:800;color:var(--blue);min-width:2.6ch}
+.idea{opacity:0;transition:opacity .45s}
+.lotview.show-idea .idea{opacity:1}
+.lotview.show-idea .today-only{opacity:0}
+.today-only{transition:opacity .3s}
+.lotbtns{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+/* request band */
+.band{background:var(--band);color:var(--band-ink);margin-top:64px}
+.band .wrap{padding-block:56px 64px;display:flex;flex-direction:column;gap:32px}
+.band h2,.band p{color:var(--band-ink)}
+.band .small{color:var(--band-ink);opacity:.88}
+.reqgrid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:32px 48px;align-items:start}
+.form{display:flex;flex-direction:column;gap:16px;min-width:0}
+.field{display:flex;flex-direction:column;gap:6px;border:0;margin:0;padding:0;min-width:0}
+.field label,.field legend{font-family:var(--hand);font-weight:700;font-size:18px;color:var(--band-ink);padding:0}
+.field select,.field input,.field textarea{font:inherit;font-size:17px;color:var(--ink);background:var(--card);border:3px solid var(--ink);border-radius:12px 18px 14px 20px / 18px 12px 20px 14px;padding:10px 12px;width:100%}
+.field textarea{min-height:92px;resize:vertical}
+.field .opt{font-family:var(--text);font-weight:400;font-size:14px;opacity:.85}
+.needs{display:flex;flex-wrap:wrap;gap:8px}
+.need{position:relative;display:inline-flex}
+.need input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.need span{display:inline-flex;align-items:center;gap:6px;padding:4px 12px 5px 6px;background:var(--card);color:var(--ink);border:2.5px solid var(--ink);border-radius:999px;font-family:var(--hand);font-weight:700;font-size:15px;cursor:pointer;transition:transform .15s}
+.need span:hover{transform:rotate(-2deg)}
+.need input:checked + span{background:var(--ball);color:#1b1d3a;border-color:#1b1d3a}
+.need input:focus-visible + span{outline:3px dashed var(--band-ink);outline-offset:3px}
+.icon{width:28px;height:28px;flex:none;overflow:visible}
+.post{align-self:flex-start;background:var(--ball);color:#1b1d3a;border-color:#1b1d3a}
+.formmsg{font-family:var(--hand);font-weight:800;font-size:18px;color:var(--band-ink);min-height:1.5em}
+.board{display:flex;flex-direction:column;gap:14px;min-width:0}
+.board h3{color:var(--band-ink)}
+.notes{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;align-items:start}
+.note{background:var(--card);color:var(--ink);border:3px solid var(--ink);border-radius:16px 22px 14px 24px / 22px 14px 24px 16px;padding:14px 16px 12px;display:flex;flex-direction:column;gap:8px;transform:rotate(var(--r,0deg));min-width:0}
+.note .head{display:flex;align-items:center;gap:8px;font-family:var(--hand);font-weight:700;font-size:15px;color:var(--ink-soft)}
+.note h4{margin:0;font-family:var(--hand);font-weight:800;font-size:19px;line-height:1.15;text-wrap:balance}
+.band .note p{font-size:16px;line-height:1.45;color:var(--ink)}
+.note .foot2{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.note .who{font-size:14px;color:var(--ink-soft)}
+.flag{font-family:var(--hand);font-weight:700;font-size:13px;color:var(--red);border:2px dashed var(--red);border-radius:8px;padding:0 6px}
+.metoo{display:inline-flex;gap:6px;align-items:center;font-family:var(--hand);font-weight:700;font-size:15px;color:var(--ink);border:2.5px solid var(--ink);border-radius:999px;background:var(--card);padding:3px 12px 4px;cursor:pointer}
+.metoo[aria-pressed="true"]{background:var(--ball);color:#1b1d3a;border-color:#1b1d3a}
+.bandchips .chip[aria-pressed="false"]{opacity:1}
+.bandchips .chip[aria-pressed="true"]{background:var(--ball);color:#1b1d3a;border-color:#1b1d3a}
+.empty{font-family:var(--hand);font-size:18px;font-weight:600;color:var(--band-ink)}
+.ask{align-self:flex-start;font-size:17px;padding:8px 14px 9px}
+.reqline{font-size:15px;color:var(--ink-soft)}
+
+/* ten-year goal */
+.goal{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:28px 44px;align-items:center}
+.goal .copy{display:flex;flex-direction:column;gap:16px;min-width:0}
+.kicker{font-family:var(--hand);font-weight:800;font-size:18px;color:var(--red)}
+.stop text{transition:fill .2s}
+.stop circle{transition:fill .2s}
+.stop.on circle{fill:var(--ball)}
+.stop.on text{fill:var(--ink);font-weight:800}
+.won-only{opacity:0;transition:opacity .35s}
+.won .won-only{opacity:1}
+
+/* footer */
+.foot{padding-block:44px 56px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px 48px}
+.foot p{font-size:15px;color:var(--ink-soft)}
+.todo{display:inline-block;font-family:var(--hand);font-weight:700;font-size:14px;color:var(--red);border:2px dashed var(--red);border-radius:8px;padding:0 6px;margin-left:4px;vertical-align:1px}
+
+@media (max-width:860px){
+  .hero,.mapgrid,.mc,.reqgrid,.goal,.foot,.bookgrid{grid-template-columns:1fr}
+  .playground{height:250px}
+  .sec{padding-block:48px 16px}
+}
+</style>
+</head>
+<body>
+
+<!-- shared hand-drawn filters -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="wob" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="3" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="3.2" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="boil" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="1" result="n">
+        <animate attributeName="seed" values="1;5;9;13" dur=".48s" repeatCount="indefinite" calcMode="discrete"/>
+      </feTurbulence>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="3.6" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <symbol id="tball" viewBox="-30 -30 60 60">
+      <circle r="26" fill="var(--ball)" stroke="var(--ink)" stroke-width="3"/>
+      <path d="M-19,-18 C-6,-8 -6,8 -19,18 M19,-18 C6,-8 6,8 19,18" fill="none" stroke="var(--ink)" stroke-width="2.6" stroke-linecap="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="wrap top">
+  <a class="mark" href="#top" id="top">
+    <svg viewBox="-30 -30 60 60" aria-hidden="true"><g class="wob"><use href="#tball" x="-30" y="-30" width="60" height="60"/></g></svg>
+    Brooklyn Challenger
+  </a>
+  <nav aria-label="Sections">
+    <a href="#courts">Courts</a>
+    <a href="#book">Book</a>
+    <a href="#board">Board</a>
+    <a href="#stringing">Stringing</a>
+    <a href="#mccarren">McCarren</a>
+    <a href="#goal">The goal</a>
+  </nav>
+</header>
+
+<main>
+<section class="wrap hero">
+  <div class="copy">
+    <h1>Tennis for all of <span class="hi">Brooklyn</span>.</h1>
+    <p class="lede">New York hosts the biggest tennis tournament on earth, and it's the hardest place to play tennis. Brooklyn Challenger is working on three things: court time you can count on, real hours for kids, and courts nobody has fixed in years.</p>
+    <div class="ctas">
+      <a class="btn go" href="#courts">See every court</a>
+      <a class="btn" href="#board">Post on the board</a>
+    </div>
+  </div>
+  <div class="pgcol">
+  <button class="playground widget" id="pg" type="button" aria-label="Mini rally: press to hit the ball back after it bounces once">
+    <svg class="court" id="pgsvg" aria-hidden="true"></svg>
+    <span class="rally" id="rally" aria-live="polite">Rally <b id="rallyN">0</b></span>
+    <svg class="ball" id="ball" viewBox="-30 -30 60 60" aria-hidden="true"><g class="wob"><use href="#tball" x="-30" y="-30" width="60" height="60"/></g></svg>
+    <span class="tapme" id="tapme"></span>
+  </button>
+  <div class="lb" id="lb" hidden>
+    <button class="lb-toggle" id="lbToggle" type="button" aria-expanded="false" aria-controls="lbList">
+      <svg class="cup wob" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3.5h10v4.5a5 5 0 0 1-10 0z M7 5H4.2c0 3 1.2 4.6 3.3 5 M17 5h2.8c0 3-1.2 4.6-3.3 5 M12 13v4 M8.5 20.5h7 M9.5 17.5h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span id="lbLead">Top rallies</span><span class="caret" aria-hidden="true">&#9662;</span>
+    </button>
+    <ol class="lb-list" id="lbList" hidden></ol>
+    <form class="lb-sign" id="lbSign" hidden>
+      <span id="lbMsg"></span>
+      <input id="lbIni" maxlength="4" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="ABCD" aria-label="Your initials, two to four letters">
+      <button class="ok" type="submit">Sign</button>
+      <button class="no" type="button" id="lbNo">no thanks</button>
+      <span class="fine" id="lbFine">Two to four letters.</span>
+    </form>
+  </div>
+  </div>
+</section>
+
+<section class="wrap sec" id="work">
+  <div class="sec-head">
+    <h2>What we're working on</h2>
+    <p>We're an independent group working for every court in the borough. McCarren is our first project. Tap the drawings.</p>
+  </div>
+  <div class="three">
+    <article class="thing">
+      <button class="widget" id="w-book" type="button" aria-pressed="false" aria-label="Sort out the scramble for courts">
+        <svg viewBox="0 0 260 170" aria-hidden="true"><g class="wob">
+          <g class="scr">
+            <path d="M48,96 C30,52 92,30 108,64 C122,96 66,118 70,82 C74,46 150,30 160,70 C168,104 108,120 116,86 C124,52 204,48 210,86 C216,120 150,132 146,104 C142,76 188,64 196,96 C204,128 120,148 92,128 C64,108 112,70 140,92 C168,114 96,140 70,120 C44,100 60,70 84,74" fill="none" stroke="var(--ink)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <use href="#tball" x="186" y="34" width="26" height="26"/><use href="#tball" x="30" y="118" width="22" height="22"/><use href="#tball" x="210" y="122" width="20" height="20"/>
+            <text x="22" y="30" font-family="var(--hand)" font-size="17" font-weight="700" fill="var(--red)">any courts free??</text>
+          </g>
+          <g class="slots">
+            <rect x="22" y="22" width="66" height="54" rx="9" fill="var(--card)" stroke="var(--ink)" stroke-width="3"/>
+            <rect x="97" y="22" width="66" height="54" rx="9" fill="var(--blue)" stroke="var(--ink)" stroke-width="3"/>
+            <rect x="172" y="22" width="66" height="54" rx="9" fill="var(--card)" stroke="var(--ink)" stroke-width="3"/>
+            <rect x="22" y="88" width="66" height="54" rx="9" fill="var(--card)" stroke="var(--ink)" stroke-width="3"/>
+            <rect x="97" y="88" width="66" height="54" rx="9" fill="var(--green)" stroke="var(--ink)" stroke-width="3"/>
+            <rect x="172" y="88" width="66" height="54" rx="9" fill="var(--card)" stroke="var(--ink)" stroke-width="3"/>
+            <text x="30" y="44" font-family="var(--hand)" font-size="15" font-weight="700" fill="var(--ink)">8 am</text>
+            <text x="105" y="44" font-family="var(--hand)" font-size="15" font-weight="700" fill="var(--white)">10 am</text>
+            <text x="180" y="44" font-family="var(--hand)" font-size="15" font-weight="700" fill="var(--ink)">12 pm</text>
+            <text x="30" y="110" font-family="var(--hand)" font-size="15" font-weight="700" fill="var(--ink)">2 pm</text>
+            <text x="105" y="110" font-family="var(--hand)" font-size="15" font-weight="700" fill="var(--white)">4 pm</text>
+            <text x="180" y="110" font-family="var(--hand)" font-size="15" font-weight="700" fill="var(--ink)">6 pm</text>
+            <path d="M112,56 l8,8 l16,-16" fill="none" stroke="var(--white)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <text x="105" y="133" font-family="var(--hand)" font-size="13" font-weight="700" fill="var(--white)">kids</text>
+            <path d="M34,60 l7,7 l14,-14 M184,126 l7,7 l14,-14" fill="none" stroke="var(--green)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <text x="22" y="164" font-family="var(--hand)" font-size="16" font-weight="700" fill="var(--blue)">booked before you walk over</text>
+          </g>
+        </g></svg>
+      </button>
+      <span class="hint" id="h-book">Tap to sort it out</span>
+      <h3><span class="dot" style="--c:var(--blue)"></span>Court time you can count on</h3>
+      <p>Right now most people walk to a court and hope it's free. We're asking NYC Parks to put more Brooklyn courts on online booking, keep the yearly permit price the same, and publish when courts are free so anyone can see it. Until then, players can check in on our map.</p>
+    </article>
+
+    <article class="thing">
+      <button class="widget" id="w-kids" type="button" aria-pressed="false" aria-label="Show kids' hours on the clock">
+        <svg viewBox="0 0 260 170" aria-hidden="true"><g class="wob">
+          <circle cx="110" cy="86" r="72" fill="var(--card)" stroke="var(--ink)" stroke-width="3.4"/>
+          <path id="wedge-outline" d="" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-dasharray="6 6"/>
+          <path id="wedge" d="" fill="var(--green)" opacity=".85"/>
+          <g id="ticks" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"></g>
+          <g font-family="var(--hand)" font-size="17" font-weight="800" fill="var(--ink)" text-anchor="middle">
+            <text x="110" y="38">12</text><text x="164" y="92">3</text><text x="110" y="146">6</text><text x="57" y="92">9</text>
+          </g>
+          <line id="hHour" x1="110" y1="86" x2="110" y2="50" stroke="var(--ink)" stroke-width="6" stroke-linecap="round"/>
+          <line id="hMin" x1="110" y1="86" x2="110" y2="30" stroke="var(--red)" stroke-width="4" stroke-linecap="round"/>
+          <circle cx="110" cy="86" r="5.5" fill="var(--ink)"/>
+          <g class="kidsfirst">
+            <rect x="170" y="10" width="84" height="44" rx="10" fill="var(--ball)" stroke="var(--ink)" stroke-width="3"/>
+            <text x="212" y="30" font-family="var(--hand)" font-size="15" font-weight="800" fill="#1b1d3a" text-anchor="middle">4 to 6 pm</text>
+            <text x="212" y="47" font-family="var(--hand)" font-size="15" font-weight="800" fill="#1b1d3a" text-anchor="middle">kids first</text>
+          </g>
+        </g></svg>
+      </button>
+      <span class="hint" id="h-kids">Tap the clock</span>
+      <h3><span class="dot" style="--c:var(--green)"></span>Kids get the courts after school</h3>
+      <p>Kids are in school all day. We're asking for weekday kids' hours from 4 to 6 pm, when juniors get the courts first.</p>
+    </article>
+
+    <article class="thing">
+      <button class="widget" id="w-fix" type="button" aria-pressed="false" aria-label="Resurface the old court">
+        <svg viewBox="0 0 260 170" aria-hidden="true">
+          <defs><clipPath id="fresh"><rect id="freshRect" x="18" y="22" width="0" height="122"/></clipPath></defs>
+          <g class="wob">
+            <rect x="18" y="22" width="224" height="122" rx="4" fill="var(--worn)" stroke="var(--ink)" stroke-width="3"/>
+            <g fill="none" stroke="var(--white)" stroke-width="2.2" opacity=".45" stroke-dasharray="14 9">
+              <rect x="34" y="36" width="192" height="94"/><line x1="130" y1="36" x2="130" y2="130"/><line x1="34" y1="48" x2="226" y2="48"/><line x1="34" y1="118" x2="226" y2="118"/><line x1="78" y1="48" x2="78" y2="118"/><line x1="182" y1="48" x2="182" y2="118"/><line x1="78" y1="83" x2="182" y2="83"/>
+            </g>
+            <path d="M52,30 l14,22 l-8,16 l18,20 M178,140 l-10,-18 l12,-14 l-6,-20 l10,-12 M112,100 l16,8 l6,18 l14,6" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+            <g clip-path="url(#fresh)">
+              <rect x="18" y="22" width="224" height="122" rx="4" fill="var(--blue)" stroke="var(--ink)" stroke-width="3"/>
+              <g fill="none" stroke="var(--white)" stroke-width="3">
+                <rect x="34" y="36" width="192" height="94"/><line x1="130" y1="30" x2="130" y2="136"/><line x1="34" y1="48" x2="226" y2="48"/><line x1="34" y1="118" x2="226" y2="118"/><line x1="78" y1="48" x2="78" y2="118"/><line x1="182" y1="48" x2="182" y2="118"/><line x1="78" y1="83" x2="182" y2="83"/>
+              </g>
+            </g>
+            <g id="roller">
+              <rect x="-7" y="16" width="14" height="134" rx="7" fill="var(--red)" stroke="var(--ink)" stroke-width="3"/>
+              <path d="M0,16 C0,6 26,4 30,-10 L36,-30" fill="none" stroke="var(--ink)" stroke-width="3.5" stroke-linecap="round"/>
+            </g>
+            <text class="fixed-note" x="130" y="165" font-family="var(--hand)" font-size="16" font-weight="800" fill="var(--blue)" text-anchor="middle">good as new</text>
+          </g>
+        </svg>
+      </button>
+      <span class="hint" id="h-fix">Tap to resurface it</span>
+      <h3><span class="dot" style="--c:var(--red)"></span>Bring forgotten courts back</h3>
+      <p>Of the <span data-stat="total">257</span> courts we mapped, <span data-stat="fix">87</span> look like they need resurfacing and <span data-stat="aband">6</span> look abandoned. We want every one of them playable.</p>
+    </article>
+  </div>
+</section>
+
+<section class="wrap sec" id="courts">
+  <div class="sec-head">
+    <h2>Every court we could find in Brooklyn</h2>
+    <p>Park, school and private courts from NYC Parks and OpenStreetMap, each graded from a satellite photo against a well-kept public court: even two-tone surface, crisp lines, no bare patches. At a court right now? Tap it and tell everyone how busy it is.</p>
+  </div>
+  <div class="stats" id="stats"></div>
+  <div class="mapgrid">
+    <div class="mapbox">
+      <svg viewBox="0 0 900 1060" id="map" role="group" aria-label="Map of Brooklyn with a mark for each tennis court site">
+        <g class="wob"><path class="land" d="M839,952 834,954 819,965 813,965 806,955 803,934 809,919 815,915 825,904 839,910 849,927 847,938 839,952ZM581,857 586,858 597,866 612,890 612,903 606,906 602,906 590,887 576,877 572,871 570,863 576,858 581,857ZM889,871 877,877 869,879 852,876 852,873 842,861 839,853 846,842 849,840 859,843 878,844 887,849 896,862 889,871ZM822,833 819,837 816,836 818,831 822,830 822,833ZM822,806 814,813 815,805 819,804 822,806ZM810,816 804,827 804,817 797,806 795,791 800,793 804,797 810,816ZM898,781 902,782 901,789 902,793 900,794 903,796 901,796 900,798 898,797 894,799 892,803 885,807 885,809 880,808 883,811 880,812 877,810 879,809 878,803 875,801 876,798 873,798 870,790 872,789 875,794 885,794 888,792 891,793 888,788 892,789 892,785 894,784 895,786 898,781ZM899,715 903,720 907,720 904,726 898,729 896,733 884,733 882,735 878,734 870,737 869,732 866,733 870,726 876,723 879,725 879,730 884,732 892,731 894,730 894,724 889,717 891,718 892,714 894,714 896,715 899,713 899,715ZM845,711 840,715 838,714 837,711 839,711 839,709 842,711 845,709 845,711ZM814,751 791,760 772,760 765,755 764,741 768,731 773,725 825,685 831,688 833,695 832,701 825,712 825,717 830,723 831,731 828,744 823,748 814,751ZM886,662 888,667 892,669 890,672 883,669 877,674 869,675 865,675 861,672 865,658 876,657 880,652 889,652 886,662ZM917,643 910,658 904,662 900,662 901,650 905,642 910,625 917,622 920,630 926,634 923,640 917,643ZM423,17 434,20 459,31 456,40 457,46 459,46 458,40 463,32 466,33 465,39 468,34 478,40 484,47 490,65 497,74 512,81 538,88 544,97 545,103 555,132 558,131 559,138 557,142 542,147 540,146 536,150 537,158 524,163 528,166 529,170 522,174 525,183 519,185 520,187 526,185 530,198 533,200 527,182 531,180 527,180 526,177 533,174 530,165 531,163 542,159 540,153 543,150 559,145 564,149 566,154 558,161 560,168 570,175 573,186 577,189 572,196 618,232 613,239 623,247 618,253 652,279 645,288 665,304 663,307 670,324 666,326 688,359 698,342 705,352 717,343 719,348 726,341 742,333 746,326 765,306 790,288 814,282 816,285 815,289 827,362 836,359 839,379 844,378 853,426 865,424 874,470 861,473 865,493 853,496 840,504 842,508 839,512 842,520 850,523 867,552 862,570 867,592 845,597 824,614 826,617 823,614 821,615 815,609 806,585 803,582 797,581 766,526 764,528 794,581 794,591 808,615 809,621 818,626 810,632 812,629 811,627 795,636 788,634 776,622 770,620 761,608 760,605 762,606 763,602 756,599 753,592 747,587 741,590 737,590 729,578 728,567 723,566 717,558 716,560 713,558 712,561 723,578 720,572 724,572 724,570 725,571 726,573 723,573 726,574 725,578 729,582 726,583 729,583 734,591 746,599 765,625 769,624 769,629 776,638 771,647 746,669 747,675 744,677 751,685 746,689 740,681 737,684 734,682 729,684 715,697 710,708 704,714 692,720 606,668 598,662 595,663 592,666 596,672 653,706 647,699 660,708 657,708 659,710 661,708 658,713 661,713 663,717 667,718 669,724 680,723 688,726 692,736 687,751 690,768 698,771 706,772 713,778 711,782 699,786 699,788 701,789 709,786 712,781 719,786 716,793 708,800 709,798 707,800 705,812 702,814 679,823 671,821 667,812 670,794 665,788 665,785 660,784 665,792 659,784 661,783 659,784 658,782 660,783 660,782 639,759 641,757 638,758 639,755 637,757 638,755 637,753 631,750 632,752 630,752 633,756 631,753 630,756 635,760 630,756 631,753 628,756 652,781 652,783 656,786 656,786 657,789 661,792 664,820 648,825 644,817 635,817 632,815 627,819 634,831 622,834 609,831 595,814 597,803 595,802 596,798 595,802 596,803 594,802 598,792 605,785 603,771 608,767 607,765 597,773 599,772 600,774 599,772 597,773 600,774 597,774 599,777 596,774 600,784 589,794 590,799 591,797 590,802 590,799 587,804 589,806 587,804 585,805 589,809 588,810 585,805 583,807 588,812 587,812 583,807 582,808 606,838 609,838 609,840 610,838 610,841 612,838 610,841 612,842 614,839 612,842 619,842 614,841 619,840 614,839 622,840 619,841 622,842 619,842 622,843 622,840 630,839 623,840 623,842 629,842 623,843 627,843 630,845 636,841 652,839 655,841 663,836 675,834 692,837 706,835 728,823 741,824 745,822 751,830 748,838 755,859 763,903 766,902 763,903 764,907 766,910 768,910 766,911 768,927 778,946 764,975 755,978 755,981 735,987 712,988 692,995 688,981 686,956 680,943 680,935 677,930 673,932 676,929 672,927 666,931 671,928 668,927 662,931 652,934 642,927 639,930 642,933 622,940 619,939 617,935 617,923 619,909 617,889 614,883 603,867 603,864 600,860 594,858 586,851 581,850 572,845 567,848 562,857 559,857 537,838 538,832 535,833 534,831 532,833 530,831 525,839 530,845 533,848 536,848 538,852 541,853 541,851 546,855 567,876 572,885 579,887 589,897 597,908 604,913 605,922 593,930 589,937 584,940 578,939 576,942 569,939 558,941 547,929 545,931 547,927 543,929 546,926 544,927 546,926 545,923 562,908 561,907 559,908 541,924 542,921 539,922 541,920 538,922 540,920 534,919 532,914 533,900 536,896 534,897 535,895 536,896 535,891 534,894 532,892 532,890 533,892 534,891 533,889 529,890 530,888 528,888 526,889 531,888 523,886 522,890 529,903 528,904 530,904 527,907 529,918 531,922 534,921 532,923 533,925 536,924 533,925 536,930 528,931 529,934 541,933 543,935 543,940 547,939 546,937 547,940 556,948 579,948 600,938 610,939 614,942 615,955 605,959 603,956 598,958 593,956 601,961 606,961 607,959 611,958 612,958 612,959 613,957 617,958 620,962 619,965 603,966 560,954 536,955 529,959 526,957 526,958 524,958 525,957 515,958 509,956 508,957 507,956 507,958 505,958 506,957 504,956 503,956 504,958 500,957 503,957 502,955 497,955 498,957 495,955 495,957 492,955 486,955 488,957 486,957 486,955 484,957 482,954 477,954 480,957 476,954 475,954 477,957 473,955 474,957 472,955 470,955 472,957 468,954 469,956 465,954 467,956 463,954 464,956 460,954 462,956 459,954 458,954 460,956 457,954 456,954 458,956 455,954 427,957 428,963 445,962 476,969 523,968 530,998 528,1002 512,1002 512,1004 505,1000 504,1003 477,1003 469,1001 468,1001 468,1004 467,1002 463,1002 461,1004 462,1005 431,1010 417,1010 414,1010 414,1013 413,1011 405,1011 402,1012 402,1015 402,1012 398,1012 365,1016 364,1018 360,1017 354,1018 355,1022 353,1019 346,1020 346,1024 344,1020 340,1020 336,1022 337,1026 335,1022 327,1024 327,1027 325,1024 319,1024 317,1025 317,1029 315,1028 317,1028 316,1025 313,1024 307,1026 309,1028 306,1025 297,1027 299,1028 293,1026 289,1027 291,1035 292,1035 291,1035 291,1039 290,1035 289,1035 290,1035 289,1027 259,1031 257,1032 257,1034 255,1032 247,1035 238,1034 237,1036 236,1034 227,1035 222,1033 211,1033 206,1034 205,1038 203,1025 193,1018 164,1011 160,1006 155,988 162,975 178,966 187,964 212,968 223,965 225,967 225,971 252,980 259,979 268,983 272,981 276,977 274,975 279,969 278,965 274,969 269,978 261,971 253,969 252,965 259,948 235,962 214,957 213,950 223,943 216,941 217,938 223,936 241,925 235,928 242,923 241,922 235,926 237,924 224,932 238,923 236,919 214,934 213,936 213,933 224,925 221,920 218,922 217,920 222,917 220,918 222,916 220,913 222,914 228,908 228,906 224,908 227,905 226,904 217,909 214,906 219,901 217,897 222,894 210,900 196,876 166,851 147,843 127,839 119,834 77,826 65,817 55,803 50,799 46,787 36,776 31,766 25,731 23,709 27,673 47,620 38,617 47,619 52,610 47,604 59,588 65,593 66,591 67,593 66,591 67,590 69,591 75,582 82,588 83,585 82,587 85,589 86,588 86,590 96,576 79,563 80,561 97,574 99,573 100,574 104,568 100,564 98,555 101,550 96,548 98,545 102,550 104,547 99,542 104,547 110,547 99,538 116,550 118,549 119,547 113,542 119,546 106,536 107,535 114,541 118,537 109,529 116,532 118,529 115,526 116,525 121,529 127,530 130,533 132,531 122,523 123,522 133,530 136,525 124,515 136,523 139,522 140,520 127,510 130,507 142,517 144,514 134,505 134,503 146,512 149,508 135,497 144,489 161,500 164,496 151,485 157,482 175,497 181,490 167,479 171,474 175,473 187,483 189,480 195,485 186,477 188,475 197,482 199,480 194,477 193,479 190,476 192,475 191,474 190,476 187,474 189,473 180,465 181,466 182,464 185,466 183,468 184,469 185,467 188,469 187,471 189,466 189,470 198,477 199,476 194,471 195,469 191,466 193,463 210,476 217,467 201,455 207,453 212,448 215,449 219,443 221,436 220,424 213,441 210,440 208,443 205,442 201,450 188,446 183,457 193,429 190,428 180,451 179,451 182,442 170,442 162,463 143,466 138,465 133,459 130,431 126,424 135,427 139,464 142,464 142,461 159,459 167,439 165,438 165,435 162,435 162,430 150,435 161,430 150,425 145,429 151,422 150,421 143,427 155,414 154,412 146,421 140,416 148,407 146,405 132,422 129,420 136,412 134,409 132,410 133,402 131,401 131,403 128,403 130,398 132,398 133,394 124,394 124,391 128,391 127,386 131,386 131,383 125,383 131,382 130,379 125,380 127,375 156,352 159,356 150,363 153,366 151,367 155,371 171,354 166,347 160,350 178,336 183,334 188,336 201,311 210,312 212,309 206,302 207,299 217,273 220,271 227,252 239,232 238,231 240,227 251,225 252,228 256,229 259,223 268,226 268,222 270,222 276,223 277,221 290,219 302,221 302,217 308,218 310,217 310,219 311,218 312,220 313,217 311,216 314,217 313,224 315,227 319,228 317,234 319,235 323,224 325,225 320,236 324,240 327,235 324,241 331,243 326,255 327,255 333,245 341,252 335,244 337,243 347,253 348,253 337,238 339,236 353,251 354,250 339,233 340,232 355,245 356,242 341,230 347,232 347,230 331,216 332,215 336,218 340,216 331,207 332,205 347,218 347,211 339,200 341,198 351,211 350,220 351,221 351,223 363,232 363,229 355,222 355,210 352,205 352,197 354,191 351,190 355,187 352,185 355,185 359,175 357,173 364,151 369,143 374,137 373,132 374,130 377,132 385,118 390,103 388,101 392,101 405,106 407,104 405,100 397,100 396,97 390,97 393,80 387,48 398,30 405,24 411,19 423,17Z"/></g>
+        <g id="hoods">
+          <text class="hood" x="447" y="45">Greenpoint</text><text class="hood" x="384" y="162">Williamsburg</text>
+          <text class="hood" x="441" y="315">Bed-Stuy</text><text class="hood" x="549" y="249">Bushwick</text>
+          <text class="hood" x="725" y="412">East New York</text><text class="hood" x="318" y="414">Park Slope</text>
+          <text class="hood" x="411" y="601">Flatbush</text><text class="hood" x="82" y="686">Bay Ridge</text>
+          <text class="hood" x="282" y="1003">Coney Island</text><text class="hood" x="705" y="591">Canarsie</text>
+        </g>
+        <g id="sites"></g>
+      </svg>
+    </div>
+    <div class="side">
+      <div class="chips" id="chips" aria-label="Show or hide court types"></div>
+      <div class="card" id="detail" aria-live="polite"></div>
+      <p class="small">Each grade comes from one undated satellite photo, so treat it as a lead to check in person. Cracks and dead spots don't show from above, so the real number needing work is likely higher. Courts under winter bubbles can't be seen from above.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap sec" id="book">
+  <div class="sec-head">
+    <h2>Where you can book a court</h2>
+    <p>Most Brooklyn courts are first come, first served. These are the ways to book ahead, with prices as each one posts them. Checked November 4, 2026.</p>
+  </div>
+  <div class="bookgrid">
+    <div class="bookcol">
+      <h3>Winter bubbles in Brooklyn</h3>
+      <p class="small">Private operators put domes over Parks courts for the cold months and charge by the hour, under licenses from NYC Parks.</p>
+      <article class="listing">
+        <h4><svg class="icon" viewBox="0 0 40 40" aria-hidden="true"><g class="wob"><path d="M4,32 A16,16 0 0 1 36,32 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M2,33 H38" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></g></svg>Prospect Park Tennis Center</h4>
+        <span class="where">Parade Ground, Coney Island Ave and Parkside Ave</span>
+        <p>Indoor season October 19, 2026 to May 2, 2027, open 6 am to 11 pm. $44 to $92 an hour depending on the day and time; weekend mornings cost the most. Book up to 7 days ahead, with 24 hours' notice to cancel.</p>
+        <a href="https://www.prospectpark.org/visit-the-park/places-to-go/tennis-center/outdoor-tennis-information/" target="_blank" rel="noopener">Hours, rates and booking →</a>
+      </article>
+      <article class="listing">
+        <h4><svg class="icon" viewBox="0 0 40 40" aria-hidden="true"><g class="wob"><path d="M4,32 A16,16 0 0 1 36,32 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M2,33 H38" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></g></svg>McCarren Tennis Center</h4>
+        <span class="where">McCarren Park, all seven courts</span>
+        <p>Under the bubble from the day after Columbus Day to late April. About $50 to $100 an hour on the 2026 rate sheet. Parks' license for the bubble runs to 2031.</p>
+      </article>
+      <article class="listing">
+        <h4><svg class="icon" viewBox="0 0 40 40" aria-hidden="true"><g class="wob"><path d="M4,32 A16,16 0 0 1 36,32 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M2,33 H38" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></g></svg>MatchPoint NYC Bensonhurst</h4>
+        <span class="where">Bensonhurst Park, 9000 Bay Parkway</span>
+        <p>Eight courts under a bubble, run by MatchPoint NYC. Parks' license runs to 2034. Rates are on their site.</p>
+        <a href="https://matchpoint.nyc/our-clubs/bensonhurst/" target="_blank" rel="noopener">MatchPoint Bensonhurst →</a>
+      </article>
+    </div>
+    <div class="bookcol">
+      <h3>Outdoor courts you can book on NYC Parks</h3>
+      <p class="small">$15 per court per hour, plus a season or single-play permit. Up to 7 days ahead, never the same day, one booking per person per day. Every other court is walk-on.</p>
+      <ul class="parks">
+        <li><span class="nm">McCarren Park<span class="bk">Brooklyn</span></span><span class="ct">2 bookable<br>7 walk-on</span><span class="bo">May 4 to September 20. Parks' McCarren page currently says reservations are suspended.</span></li>
+        <li><span class="nm">Central Park</span><span class="ct">6 bookable<br>26 walk-on</span><span class="bo">Manhattan. Also books in person or by phone.</span></li>
+        <li><span class="nm">Riverside Park at 96 St</span><span class="ct">2 bookable<br>10 walk-on</span><span class="bo">Manhattan, with the Riverside Clay Tennis Association</span></li>
+        <li><span class="nm">Riverside Park at 119 St</span><span class="ct">2 bookable<br>10 walk-on</span><span class="bo">Manhattan</span></li>
+        <li><span class="nm">Randall's Island Park</span><span class="ct">4 bookable<br>8 walk-on</span><span class="bo">Manhattan, with Sportime</span></li>
+        <li><span class="nm">Queensborough Oval</span><span class="ct">2 bookable<br>6 walk-on</span><span class="bo">Manhattan, with Sutton East</span></li>
+        <li><span class="nm">Alley Pond Park</span><span class="ct">4 bookable<br>15 walk-on</span><span class="bo">Queens, with Commonpoint Tennis</span></li>
+        <li><span class="nm">Mill Pond Park</span><span class="ct">3 bookable<br>8 walk-on</span><span class="bo">The Bronx</span></li>
+      </ul>
+      <a class="btn" style="align-self:flex-start" href="https://www.nycgovparks.org/tennisreservation" target="_blank" rel="noopener">Book on NYC Parks →</a>
+    </div>
+  </div>
+</section>
+
+<section class="wrap sec" id="stringing">
+  <div class="sec-head">
+    <h2>Stringing and shops</h2>
+    <p>There's no tennis shop in North Brooklyn. Here is where Brooklyn players get racquets strung. Nobody paid to be listed. Know a stringer or shop we're missing? Post it on the board under "Something else."</p>
+  </div>
+  <div class="dir">
+    <article class="listing">
+      <h4>The Traveling Stringer</h4>
+      <span class="where">Brooklyn · a stringing truck that comes to the courts</span>
+      <p>Weekly stops: McCarren Park Tuesday and Thursday, 9 am to noon. Prospect Park Tennis Center Monday and Wednesday, 9 am to noon. Fort Greene Park Friday, 9 am to noon. 209 Taaffe Place every day, 4 to 7 pm.</p>
+      <p>Back within 3 days, or the same day for $10 more. $30 labor with your own strings. The winter schedule can differ.</p>
+      <a href="https://thetravelingstringer.com/" target="_blank" rel="noopener">thetravelingstringer.com →</a>
+    </article>
+    <article class="listing">
+      <h4>NYC Racquet Sports</h4>
+      <span class="where">Midtown Manhattan, 157A West 35th St, plus a stringing counter in Grand Central</span>
+      <p>Full racquet shop with same-day stringing. Their courier now picks up and drops off in Greenpoint and Williamsburg.</p>
+      <a href="https://www.nycracquetsports.com/" target="_blank" rel="noopener">nycracquetsports.com →</a>
+    </article>
+    <article class="listing">
+      <h4>Tennis Lab FX</h4>
+      <span class="where">Midtown Manhattan, 235 East 51st St</span>
+      <p>Stringing and racquet customization, about 48 hours. Same-day or next-day rush when the queue allows, and mail-in from anywhere.</p>
+      <a href="https://tennislabfx.com/" target="_blank" rel="noopener">tennislabfx.com →</a>
+    </article>
+  </div>
+</section>
+
+
+
+<section class="band" id="board">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>The board</h2>
+      <p>Ask Parks for something, warn people about a court, find someone to hit with, or get a group together. It's the Brooklyn tennis noticeboard.</p>
+    </div>
+    <ul class="rules">
+      <li>A moderator reads every post before it goes up.</li>
+      <li>Posts are about courts and tennis, not people. Be kind.</li>
+      <li>Hitter and event posts are for adults. Under 18? Ask a parent to post.</li>
+      <li>No selling and no private messages. Add a handle if you want people to reach you.</li>
+      <li>Problem reports fade after 3 days unless someone confirms them. Hitter and event posts come down after their day.</li>
+    </ul>
+    <div class="reqgrid">
+      <form class="form" id="postform" novalidate>
+        <fieldset class="field">
+          <legend>What are you posting?</legend>
+          <div class="needs" id="p-types"></div>
+        </fieldset>
+        <div class="field">
+          <label for="p-court">Which court?</label>
+          <select id="p-court"><option value="">Choose a court</option></select>
+        </div>
+        <div class="field" id="p-where-wrap" hidden>
+          <label for="p-where">Where is it?</label>
+          <input id="p-where" type="text" maxlength="80" placeholder="Park name or cross streets">
+        </div>
+        <fieldset class="field" data-for="request">
+          <legend>What does it need?</legend>
+          <div class="needs" id="p-needs"></div>
+        </fieldset>
+        <fieldset class="field" data-for="report" hidden>
+          <legend>What's wrong?</legend>
+          <div class="needs" id="p-probs"></div>
+        </fieldset>
+        <div class="field" data-for="event" hidden>
+          <label for="p-title">Name your event</label>
+          <input id="p-title" type="text" maxlength="60" placeholder="Saturday doubles round robin">
+        </div>
+        <div class="pair" data-for="hitter event" hidden>
+          <div class="field"><label for="p-date">Day</label><input id="p-date" type="date"></div>
+          <div class="field"><label for="p-part">Time of day</label><select id="p-part"></select></div>
+        </div>
+        <div class="pair" data-for="hitter" hidden>
+          <div class="field"><label for="p-level">Your level</label><select id="p-level"></select></div>
+          <div class="field"><label for="p-play">Play</label><select id="p-play"></select></div>
+        </div>
+        <div class="field" data-for="event" hidden>
+          <label for="p-who">Who's it for?</label>
+          <select id="p-who"></select>
+        </div>
+        <div class="field">
+          <label for="p-text">Tell us more <span class="opt">(optional)</span></label>
+          <textarea id="p-text" maxlength="280" placeholder="What's going on?"></textarea>
+        </div>
+        <div class="field">
+          <label for="p-name">Sign it <span class="opt">(optional, shown on the board)</span></label>
+          <input id="p-name" type="text" maxlength="30" placeholder="First name or initials" autocomplete="given-name">
+        </div>
+        <div class="field" data-for="hitter event" hidden>
+          <label for="p-contact">How people reach you <span class="opt">(optional, public: never a phone number or address)</span></label>
+          <input id="p-contact" type="text" maxlength="40" placeholder="Instagram handle">
+        </div>
+        <div class="field" data-for="request report">
+          <label for="p-email">Email <span class="opt">(optional, only we see it)</span></label>
+          <input id="p-email" type="email" maxlength="120" placeholder="So we can tell you what happens" autocomplete="email">
+        </div>
+        <label class="check" data-for="hitter event" hidden><input type="checkbox" id="p-adult"> I'm 18 or older</label>
+        <button class="btn post" type="submit">Post it</button>
+        <p class="formmsg" id="formmsg" aria-live="polite"></p>
+        <p class="small">Emails are never shown or shared. Under 13? Ask a grown-up to post with you.</p>
+      </form>
+      <div class="board">
+        <h3>On the board now</h3>
+        <div class="chips bandchips" id="typefilter" aria-label="Filter the board"></div>
+        <div class="notes" id="notes"></div>
+        <p class="small">Posts show up here once the moderator has read them.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="wrap sec" id="mccarren">
+  <div class="mc">
+    <div class="copy">
+      <h2>First up: <span class="hi">McCarren Park</span></h2>
+      <p>Next to McCarren's seven courts sits about 78,000 square feet of asphalt. NYC Parks is designing it now, from June 2026 to July 2027, with a stormwater tank planned underneath. At Parks' May workshop, more tennis courts were among the most-requested uses.</p>
+      <ul class="facts">
+        <li><b>9</b><span>NYC Parks courts for about 325,000 people in North Brooklyn</span></li>
+        <li><b>7</b><span>of those 9 are paid courts from October to April, $50 to $100 an hour</span></li>
+        <li><b>+31k</b><span>people added in Community District 1 from 2010 to 2020, and no courts added</span></li>
+      </ul>
+      <p class="small">In 2026 the McCarren Tennis Association lit all seven courts with $300,000 raised from neighbors and USTA grants.</p>
+    </div>
+    <div class="lotview" id="lotview">
+      <button class="widget" id="w-lot" type="button" aria-pressed="false" aria-label="Show our idea for the lot">
+        <svg viewBox="0 0 380 290" aria-hidden="true"><g class="wob">
+          <g id="seven"></g>
+          <text x="20" y="20" font-family="var(--hand)" font-size="16" font-weight="700" fill="var(--ink-soft)">today's 7 courts</text>
+          <rect x="16" y="96" width="348" height="176" rx="10" fill="none" stroke="var(--ink)" stroke-width="3" stroke-dasharray="10 8"/>
+          <g class="today-only">
+            <text x="190" y="176" font-family="var(--hand)" font-size="26" font-weight="800" fill="var(--ink)" text-anchor="middle">the lot</text>
+            <text x="190" y="204" font-family="var(--hand)" font-size="17" font-weight="600" fill="var(--ink-soft)" text-anchor="middle">asphalt, being redesigned now</text>
+            <text x="300" y="150" font-family="var(--hand)" font-size="44" font-weight="800" fill="var(--red)">?</text>
+          </g>
+          <g class="idea">
+            <rect x="26" y="106" width="328" height="70" rx="8" fill="var(--green)" opacity=".25"/>
+            <rect x="150" y="122" width="80" height="38" rx="8" fill="var(--ball)" stroke="var(--ink)" stroke-width="2.6"/>
+            <text x="190" y="146" font-family="var(--hand)" font-size="13" font-weight="800" fill="#1b1d3a" text-anchor="middle">flex pad</text>
+            <text x="40" y="146" font-family="var(--hand)" font-size="15" font-weight="700" fill="var(--green)">lawn</text>
+            <ellipse cx="66" cy="226" rx="50" ry="40" fill="var(--green)" opacity=".55"/>
+            <g id="four"></g>
+            <rect x="296" y="186" width="58" height="78" rx="8" fill="none" stroke="var(--ink)" stroke-width="2.6"/>
+            <text x="325" y="222" font-family="var(--hand)" font-size="13" font-weight="800" fill="var(--ink)" text-anchor="middle">dog</text>
+            <text x="325" y="238" font-family="var(--hand)" font-size="13" font-weight="800" fill="var(--ink)" text-anchor="middle">run</text>
+            <text x="66" y="284" font-family="var(--hand)" font-size="13" font-weight="700" fill="var(--ink-soft)" text-anchor="middle">show court</text>
+          </g>
+        </g></svg>
+      </button>
+      <div class="lotbtns">
+        <span class="hint" id="h-lot">Tap the lot to see our idea</span>
+      </div>
+      <p class="small" id="lotcap">Sketch, not to scale and not a Parks design. Our idea: resurface the seven, add four public courts with a show court, plus lawn, a flex pad and the dog run. It is one option we're bringing to Parks and Community Board 1.</p>
+    </div>
+  </div>
+</section>
+<section class="wrap sec goal" id="goal">
+  <div class="copy">
+    <p class="kicker">The ten-year goal</p>
+    <h2>A New York kid in the US Open quarterfinals</h2>
+    <p>The US Open is played in Queens every summer. By 2037 we want one of its quarterfinalists to be a player who learned the game on New York's public courts.</p>
+    <p>That starts small: courts a kid can get on, after-school hours, junior tournaments close to home, and a pro event in Brooklyn they can watch.</p>
+  </div>
+  <div class="thing">
+    <button class="widget" id="w-goal" type="button" aria-label="Move up the draw toward 2037">
+      <svg viewBox="0 0 390 330" aria-hidden="true"><g class="wob">
+        <g id="goalpath" fill="none" stroke="var(--ink-soft)" stroke-width="3" stroke-dasharray="7 8" stroke-linecap="round"></g>
+        <g id="stops"></g>
+        <!-- Lady Liberty with a racquet -->
+        <rect x="262" y="276" width="96" height="40" rx="4" fill="var(--card)" stroke="var(--ink)" stroke-width="3"/>
+        <path d="M268,276 L276,262 H344 L352,276" fill="var(--card)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M286,176 C280,206 276,236 272,262 H348 C344,236 338,206 332,176 C318,168 300,168 286,176 Z" fill="var(--green)" fill-opacity=".45" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M298,182 C296,210 294,236 292,260 M312,184 C312,212 312,238 312,260 M324,182 C326,210 328,236 330,260" fill="none" stroke="var(--ink)" stroke-width="2" opacity=".55"/>
+        <circle cx="309" cy="152" r="15" fill="var(--green)" fill-opacity=".45" stroke="var(--ink)" stroke-width="3"/>
+        <path d="M294,142 L282,128 M300,138 L294,120 M309,136 L309,116 M318,138 L324,120 M324,142 L336,128" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+        <path d="M290,180 C284,160 280,128 278,104" fill="none" stroke="var(--ink)" stroke-width="7" stroke-linecap="round"/>
+        <path d="M290,180 C284,160 280,128 278,104" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+        <path d="M278,104 L274,84" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/>
+        <ellipse cx="270" cy="60" rx="16" ry="22" fill="var(--card)" stroke="var(--red)" stroke-width="4.5"/>
+        <path d="M262,44 V76 M270,39 V81 M278,44 V76 M256,52 H284 M255,60 H285 M256,68 H284" stroke="var(--ink-soft)" stroke-width="1.4"/>
+        <g transform="rotate(-12 336 212)">
+          <rect x="321" y="190" width="32" height="40" rx="3" fill="var(--card)" stroke="var(--ink)" stroke-width="3"/>
+          <text x="337" y="214" font-family="var(--hand)" font-size="10" font-weight="800" fill="var(--ink)" text-anchor="middle">2037</text>
+        </g>
+        <g class="won-only">
+          <path d="M252,30 L246,24 M270,26 V14 M290,30 L298,22 M296,58 H308" stroke="var(--ball)" stroke-width="4" stroke-linecap="round"/>
+          <text x="240" y="36" font-family="var(--hand)" font-size="30" font-weight="800" fill="var(--blue)" text-anchor="end">2037</text>
+          <text x="240" y="56" font-family="var(--hand)" font-size="15" font-weight="700" fill="var(--ink)" text-anchor="end">quarterfinals</text>
+        </g>
+        <g id="goalball"><use href="#tball" x="-13" y="-13" width="26" height="26"/></g>
+      </g></svg>
+    </button>
+    <span class="hint" id="h-goal">Tap to move up the draw</span>
+  </div>
+</section>
+</main>
+
+
+
+<footer class="wrap foot">
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <p class="hand" style="font-size:22px;font-weight:800;color:var(--ink)">Brooklyn Challenger</p>
+    <p>An independent group working for Brooklyn tennis.</p>
+    <p>Nothing on this site is an NYC Parks design or position.</p>
+  </div>
+  <p>Sources: NYC Parks tennis directory and capital project tracker (project 10971, McCarren Park Multipurpose Play Area); OpenStreetMap; NYC property records; Brownstoner on Parks' May 2026 workshop; McCarren Tennis Association; 2020 Census community district profiles. Court grades are our reading of satellite imagery.</p>
+</footer>
+
+<script>
+const SITES = [["McCarren Park","p","c",7,423,122,"Seven courts under the winter bubble. Parks lists two more as removed."],["Cooper Park","p","w",2,506,157,"Blue surface faded and uneven."],["Grand Street Campus (high school)","s","g",5,494,185,""],["De Hostos Playground","p","w",3,447,236,"Bare, faded surface; lines hard to see."],["School yard, 34 North Portland Ave","s","w",1,323,268,"One tennis-size court, lines faded on bare asphalt."],["Marcy Playground","p","w",1,434,281,"Dark, faded surface."],["School playground, 190 Woodbine St","s","g",1,599,294,"One painted court, tennis size."],["Franklin K. Lane Campus, 985 Jamaica Ave","s","g",4,809,296,""],["Ashland Place Houses rooftop, 147 Ashland Pl","o","a",3,313,304,"Three rooftop courts with the surface peeling away."],["Rooftop court by Ashland Pl and DeKalb Ave","o","w",2,310,309,"Two rooftop courts inside a running track, tennis size, surface damaged."],["Fort Greene Park","p","g",6,327,310,""],["Van Voorhees Playground","p","w",2,215,314,"Dull, faded surface."],["Playground at Adelphi St and DeKalb Ave","p","w",3,345,319,"Faded green surface. Three courts."],["Playground, 364 Warren St","p","w",1,258,345,"Lines painted on bare asphalt. One court."],["Highland Park","p","g",10,728,349,"Ten full courts. Eight more small kids' courts sit beside them and are not counted. Parks records list three as inactive; the satellite photo shows them resurfaced."],["South Oxford Park","p","g",2,342,352,""],["Decatur Playground","p","g",1,506,365,""],["Jackie Robinson Park Playground","p","g",4,544,372,""],["Boys and Girls High School, 1700 Fulton St","s","g",1,531,382,""],["Boys and Girls High School, west yard","s","w",1,522,382,"One dark, faded court, tennis size."],["Sperandeo Brothers Playground","p","g",3,742,393,""],["Robert E. Venable Park","p","g",1,828,405,""],["Lincoln Terrace / Arthur S. Somers Park","p","g",11,556,453,""],["Old Boys High Field, 708 Maple St","s","g",3,509,490,""],["Spring Creek campus, 12524 Flatlands Ave","s","g",2,803,500,""],["Linden Park","p","w",8,733,503,"Dark, faded surface on all eight courts."],["Parade Ground","p","c",11,351,546,"Courts under the winter bubble (Prospect Park Tennis Center); not visible from above."],["School playground, 1410 Caton Ave","s","g",1,367,558,"One painted court, tennis size."],["Knickerbocker Field Club, 114 East 18th St","o","g",5,382,568,"Private club, five courts."],["Tilden Playground","p","g",1,529,569,""],["Canarsie Educational Campus","s","g",4,672,609,""],["Housing complex, 1455 East 108th St","o","w",1,756,615,"One dark court between buildings, tennis size, lines faint."],["Leif Ericson Park","p","g",9,149,660,"Nine courts."],["School yard, 1037 East 54th St","s","w",2,563,664,"Two tennis-size courts, faded lines on asphalt."],["Brooklyn College","o","w",6,423,673,"Grey-green surface, faded. College courts, six."],["Housing courts, Ralph Ave at East 73rd St","o","w",2,590,684,"Two tennis-size courts end to end beside apartment buildings, lines faded."],["Fort Hamilton High School, 8301 Shore Rd","s","g",2,47,692,""],["McKinley Park","p","w",8,135,700,"Bare grey asphalt with painted lines."],["Midwood High School field, 1605 Avenue K","s","g",4,400,719,""],["McGuire Fields","p","w",3,678,735,"Pale surface; lines almost gone."],["Friends Field","p","g",2,341,744,""],["Poly Prep Country Day School","o","g",6,105,777,"Private school, six courts."],["Shore Park and Parkway","p","w",4,46,780,"Dark, faded surface."],["J.J. Carty Park","p","g",8,73,782,"Eight courts mapped; the Parks directory lists ten."],["School playground, 1528 East 23rd St","s","g",3,437,783,"Three painted courts, tennis size."],["School, 1400 Benson Ave","s","g",2,151,794,"Two courts."],["Marine Park","p","g",15,510,804,""],["Dyker Beach Park","p","w",9,138,819,"Stained grey and brown surface."],["Kelly Park Playground","p","w",7,408,827,"Patched surface with visible cracks."],["School playground, 400 East 2nd St","s","g",2,350,838,"Two tennis-size courts inside a small track; one is partly painted over."],["McDonald Playground","p","w",7,343,854,"Dull, faded surface."],["Bensonhurst Park","p","c",8,207,884,"Courts under a bubble (indoor)."],["Lafayette Educational Complex, 2630 Benson Ave","s","a",3,280,897,"Tennis-size court lines on an asphalt lot, faded, with stored equipment on part of it. At least two courts readable."],["School yard, 2675 Nostrand Ave","s","w",2,489,925,"Two courts, faded paint on asphalt."],["John Dewey High School area, Avenue X","s","g",3,308,932,"Three courts, with more painted courts on the asphalt next door."],["Brooklyn Amity School, 2754 Knapp St","o","g",1,525,933,"Private school, one court, tennis size."],["Abraham Lincoln High School area, West 5th St","s","g",5,350,958,"Five courts."],["Kingsborough Community College","o","g",4,518,972,"College courts, four."],["Kaiser Park","p","g",12,240,985,"Parks lists twelve. Eight are full size; the rest look like small kids' courts."],["Manhattan Beach Park","p","w",6,490,990,"Dull surface in the satellite photo. The city reported rebuilding these courts in 2025, so the satellite photo may be out of date."],["Playground, Brighton Beach Ave","p","g",1,352,992,"One painted court inside a small track, tennis size."]];
+const COUNTER_URL = 'https://script.google.com/macros/s/AKfycbyDLrjiBOtzKYRDXPgv0ocFSoTcgqbfw7C4ejBtEiHyKUc4F2eBhs9uA6ydk0U7m6GC/exec';
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const NS = 'http://www.w3.org/2000/svg';
+const mk = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const store = { get(k){ try { return localStorage.getItem(k); } catch { return null; } }, set(k,v){ try { localStorage.setItem(k,v); } catch {} } };
+
+/* ---------- the site's shared data: /api/... (Netlify functions; see netlify/functions) ---------- */
+const DEVICE = (() => {
+  let d = store.get('bc-device');
+  if (!/^[0-9a-f]{32}$/.test(d || '')) { d = Array.from(crypto.getRandomValues(new Uint8Array(16)), b => b.toString(16).padStart(2, '0')).join(''); store.set('bc-device', d); }
+  return d;
+})();
+async function api(path, data) {
+  const opt = data ? { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ d: DEVICE, ...data }) } : { cache: 'no-store' };
+  for (let k = 0; k < 2; k++) {
+    let res, out = {};
+    try { res = await fetch('/api/' + path, opt); } catch { throw new Error("Can't reach the site right now. Check your connection and try again."); }
+    try { out = await res.json(); } catch {}
+    if (res.ok) return out;
+    if (res.status === 503 && k === 0) { await new Promise(r => setTimeout(r, 700)); continue; }
+    throw new Error(out.error || 'Something went wrong. Try again in a minute.');
+  }
+}
+const readJSON = (k, fallback) => { try { const v = JSON.parse(store.get(k)); return v == null ? fallback : v; } catch { return fallback; } };
+const visibleEvery = (fn, ms) => setInterval(() => { if (!document.hidden) fn(); }, ms);
+
+/* ---------- stats from the court data ---------- */
+const sum = f => SITES.filter(f).reduce((a, s) => a + s[3], 0);
+const ST = { total: sum(() => true), good: sum(s => s[2] === 'g'), fix: sum(s => s[2] === 'w' || s[2] === 'a'), aband: sum(s => s[2] === 'a'), dome: sum(s => s[2] === 'c'), sites: SITES.length };
+document.querySelectorAll('[data-stat]').forEach(e => e.textContent = ST[e.dataset.stat]);
+document.getElementById('stats').innerHTML = [
+  [ST.total, `tennis courts at ${ST.sites} sites`, 'var(--ink)'],
+  [ST.good, 'look in good shape', 'var(--green)'],
+  [ST.fix, `need resurfacing, ${ST.aband} of them look abandoned`, 'var(--red)'],
+  [ST.dome, 'sit under winter bubbles', 'var(--blue)']
+].map(([n, t, c]) => `<div class="stat" style="--c:${c}"><b>${n}</b><span>${t}</span></div>`).join('');
+
+/* ---------- hero rally ---------- */
+/* One button, both sides. A shot counts when it lands on the far side; hit it back after ONE bounce
+   (before the second). Tapping while the ball is still in the air is too early. The ball gets a little
+   faster with every shot, so long rallies get hard. */
+(() => {
+  const pg = document.getElementById('pg'), svg = document.getElementById('pgsvg'), ball = document.getElementById('ball');
+  const rallyEl = document.getElementById('rally'), tap = document.getElementById('tapme');
+  const R = 26, G = 1900;
+  const speedFor = n => Math.min(2.4, 1 + n * 0.035);   // 1x at the start, about 1.7x at 20 shots, 2.4x from 40 on
+  let W = 0, H = 0, ground = 0, netX = 0, netTop = 0;
+  let x = 0, y = 0, vx = 0, vy = 0, rot = 0, bounces = 0, rally = 0, running = false, last = 0, msgT = 0;
+  let phase = 'rest', toSide = 0, speed = 1, taught = false, queued = false;
+  let best = +(store.get('bc-best-rally-2') || 0);
+  function drawCourt() {
+    const r = pg.getBoundingClientRect(); W = r.width; H = r.height; ground = H - 30; netX = W / 2; netTop = ground - 56;
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.innerHTML = '';
+    const g = mk('g', { class: 'wob' }, svg);
+    mk('path', { d: `M6,${ground} L${W - 6},${ground}`, stroke: 'var(--blue)', 'stroke-width': 7, 'stroke-linecap': 'round', fill: 'none' }, g);
+    mk('path', { d: `M14,${ground + 14} L${W - 14},${ground + 14}`, stroke: 'var(--blue)', 'stroke-width': 3, 'stroke-linecap': 'round', fill: 'none', opacity: .5 }, g);
+    mk('path', { d: `M${netX},${ground} L${netX},${netTop - 4}`, stroke: 'var(--ink)', 'stroke-width': 5, 'stroke-linecap': 'round' }, g);
+    let mesh = '';
+    for (let yy = netTop + 10; yy < ground; yy += 10) mesh += `M${netX - 5},${yy} L${netX + 5},${yy} `;
+    mk('path', { d: mesh, stroke: 'var(--ink)', 'stroke-width': 1.6, fill: 'none', opacity: .7 }, g);
+    mk('path', { d: `M${netX - 9},${netTop} L${netX + 9},${netTop}`, stroke: 'var(--ink)', 'stroke-width': 5, 'stroke-linecap': 'round' }, g);
+    const lbl = (t, xx) => { const e = mk('text', { x: xx, y: ground + 26, 'text-anchor': 'middle', 'font-family': 'var(--hand)', 'font-size': 14, 'font-weight': 700, fill: 'var(--ink-soft)' }, svg); e.textContent = t; };
+    lbl('your side', W * .25); lbl('their side', W * .75);
+  }
+  function place() { ball.style.transform = `translate(${x - R}px, ${y - R}px) rotate(${rot}deg)`; }
+  function rest() { x = W * .74; y = ground - R; vx = vy = 0; place();
+    tap.style.left = (x - 118) + 'px'; tap.style.top = (y - 92) + 'px';
+    tap.innerHTML = `<svg width="110" height="70" viewBox="0 0 110 70"><g class="wob"><text x="4" y="22" font-family="var(--hand)" font-size="18" font-weight="700" fill="var(--red)">hit me!</text><path d="M44,30 C64,34 86,44 96,58 M84,56 L97,60 L95,46" fill="none" stroke="var(--red)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g></svg>`; }
+  function say(t, ms = 1700) { rallyEl.innerHTML = t; clearTimeout(msgT); msgT = setTimeout(show, ms); }
+  function show() { rallyEl.innerHTML = `Rally <b>${rally}</b>${best ? ` <span style="opacity:.6">· best ${best}</span>` : ''}`; }
+  function endRally(msg) {
+    const n = rally; rally = 0; phase = 'dead'; queued = false;
+    say(n ? `${msg} Rally over at <b>${n}</b>.` : msg, 2200);
+    if (n) document.dispatchEvent(new CustomEvent('bc:rally', { detail: n }));
+  }
+  function launch() {
+    const side = x < netX ? 1 : -1;
+    const target = netX + side * W * (0.16 + Math.random() * 0.26);
+    let apex = Math.max(110, 190 - rally * 1.5) + Math.random() * 40, vy0 = 0, t = 0;
+    for (let k = 0; k < 10; k++, apex += 30) {          // raise the arc until it clears the net
+      vy0 = Math.sqrt(2 * G * apex);
+      t = (vy0 + Math.sqrt(vy0 * vy0 + 2 * G * Math.max(0, (ground - R) - y))) / G;
+      const tn = (netX - x) / ((target - x) / t);
+      const yn = y - vy0 * tn + .5 * G * tn * tn;
+      if (yn + R < netTop - 6) break;
+    }
+    vx = (target - x) / t; vy = -vy0; bounces = 0; toSide = side; speed = speedFor(rally); phase = 'flight';
+    if (!running) { running = true; last = performance.now(); requestAnimationFrame(step); }
+  }
+  function onBounce() {
+    bounces++;
+    const sideNow = x < netX ? -1 : 1;
+    if (phase === 'flight') {
+      if (sideNow === toSide) {
+        phase = 'window'; rally++;
+        if (rally > best) { best = rally; store.set('bc-best-rally-2', best); }
+        show();
+        if (queued) { queued = false; launch(); }          // tapped a hair before the bounce: count it
+      } else endRally('Out.');
+    } else if (phase === 'window' && bounces >= 2) endRally('Two bounces.');
+  }
+  function step(now) {
+    const dt = Math.min(.032, (now - last) / 1000) * speed; last = now;
+    const px = x;
+    vy += G * dt; x += vx * dt; y += vy * dt; rot += vx * dt * 2.2;
+    if ((px - netX) * (x - netX) < 0 && y + R > netTop) { x = netX - Math.sign(vx) * (R + 3); vx = -vx * .3; if (phase === 'flight') endRally('Into the net.'); }
+    if (x - R < 0) { x = R; vx = -vx * .6; }
+    if (x + R > W) { x = W - R; vx = -vx * .6; }
+    if (y + R >= ground) {
+      y = ground - R;
+      if (vy > 60) { vy = -vy * .7; vx *= .86; onBounce(); }
+      else { vy = 0; vx *= .9; }
+    }
+    place();
+    if (vy === 0 && Math.abs(vx) < 8 && y + R >= ground - .5) {
+      running = false;
+      if (phase === 'flight' || phase === 'window') endRally('Missed it.');
+      phase = 'rest'; return;
+    }
+    requestAnimationFrame(step);
+  }
+  pg.addEventListener('click', () => {
+    tap.style.opacity = 0;
+    if (phase === 'flight') {
+      if ((x < netX ? -1 : 1) === toSide && vy > 0 && (ground - R - y) / (vy * speed) < 0.07) { queued = true; return; }   // within 70 ms of the bounce
+      endRally('Too early. Wait for the bounce.'); return;
+    }
+    if (phase === 'window') { launch(); return; }
+    rally = 0; show(); launch();                          // a fresh rally from wherever the ball is
+    if (!taught) { taught = true; say('Tap after it bounces once.', 2400); }
+  });
+  addEventListener('resize', () => { drawCourt(); if (!running) rest(); });
+  drawCourt(); rest(); show();
+})();
+
+/* ---------- rally leaderboard ---------- */
+/* A small perk: the top five rallies, signed with two to four letters. Each device keeps one row, its best.
+   The moderator can take a row down from the moderator page. The line stays hidden if the list can't load. */
+(() => {
+  const lb = document.getElementById('lb'), toggle = document.getElementById('lbToggle'), lead = document.getElementById('lbLead');
+  const list = document.getElementById('lbList'), form = document.getElementById('lbSign'), msg = document.getElementById('lbMsg');
+  const ini = document.getElementById('lbIni'), no = document.getElementById('lbNo'), fine = document.getElementById('lbFine');
+  /* word filter: the same lists as netlify/lib/words.mjs (the server checks again).
+     ANY: the worst words, blocked anywhere in the letters (four-letter ones backwards too, so KCUF fails).
+     EXACT: milder short words that hide inside normal ones (BASS, SHOE, COKE), blocked only as the whole entry. */
+  const ANY = 'FUCK FUK FUC FCK FUQ FUX FVCK FCUK PHUK PHUC CUNT COCK DICK SHIT TWAT WANK SLUT WHOR JIZ FAG SPIC KIKE GOOK COON PUSY PSSY RTRD STFU GTFO WTF BICH BTCH BICT NIGA NIGG NIGR NGR NGGR KKK NAZI XXX'.split(' ');
+  const EXACT = 'FU FK BJ HJ SS SX KY ASS ASSS ASSH TIT TITS HOE HOES SEX SEXY SXY SEXX CUM CUMS JAP JAPS WOP WOPS DIK COK CNT SHT SLT KYS SMD DTF NIG NIGS NGA SUK SUCK PUSS POOP HELL DAMN CRAP BUTT BOOB ANAL ANUS ARSE HOMO RAPE TARD THOT MILF DILF PISS PORN PRN'.split(' ');
+  const rude = s => { const r = [...s].reverse().join(''); return EXACT.includes(s) || ANY.some(w => s.includes(w) || (w.length === 4 && r.includes(w))); };
+  const meP = (crypto.subtle ? crypto.subtle.digest('SHA-256', new TextEncoder().encode('bc|' + DEVICE)) : Promise.reject())
+    .then(b => Array.from(new Uint8Array(b), x => x.toString(16).padStart(2, '0')).join('').slice(0, 12)).catch(() => null);
+  let rows = [], me = null, mine = readJSON('bc-rally-mine', null), pending = 0, open = false;
+  function render() {
+    const top = rows[0];
+    lead.innerHTML = top ? 'Top rallies · <span style="color:var(--ink)"></span>' : 'Top rallies · be the first';
+    if (top) lead.querySelector('span').textContent = `${top.ini} ${top.best}`;
+    list.innerHTML = '';
+    rows.forEach((r, i) => {
+      const li = document.createElement('li'); if (me && r.k === me) li.className = 'me';
+      li.innerHTML = `<span class="n">${i + 1}</span><span class="ini"></span><span class="sc">${r.best}</span>`;
+      li.querySelector('.ini').textContent = r.ini;
+      list.appendChild(li);
+    });
+    if (!rows.length) { const li = document.createElement('li'); li.textContent = 'No rallies yet.'; list.appendChild(li); }
+    list.hidden = !open;
+  }
+  async function load() {
+    try { rows = (await api('rally')).top; me = await meP; lb.hidden = false; render(); } catch { /* stays hidden */ }
+  }
+  toggle.addEventListener('click', () => { open = !open; toggle.setAttribute('aria-expanded', open); render(); if (open) load(); });
+  async function save(initials, n, quiet) {
+    try {
+      rows = (await api('rally', { ini: initials, best: n })).top;
+      mine = { ini: initials, best: n }; store.set('bc-rally-mine', JSON.stringify(mine)); store.set('bc-initials', initials);
+      form.hidden = true; pending = 0;
+      if (!quiet) { open = true; toggle.setAttribute('aria-expanded', true); }
+      lb.hidden = false; render();
+    } catch (e) { if (!quiet) { fine.textContent = e.message; form.hidden = false; } }
+  }
+  document.addEventListener('bc:rally', e => {
+    const n = e.detail;
+    if (n < 3 || (mine && n <= mine.best)) return;
+    if (mine) { save(mine.ini, n, true); return; }               // already on the board: keep the same letters
+    if (rows.length >= 5 && n <= rows[rows.length - 1].best) return;   // not enough to make the top five
+    pending = n; msg.innerHTML = `Nice, <b>${n}</b>. Sign the board:`;
+    ini.value = store.get('bc-initials') || ''; fine.textContent = 'Two to four letters.'; form.hidden = false;
+  });
+  ini.addEventListener('input', () => { ini.value = ini.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 4); });
+  form.addEventListener('submit', ev => {
+    ev.preventDefault();
+    const v = ini.value;
+    if (!/^[A-Z]{2,4}$/.test(v)) { fine.textContent = 'Two to four letters.'; ini.focus(); return; }
+    if (rude(v)) { fine.textContent = 'Those letters aren’t allowed. Try others.'; ini.select(); return; }
+    if (pending) save(v, pending);
+  });
+  no.addEventListener('click', () => { form.hidden = true; pending = 0; });
+  load();
+})();
+
+/* ---------- booking scribble ---------- */
+(() => {
+  const b = document.getElementById('w-book'), h = document.getElementById('h-book');
+  b.addEventListener('click', () => { const on = b.classList.toggle('sorted'); b.setAttribute('aria-pressed', on); h.textContent = on ? 'Tap to mess it up again' : 'Tap to sort it out'; });
+})();
+
+/* ---------- kids' clock ---------- */
+(() => {
+  const b = document.getElementById('w-kids'), h = document.getElementById('h-kids');
+  const hh = document.getElementById('hHour'), mm = document.getElementById('hMin'), wedge = document.getElementById('wedge'), outline = document.getElementById('wedge-outline'), ticks = document.getElementById('ticks');
+  const C = [110, 86], RW = 64;
+  const pt = (deg, r) => { const a = (deg - 90) * Math.PI / 180; return [C[0] + r * Math.cos(a), C[1] + r * Math.sin(a)]; };
+  for (let i = 0; i < 12; i++) { const [x1, y1] = pt(i * 30, 62), [x2, y2] = pt(i * 30, i % 3 ? 66 : 70); if (i % 3) mk('line', { x1, y1, x2, y2 }, ticks); }
+  const arc = (a1, a2) => { if (a2 - a1 < .5) return ''; const [x1, y1] = pt(a1, RW), [x2, y2] = pt(a2, RW); return `M${C[0]},${C[1]} L${x1},${y1} A${RW},${RW} 0 ${a2 - a1 > 180 ? 1 : 0} 1 ${x2},${y2} Z`; };
+  outline.setAttribute('d', arc(120, 180));
+  const START = 110; let t = START, anim = 0, on = false;
+  function set(tt, wedgeTo) {
+    const ha = (tt / 720) * 360, ma = (tt % 60) / 60 * 360;
+    const [hx, hy] = pt(ha, 36), [mx, my] = pt(ma, 54);
+    hh.setAttribute('x2', hx); hh.setAttribute('y2', hy); mm.setAttribute('x2', mx); mm.setAttribute('y2', my);
+    wedge.setAttribute('d', wedgeTo ? arc(120, wedgeTo) : '');
+  }
+  function tween(from, to, ms, fn, done) {
+    const s = performance.now(); cancelAnimationFrame(anim);
+    const f = now => { const k = Math.min(1, (now - s) / ms), e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2; fn(from + (to - from) * e); if (k < 1) anim = requestAnimationFrame(f); else if (done) done(); };
+    anim = requestAnimationFrame(f);
+  }
+  b.addEventListener('click', () => {
+    on = !on; b.setAttribute('aria-pressed', on);
+    if (on) {
+      h.textContent = 'Tap to reset';
+      if (reduce) { set(360, 180); b.classList.add('kids-on'); return; }
+      tween(t, 240, 700, v => { t = v; set(v, 0); }, () => tween(240, 360, 1300, v => { t = v; set(v, 120 + (v - 240) / 2); }, () => b.classList.add('kids-on')));
+    } else {
+      h.textContent = 'Tap the clock'; b.classList.remove('kids-on');
+      if (reduce) { t = START; set(t, 0); return; }
+      tween(t, START + 720, 900, v => { t = v % 720; set(t, 0); });
+    }
+  });
+  set(t, 0);
+})();
+
+/* ---------- resurfacing roller ---------- */
+(() => {
+  const b = document.getElementById('w-fix'), h = document.getElementById('h-fix'), clip = document.getElementById('freshRect'), roller = document.getElementById('roller');
+  let w = 0, anim = 0, on = false;
+  const setW = v => { w = v; clip.setAttribute('width', v); roller.setAttribute('transform', `translate(${18 + v},0)`); };
+  b.addEventListener('click', () => {
+    on = !on; b.setAttribute('aria-pressed', on); b.classList.toggle('is-fixed', on);
+    h.textContent = on ? 'Tap to see it before' : 'Tap to resurface it';
+    const to = on ? 224 : 0;
+    if (reduce) { setW(to); return; }
+    const from = w, s = performance.now(), ms = on ? 1500 : 500; cancelAnimationFrame(anim);
+    const f = now => { const k = Math.min(1, (now - s) / ms), e = 1 - Math.pow(1 - k, 3); setW(from + (to - from) * e); if (k < 1) anim = requestAnimationFrame(f); };
+    anim = requestAnimationFrame(f);
+  });
+  setW(0);
+})();
+
+/* ---------- court map ---------- */
+(() => {
+  const g = document.getElementById('sites'), detail = document.getElementById('detail'), chips = document.getElementById('chips');
+  const TYPE = {
+    g: { label: 'Looks good', c: 'var(--green)', mark: '' },
+    w: { label: 'Needs resurfacing', c: 'var(--red)', mark: '' },
+    a: { label: 'Looks abandoned', c: 'var(--red)', mark: 'x' },
+    c: { label: 'Under a winter bubble', c: 'var(--blue)', mark: 'dome' }
+  };
+  const CAT = { p: 'Public park', s: 'School', o: 'Private, college or housing' };
+  const visible = { g: true, w: true, a: true, c: true };
+  let sel = SITES.findIndex(s => s[0] === 'McCarren Park');
+  const nodes = [];
+  /* live check-ins: shared through /api/checkins and kept for an hour */
+  let CHECK = {};
+  let draft = { free: null, wait: null };
+  const ago = t => { const m = Math.round((Date.now() - t) / 60000); return m < 1 ? 'just now' : m === 1 ? '1 minute ago' : `${m} minutes ago`; };
+  const WAIT = { none: 'no wait', some: '1 or 2 groups waiting', lots: '3 or more groups waiting' };
+  function liveBlock(i) {
+    const s = SITES[i], c = CHECK[i], n = s[3];
+    const f = draft.free == null ? n : draft.free;
+    return `<div class="live">
+      ${s[2] === 'c' ? '<p class="small" style="font-size:15px">From October to April these courts sit under a paid winter bubble.</p>' : ''}
+      ${c ? `<p class="now">${c.free} of ${n} free · ${WAIT[c.wait]} <span style="font-weight:600;font-size:15px;color:var(--ink-soft)">(${ago(c.t)})</span></p>` : '<p class="now none">No one has checked in here in the last hour.</p>'}
+      <div class="row"><span class="lbl">Here now? Free courts</span>
+        <span class="step"><button type="button" data-free="-1" aria-label="One fewer free court">−</button><b id="freeN">${f} of ${n}</b><button type="button" data-free="1" aria-label="One more free court">+</button></span></div>
+      <div class="row"><span class="lbl">Anyone waiting?</span>
+        <span class="pick">${Object.entries({ none: 'No', some: '1–2 groups', lots: '3+' }).map(([k, l]) => `<button type="button" data-wait="${k}" aria-pressed="${draft.wait === k}">${l}</button>`).join(' ')}</span></div>
+      <button type="button" class="btn checkin" id="checkin">Check in</button>
+    </div>`;
+  }
+  function wireLive(i) {
+    const n = SITES[i][3];
+    detail.querySelectorAll('[data-free]').forEach(b => b.addEventListener('click', () => {
+      const cur = draft.free == null ? n : draft.free; draft.free = Math.max(0, Math.min(n, cur + +b.dataset.free));
+      detail.querySelector('#freeN').textContent = `${draft.free} of ${n}`;
+    }));
+    detail.querySelectorAll('[data-wait]').forEach(b => b.addEventListener('click', () => {
+      draft.wait = b.dataset.wait; detail.querySelectorAll('[data-wait]').forEach(x => x.setAttribute('aria-pressed', x === b));
+    }));
+    const go = detail.querySelector('#checkin');
+    if (go) go.addEventListener('click', async () => {
+      go.disabled = true; go.textContent = 'Checking in\u2026';
+      try {
+        const r = await api('checkins', { i, free: draft.free == null ? n : draft.free, wait: draft.wait || 'none' });
+        CHECK[i] = r.checkin; draft = { free: null, wait: null }; markPulses(); show(i);
+      } catch (e) {
+        go.disabled = false; go.textContent = 'Check in';
+        const p = document.createElement('p'); p.className = 'small'; p.textContent = e.message; go.after(p);
+      }
+    });
+  }
+  function show(i) {
+    if (i !== sel) draft = { free: null, wait: null };
+    sel = i; const s = SITES[i], T = TYPE[s[2]];
+    detail.innerHTML = `<span class="tag" style="--c:${T.c}">${T.label}</span>
+      <h3>${s[0]}</h3>
+      <dl><dt>Courts</dt><dd>${s[3]}</dd><dt>Kind</dt><dd>${CAT[s[1]]}</dd></dl>
+      ${s[6] ? `<p style="font-size:16px">${s[6]}</p>` : ''}
+      ${s[0] === 'McCarren Park' ? '<p class="bookline">2 of these courts can be booked on <a href="https://www.nycgovparks.org/tennisreservation" target="_blank" rel="noopener">NYC Parks online reservations</a>, May 4 to September 20. It is the only Brooklyn site on the system.</p>' : ''}
+      ${s[2] === 'c' ? '<p class="bookline">In winter: <a href="#book">see where to book</a> under the bubble.</p>' : ''}
+      ${window.boardFor ? window.boardFor(s[0]) : ''}
+      ${liveBlock(i)}
+      <div class="cardbtns"><a class="btn ask" href="#board" data-compose="report">Report a problem</a><a class="btn ask" href="#board" data-compose="hitter">Find a hitter here</a><a class="btn ask" href="#board" data-compose="request">Ask for something</a></div>`;
+    detail.querySelectorAll('[data-compose]').forEach(a => a.addEventListener('click', () => window.compose && window.compose(a.dataset.compose, i)));
+    wireLive(i);
+    nodes.forEach((n, j) => n.classList.toggle('sel', j === i));
+  }
+  SITES.forEach((s, i) => {
+    const T = TYPE[s[2]], r = 9 + Math.sqrt(s[3]) * 4.2;
+    const n = mk('g', { class: 'site', tabindex: 0, role: 'button', 'aria-label': `${s[0]}: ${s[3]} court${s[3] > 1 ? 's' : ''}, ${T.label.toLowerCase()}`, transform: `translate(${s[4]},${s[5]})` }, g);
+    if (T.mark === 'dome') {
+      mk('path', { d: `M${-r},${r * .45} A${r},${r} 0 0 1 ${r},${r * .45} Z`, fill: 'var(--card)', stroke: T.c, 'stroke-width': 5 }, n);
+    } else if (T.mark === 'x') {
+      mk('circle', { r, fill: 'var(--card)', stroke: T.c, 'stroke-width': 4 }, n);
+      mk('path', { d: `M${-r * .55},${-r * .55} L${r * .55},${r * .55} M${r * .55},${-r * .55} L${-r * .55},${r * .55}`, stroke: T.c, 'stroke-width': 5, 'stroke-linecap': 'round' }, n);
+    } else {
+      mk('circle', { r, fill: T.c, stroke: 'var(--ink)', 'stroke-width': 2.5 }, n);
+    }
+    mk('circle', { class: 'ring', r: r + 7 }, n);
+    n.addEventListener('click', () => show(i));
+    n.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(i); } });
+    nodes.push(n);
+  });
+  Object.entries(TYPE).forEach(([k, T]) => {
+    const n = SITES.filter(s => s[2] === k).length;
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.id = 'chip-' + k; b.setAttribute('aria-pressed', 'true');
+    b.innerHTML = `<i class="${T.mark}" style="--c:${T.c}"></i>${T.label} (${n})`;
+    b.addEventListener('click', () => { visible[k] = !visible[k]; b.setAttribute('aria-pressed', visible[k]); nodes.forEach((nd, j) => nd.style.display = visible[SITES[j][2]] ? '' : 'none'); });
+    chips.appendChild(b);
+  });
+  window.mapShow = show; window.mapSel = () => sel;
+  window.mapMarkReports = set => nodes.forEach((n, j) => {
+    const old = n.querySelector('.rep'); if (old) old.remove();
+    if (!set.has(j)) return;
+    const r = 9 + Math.sqrt(SITES[j][3]) * 4.2, gg = mk('g', { class: 'rep', transform: `translate(${r * .75},${-r * .95})` }, n);
+    mk('path', { d: 'M0,-13 L12,9 H-12 Z', fill: 'var(--cone)', 'stroke-width': 3, 'stroke-linejoin': 'round' }, gg);
+    mk('path', { d: 'M0,-4 V1 M0,5 V5.5', 'stroke-width': 3, 'stroke-linecap': 'round' }, gg);
+  });
+  function markPulses() {
+    nodes.forEach((nd, j) => {
+      const old = nd.querySelector('.pulse'); if (old) old.remove();
+      if (CHECK[j]) mk('circle', { class: 'pulse', r: 9 + Math.sqrt(SITES[j][3]) * 4.2 + 12 }, nd);
+    });
+  }
+  async function loadChecks() {
+    try {
+      const d = await api('checkins'); CHECK = {};
+      for (const [k, c] of Object.entries(d.checkins)) CHECK[+k] = c;
+      markPulses();
+      if (!detail.contains(document.activeElement)) show(sel);
+    } catch { /* the map still works without them */ }
+  }
+  show(sel);
+  loadChecks();
+  visibleEvery(loadChecks, 60000);
+})();
+
+/* ---------- McCarren lot ---------- */
+(() => {
+  const seven = document.getElementById('seven'), four = document.getElementById('four');
+  const court = (parent, x, y, w, h, fill) => { mk('rect', { x, y, width: w, height: h, rx: 3, fill, stroke: 'var(--ink)', 'stroke-width': 2.4 }, parent);
+    mk('path', { d: `M${x + 5},${y + 2} L${x + 5},${y + h - 2} M${x + w - 5},${y + 2} L${x + w - 5},${y + h - 2} M${x + 5},${y + h * .23} L${x + w - 5},${y + h * .23} M${x + 5},${y + h * .77} L${x + w - 5},${y + h * .77} M${x + w / 2},${y + h * .23} L${x + w / 2},${y + h * .77}`, stroke: 'var(--white)', 'stroke-width': 1.6, fill: 'none' }, parent);
+    mk('path', { d: `M${x - 3},${y + h / 2} L${x + w + 3},${y + h / 2}`, stroke: 'var(--ink)', 'stroke-width': 2.4, 'stroke-linecap': 'round', fill: 'none' }, parent); };
+  for (let i = 0; i < 7; i++) court(seven, 18 + i * 49, 30, 44, 54, 'var(--blue)');
+  court(four, 41, 204, 50, 44, 'var(--blue)');
+  for (let i = 0; i < 3; i++) court(four, 128 + i * 56, 210, 50, 44, 'var(--blue)');
+  const v = document.getElementById('lotview'), b = document.getElementById('w-lot'), h = document.getElementById('h-lot');
+  b.addEventListener('click', () => { const on = v.classList.toggle('show-idea'); b.setAttribute('aria-pressed', on); h.textContent = on ? 'Tap to see the lot today' : 'Tap the lot to see our idea'; });
+})();
+
+/* ---------- the board: posts are stored by /api/board and a moderator reads each one before it shows ---------- */
+(() => {
+  const ic = {
+    lights: '<circle cx="20" cy="16" r="9" fill="var(--ball)" stroke="currentColor" stroke-width="2.5"/><rect x="15.5" y="25" width="9" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M20,1.5 v3.5 M6.5,7.5 l2.6,2.2 M33.5,7.5 l-2.6,2.2" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>',
+    resurf: '<rect x="5" y="7" width="24" height="10" rx="4.5" fill="var(--red)" stroke="currentColor" stroke-width="2.5"/><path d="M29,12 h4 v8 h-13 v6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><rect x="17.5" y="26" width="5" height="11" rx="2" fill="currentColor"/>',
+    nets: '<path d="M5,15 V33 M35,15 V33 M5,21 H35 M5,27 H35 M11,15 V33 M17,15 V33 M23,15 V33 M29,15 V33" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M3,14 H37" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>',
+    drain: '<path d="M20,4 C14,13 10,19 10,24 a10,10 0 0 0 20,0 C30,19 26,13 20,4 Z" fill="var(--blue)" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>',
+    fence: '<rect x="4" y="6" width="32" height="28" rx="2" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M4,13 L25,34 M4,24 L14,34 M15,6 L36,27 M26,6 L36,16 M4,27 L25,6 M4,16 L14,6 M15,34 L36,13 M26,34 L36,24" stroke="currentColor" stroke-width="1.6" fill="none"/>',
+    booking: '<rect x="5" y="8" width="30" height="27" rx="4" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M5,15 H35 M12,4 v7 M28,4 v7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><path d="M13,25 l4,4 l9,-9" fill="none" stroke="var(--green)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>',
+    kids: '<circle cx="20" cy="20" r="15" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M20,20 L33,27.5 A15,15 0 0 1 20,35 Z" fill="var(--green)" opacity=".85"/><path d="M20,20 L20,9 M20,20 L26,26" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>',
+    cone: '<path d="M20,4 L31,33 H9 Z" fill="var(--cone)" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M13.6,21 H26.4 M11.4,27 H28.6" stroke="var(--white)" stroke-width="3"/><path d="M5,35 H35" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>',
+    hitter: '<ellipse cx="13" cy="13" rx="7" ry="9" transform="rotate(-30 13 13)" fill="none" stroke="currentColor" stroke-width="2.5"/><ellipse cx="27" cy="13" rx="7" ry="9" transform="rotate(30 27 13)" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M17,21 L25,35 M23,21 L15,35" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="20" cy="4" r="3" fill="var(--ball)" stroke="currentColor" stroke-width="1.5"/>',
+    flag: '<path d="M10,4 V36" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M11,6 H32 L27,13 L32,20 H11 Z" fill="var(--red)" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>',
+    ask: '<path d="M5,8 H35 V27 H18 L10,34 V27 H5 Z" fill="var(--ball)" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M20,12 V19.5 M20,23.5 V24" stroke="#1b1d3a" stroke-width="3" stroke-linecap="round"/>',
+    other: '<text x="20" y="30" text-anchor="middle" font-family="var(--hand)" font-size="28" font-weight="800" fill="currentColor">?</text>'
+  };
+  const NEEDS = [['lights','Lights'],['resurf','Resurfacing'],['nets','Nets'],['drain','Drainage'],['fence','Fences and gates'],['booking','Booking'],['kids',"Kids' hours"],['other','Something else']];
+  const PROBS = [['construction','Under construction','cone'],['nets','Nets down or torn','nets'],['locked','Gates locked','fence'],['flood','Flooded','drain'],['lightsout','Lights out','lights'],['closed','Closed for an event','flag'],['other','Something else','other']];
+  const TYPES = [['request','Ask for something','ask'],['report','Report a problem','cone'],['hitter','Find a hitter','hitter'],['event','Event','flag']];
+  const PARTS = ['Morning','Afternoon','Evening','Any time'], LEVELS = ['New to tennis','Beginner','Intermediate','Advanced','Any level'], PLAY = ['Singles','Doubles','Just rallying','Any'], WHO = ['Everyone','Kids and families','Beginners','Advanced players'];
+  const NL = Object.fromEntries(NEEDS), PL = Object.fromEntries(PROBS.map(p => [p[0], p[1]])), PI = Object.fromEntries(PROBS.map(p => [p[0], p[2]])), TL = Object.fromEntries(TYPES.map(t => [t[0], t[1]]));
+  const icon = k => `<svg class="icon" viewBox="0 0 40 40" aria-hidden="true"><g class="wob">${ic[k]}</g></svg>`;
+  const esc = t => String(t).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+  const idxOf = name => SITES.findIndex(s => s[0] === name);
+  const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  const nextSat = k => { const d = new Date(); d.setDate(d.getDate() + ((6 - d.getDay() + 7) % 7 || 7) + 7 * k); return iso(d); };
+  const fmtDay = v => { if (!v) return ''; const [y, m, dd] = v.split('-').map(Number); return new Date(y, m - 1, dd).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }); };
+  const ago = t => { const m = Math.round((Date.now() - t) / 60000); if (m < 1) return 'just now'; if (m < 60) return `${m} min ago`; const h = Math.round(m / 60); if (h < 24) return `${h} hour${h > 1 ? 's' : ''} ago`; const dd = Math.round(h / 24); return `${dd} day${dd > 1 ? 's' : ''} ago`; };
+  const day = 864e5;
+  /* posts come from /api/board (approved by the moderator); your own posts waiting for review are kept on this device */
+  let P = [], failed = false;
+  let mine = readJSON('bc-mine', []).filter(p => p && p.id && Date.now() - p.t < 14 * day);
+  const voted = readJSON('bc-voted', {});
+  function merge(posts) {
+    const ids = new Set(posts.map(p => p.id));
+    mine = mine.filter(p => !ids.has(p.id));
+    store.set('bc-mine', JSON.stringify(mine));
+    P = posts.map(p => ({ ...p, ci: Number.isInteger(p.ci) && p.ci >= 0 ? p.ci : idxOf(p.court), voted: !!voted[p.id] }))
+      .concat(mine.map(p => ({ ...p, n: 0, mine: true, ci: Number.isInteger(p.ci) ? p.ci : idxOf(p.court) })));
+  }
+  async function load() {
+    try { merge((await api('board')).posts); failed = false; } catch { merge([]); failed = true; }
+    render();
+  }
+  let filter = null, type = 'request';
+
+  // form
+  const $ = id => document.getElementById(id);
+  const form = $('postform'), sel = $('p-court'), whereWrap = $('p-where-wrap'), where = $('p-where'), msg = $('formmsg');
+  const groups = { p: 'Public parks', s: 'Schools', o: 'Private, college or housing' };
+  Object.entries(groups).forEach(([k, label]) => {
+    const og = document.createElement('optgroup'); og.label = label;
+    SITES.map((s, i) => [s, i]).filter(([s]) => s[1] === k).sort((a, b) => a[0][0].localeCompare(b[0][0])).forEach(([s, i]) => { const o = document.createElement('option'); o.value = i; o.textContent = s[0]; og.appendChild(o); });
+    sel.appendChild(og);
+  });
+  const oe = document.createElement('option'); oe.value = 'else'; oe.textContent = 'Somewhere else'; sel.appendChild(oe);
+  sel.addEventListener('change', () => { whereWrap.hidden = sel.value !== 'else'; });
+  const chipsHTML = (name, list, iconOf) => list.map(([k, l, ik]) => `<label class="need"><input type="radio" name="${name}" id="${name}-${k}" value="${k}"><span>${icon(iconOf ? iconOf(k, ik) : k)}${l}</span></label>`).join('');
+  $('p-types').innerHTML = chipsHTML('ptype', TYPES, (k, ik) => ik);
+  $('p-needs').innerHTML = chipsHTML('need', NEEDS);
+  $('p-probs').innerHTML = chipsHTML('prob', PROBS, (k, ik) => ik);
+  const opts = (id, list) => $(id).innerHTML = list.map(v => `<option>${v}</option>`).join('');
+  opts('p-part', PARTS); opts('p-level', LEVELS); opts('p-play', PLAY); opts('p-who', WHO);
+  $('p-date').min = iso(new Date());
+  function setType(t) {
+    type = t; form.querySelector(`#ptype-${t}`).checked = true;
+    form.querySelectorAll('[data-for]').forEach(el => { el.hidden = !el.dataset.for.split(' ').includes(t); });
+    msg.textContent = '';
+  }
+  form.querySelectorAll('input[name="ptype"]').forEach(r => r.addEventListener('change', () => setType(r.value)));
+  setType('request');
+
+  // board
+  const notes = $('notes'), fbox = $('typefilter');
+  const live = p => p.type === 'report' ? Date.now() - Math.max(p.t, p.last || 0) < 3 * day && !p.fixed
+    : (p.type === 'hitter' || p.type === 'event') ? (!p.date || p.date >= iso(new Date())) : true;
+  function renderFilter(list) {
+    fbox.innerHTML = [`<button type="button" class="chip" data-f="" aria-pressed="${filter === null}">All (${list.length})</button>`]
+      .concat(TYPES.map(([k, l]) => `<button type="button" class="chip" data-f="${k}" aria-pressed="${filter === k}">${{ request: 'Asks', report: 'Problems', hitter: 'Hitters', event: 'Events' }[k]} (${list.filter(p => p.type === k).length})</button>`)).join('');
+  }
+  fbox.addEventListener('click', e => { const b = e.target.closest('[data-f]'); if (!b) return; filter = b.dataset.f || null; render(); });
+  function card(p, i) {
+    const flag = p.mine ? '<span class="flag">yours, in review</span>' : '';
+    const who = `<span class="who">${flag}${p.name ? ' ' + esc(p.name) : ''}</span>`;
+    const head = p.type === 'request' ? `${icon(p.need)}${NL[p.need]}` : p.type === 'report' ? `${icon(PI[p.prob])}${PL[p.prob]}` : p.type === 'hitter' ? `${icon('hitter')}Find a hitter` : `${icon('flag')}Event`;
+    const act = p.type === 'request' ? 'Me too' : p.type === 'report' ? 'Still true' : p.type === 'event' ? "I'm in" : '';
+    const btn = act && !p.mine ? `<button type="button" class="metoo" data-id="${p.id}" aria-pressed="${p.voted ? 'true' : 'false'}">${act} · ${p.n}</button>` : '';
+    let body = '';
+    if (p.type === 'request') body = `<h4>${esc(p.court)}</h4>${p.text ? `<p>${esc(p.text)}</p>` : ''}`;
+    if (p.type === 'report') body = `<h4>${esc(p.court)}</h4>${p.text ? `<p>${esc(p.text)}</p>` : ''}<span class="fade">Reported ${ago(p.t)}. Fades after 3 days unless someone taps Still true.</span>${!p.mine ? `<button type="button" class="metoo" data-fix="${p.id}">Fixed now</button>` : ''}`;
+    if (p.type === 'hitter') body = `<h4>${esc(p.court)}</h4><span class="meta">${fmtDay(p.date)} · ${esc(p.part)} · ${esc(p.level)} · ${esc(p.play)}</span>${p.text ? `<p>${esc(p.text)}</p>` : ''}${p.contact ? `<span class="reach">Reach: ${esc(p.contact)}</span>` : ''}`;
+    if (p.type === 'event') body = `<h4>${esc(p.title)}</h4><span class="meta">${esc(p.court)} · ${fmtDay(p.date)} · ${esc(p.part)} · for ${esc(p.who).toLowerCase()}</span>${p.text ? `<p>${esc(p.text)}</p>` : ''}${p.contact ? `<span class="reach">Reach: ${esc(p.contact)}</span>` : ''}`;
+    return `<article class="note" style="--r:${[-.8, .6, -.4, .9, -.6][i % 5]}deg"><div class="head">${head}</div>${body}<div class="foot2">${who}${btn}</div></article>`;
+  }
+  function render() {
+    const active = P.filter(live);
+    renderFilter(active);
+    const list = active.filter(p => !filter || p.type === filter).sort((a, b) => (b.mine - a.mine) || (b.t - a.t));
+    notes.innerHTML = list.length ? list.map(card).join('') : `<p class="empty">${failed ? "The board couldn't load just now. Try again in a minute." : 'Nothing here yet. Be the first to post.'}</p>`;
+    if (window.mapMarkReports) window.mapMarkReports(new Set(active.filter(p => p.type === 'report' && p.ci >= 0).map(p => p.ci)));
+    if (window.mapShow) window.mapShow(window.mapSel());
+  }
+  notes.addEventListener('click', async e => {
+    const f = e.target.closest('[data-fix]');
+    if (f) {
+      f.disabled = true;
+      try { await api('board', { a: 'fixed', id: f.dataset.fix }); P = P.filter(x => x.id !== f.dataset.fix); render(); }
+      catch (err) { f.disabled = false; f.textContent = err.message; }
+      return;
+    }
+    const b = e.target.closest('.metoo'); if (!b || b.disabled) return;
+    const p = P.find(x => x.id === b.dataset.id); if (!p) return;
+    const was = { voted: p.voted, n: p.n };
+    p.voted = !p.voted; p.n += p.voted ? 1 : -1; render();          // show it straight away
+    try {
+      const r = await api('board', { a: 'vote', id: p.id });
+      p.n = r.n; p.voted = r.on;
+      if (r.on) voted[p.id] = true; else delete voted[p.id];
+      store.set('bc-voted', JSON.stringify(voted));
+    } catch { p.voted = was.voted; p.n = was.n; }
+    render();
+  });
+
+  // hooks for the map card
+  window.boardFor = name => {
+    const here = P.filter(p => live(p) && p.court === name);
+    const reps = here.filter(p => p.type === 'report');
+    const others = here.length - reps.length;
+    return (reps.length ? `<ul class="reports">${reps.map(p => `<li>${icon(PI[p.prob])}${PL[p.prob]} <span>${ago(p.t)}</span></li>`).join('')}</ul>` : '')
+      + (others ? `<p class="reqline">${others} post${others > 1 ? 's' : ''} about this court on <a href="#board">the board</a>.</p>` : '');
+  };
+  window.compose = (t, i) => { setType(t); sel.value = String(i); whereWrap.hidden = true; setTimeout(() => sel.focus({ preventScroll: true }), 450); };
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    let court = '';
+    if (sel.value === 'else') court = where.value.trim(); else if (sel.value !== '') court = SITES[+sel.value][0];
+    const say = (t, el) => { msg.textContent = t; if (el) el.focus(); };
+    if (!court) return say(sel.value === 'else' ? 'Tell us where the court is.' : 'Choose a court first.', sel.value === 'else' ? where : sel);
+    const p = { type, court, ci: sel.value === 'else' ? -1 : +sel.value, text: $('p-text').value.trim(), name: $('p-name').value.trim() };
+    if (type === 'request') { const v = form.querySelector('input[name="need"]:checked'); if (!v) return say('Pick what the court needs.', $('p-needs').querySelector('input')); p.need = v.value; }
+    if (type === 'report') { const v = form.querySelector('input[name="prob"]:checked'); if (!v) return say("Pick what's wrong.", $('p-probs').querySelector('input')); p.prob = v.value; }
+    if (type === 'request' || type === 'report') { const em = $('p-email').value.trim(); if (em) p.email = em; }
+    if (type === 'hitter' || type === 'event') {
+      if (!$('p-date').value) return say('Pick a day.', $('p-date'));
+      if (!$('p-adult').checked) return say('Hitter and event posts are for adults 18 and over.', $('p-adult'));
+      p.date = $('p-date').value; p.part = $('p-part').value; p.contact = $('p-contact').value.trim(); p.adult = true;
+      if (/(\d[\s.()-]*){10}/.test(p.contact + ' ' + p.text)) return say('Please leave phone numbers off the board. A handle works.', $('p-contact'));
+    }
+    if (type === 'hitter') { p.level = $('p-level').value; p.play = $('p-play').value; }
+    if (type === 'event') { p.title = $('p-title').value.trim(); if (!p.title) return say('Give your event a name.', $('p-title')); p.who = $('p-who').value; }
+    const btn = form.querySelector('.post'); btn.disabled = true; msg.textContent = 'Posting…';
+    api('board', { a: 'post', p }).then(res => {
+      const local = { ...p, id: res.id, t: Date.now() }; delete local.email; delete local.adult;
+      mine.push(local); store.set('bc-mine', JSON.stringify(mine));
+      P.push({ ...local, n: 0, mine: true }); filter = null; render();
+      const keep = type; form.reset(); setType(keep); whereWrap.hidden = true;
+      msg.textContent = 'Posted. It goes up on the board once the moderator has read it.';
+    }).catch(err => { msg.textContent = err.message; }).finally(() => { btn.disabled = false; });
+  });
+  load();
+  visibleEvery(load, 120000);
+})();
+
+/* ---------- ten-year draw ---------- */
+(() => {
+  const b = document.getElementById('w-goal'), h = document.getElementById('h-goal'), pathG = document.getElementById('goalpath'), stopsG = document.getElementById('stops'), ball = document.getElementById('goalball');
+  const S = [[30, 300, 'court time', 'start'], [86, 238, "kids' hours", 'start'], [140, 180, 'junior events', 'end'], [196, 124, 'a Brooklyn Challenger', 'end'], [270, 60, '', 'start']];
+  const segs = [];
+  for (let i = 0; i < S.length - 1; i++) {
+    const [x1, y1] = S[i], [x2, y2] = S[i + 1];
+    const d = `M${x1},${y1} C${x1 + 30},${y1 - 6} ${x2 - 6},${y2 + 30} ${x2},${y2}`;
+    segs.push(mk('path', { d }, pathG));
+  }
+  const stopEls = S.slice(0, 4).map(([x, y, t, side], i) => {
+    const g = mk('g', { class: 'stop' + (i === 0 ? ' on' : '') }, stopsG);
+    mk('circle', { cx: x, cy: y, r: 8, fill: 'var(--card)', stroke: 'var(--ink)', 'stroke-width': 3 }, g);
+    const tx = mk('text', { x: side === 'start' ? x + 16 : x - 16, y: y + 5, 'text-anchor': side, 'font-family': 'var(--hand)', 'font-size': 16, 'font-weight': 600, fill: 'var(--ink-soft)' }, g);
+    tx.textContent = t; return g;
+  });
+  let step = 0, anim = 0;
+  const put = (x, y) => ball.setAttribute('transform', `translate(${x},${y - 17})`);
+  put(S[0][0], S[0][1]);
+  b.addEventListener('click', () => {
+    cancelAnimationFrame(anim);
+    if (step === S.length - 1) { step = 0; b.classList.remove('won'); stopEls.forEach((g, i) => g.classList.toggle('on', i === 0)); put(S[0][0], S[0][1]); h.textContent = 'Tap to move up the draw'; return; }
+    const seg = segs[step], L = seg.getTotalLength(), next = step + 1;
+    const done = () => { step = next; if (stopEls[step]) stopEls[step].classList.add('on'); if (step === S.length - 1) { b.classList.add('won'); h.textContent = 'Tap to start again'; } };
+    if (reduce) { const p = seg.getPointAtLength(L); put(p.x, p.y); done(); return; }
+    const t0 = performance.now(), ms = 650;
+    const f = now => { const k = Math.min(1, (now - t0) / ms), e = 1 - Math.pow(1 - k, 2); const p = seg.getPointAtLength(L * e); put(p.x, p.y - Math.sin(Math.PI * e) * 26); if (k < 1) anim = requestAnimationFrame(f); else done(); };
+    anim = requestAnimationFrame(f);
+  });
+})();
+</script>
+</body>
+</html>

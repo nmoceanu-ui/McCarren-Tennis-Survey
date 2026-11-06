@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="only light">
+<title>Moderator · Brooklyn Challenger</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;700&family=Shantell+Sans:wght@500;700;800&display=swap">
+<style>
+:root{--paper:#ebe3cf;--ink:#1b1d3a;--ink-soft:#56546a;--card:#faf6ec;--red:#e3372a;--green:#0e9a57;--ball:#d3ee2a;--band:#38c7b8;
+  --hand:'Shantell Sans','Comic Sans MS',cursive;--text:'Atkinson Hyperlegible Next',system-ui,-apple-system,'Segoe UI',sans-serif;color-scheme:light}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.5 var(--text)}
+.wrap{max-width:860px;margin:0 auto;padding:20px 16px 60px;display:flex;flex-direction:column;gap:22px}
+h1,h2{font-family:var(--hand);margin:0;line-height:1.1}
+h1{font-size:34px}
+h2{font-size:24px;display:flex;align-items:center;gap:10px}
+h2 .count{font-size:17px;background:var(--ink);color:var(--card);border-radius:999px;padding:0 10px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.small{font-size:15px;color:var(--ink-soft);margin:0}
+button,input{font:inherit}
+.btn{font-family:var(--hand);font-weight:700;font-size:16px;border:2.5px solid var(--ink);border-radius:12px;background:var(--card);color:var(--ink);padding:5px 14px 6px;cursor:pointer}
+.btn.yes{background:var(--green);border-color:var(--green);color:#fff}
+.btn.no{background:var(--card);border-color:var(--red);color:var(--red)}
+.btn:disabled{opacity:.5;cursor:default}
+.login{display:flex;flex-direction:column;gap:10px;max-width:360px}
+.login input[type=password]{border:2.5px solid var(--ink);border-radius:10px;padding:8px 10px;background:var(--card)}
+.check{display:flex;gap:8px;align-items:center;font-size:15px}
+.list{display:flex;flex-direction:column;gap:12px}
+.item{background:var(--card);border:2.5px solid var(--ink);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.item .kind{font-family:var(--hand);font-weight:700;font-size:15px;color:var(--ink-soft)}
+.item h3{margin:0;font-family:var(--hand);font-size:20px;line-height:1.2}
+.item p{margin:0}
+.item .private{font-size:14px;color:var(--ink-soft)}
+.item .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.empty{font-family:var(--hand);color:var(--ink-soft);margin:0}
+.msg{font-family:var(--hand);font-weight:700;color:var(--red);min-height:1.4em;margin:0}
+table{border-collapse:collapse;font-size:16px}
+td{padding:4px 12px 4px 0}
+td.ini{font-family:var(--hand);font-weight:800;letter-spacing:.1em}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="top">
+    <h1>Moderator</h1>
+    <div id="bar" hidden><button class="btn" id="refresh" type="button">Refresh</button> <button class="btn" id="out" type="button">Sign out</button></div>
+  </div>
+
+  <form class="login" id="login" hidden>
+    <label for="key">Moderator password</label>
+    <input id="key" type="password" autocomplete="current-password" required>
+    <label class="check"><input type="checkbox" id="remember" checked> Remember on this device</label>
+    <button class="btn yes" type="submit">Open</button>
+  </form>
+  <p class="msg" id="msg" aria-live="polite"></p>
+
+  <div id="panel" hidden>
+    <section class="list">
+      <h2>Waiting for you <span class="count" id="nPending">0</span></h2>
+      <p class="small">Nothing shows on the board until you approve it. Emails are only ever shown here.</p>
+      <div class="list" id="pending"></div>
+    </section>
+    <section class="list" style="margin-top:28px">
+      <h2>On the board now <span class="count" id="nBoard">0</span></h2>
+      <div class="list" id="board"></div>
+    </section>
+    <section class="list" style="margin-top:28px">
+      <h2>Taken down lately</h2>
+      <div class="list" id="removed"></div>
+    </section>
+    <section class="list" style="margin-top:28px">
+      <h2>Top rallies</h2>
+      <p class="small">Every signed rally. Remove any row that shouldn't be there.</p>
+      <table><tbody id="rally"></tbody></table>
+    </section>
+  </div>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const esc = t => String(t ?? '').replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+const NEED = { lights: 'Lights', resurf: 'Resurfacing', nets: 'Nets', drain: 'Drainage', fence: 'Fences and gates', booking: 'Booking', kids: "Kids' hours", other: 'Something else' };
+const PROB = { construction: 'Under construction', nets: 'Nets down or torn', locked: 'Gates locked', flood: 'Flooded', lightsout: 'Lights out', closed: 'Closed for an event', other: 'Something else' };
+const KIND = p => p.type === 'request' ? 'Ask: ' + NEED[p.need] : p.type === 'report' ? 'Problem: ' + PROB[p.prob] : p.type === 'hitter' ? 'Find a hitter' : 'Event';
+const when = t => new Date(t).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+const day = v => v ? new Date(v + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) : '';
+let key = '';
+try { key = localStorage.getItem('bc-mod') || sessionStorage.getItem('bc-mod') || ''; } catch {}
+
+async function call(data) {
+  const res = await fetch('/api/mod', data
+    ? { method: 'POST', headers: { 'content-type': 'application/json', 'x-mod-key': key }, body: JSON.stringify(data) }
+    : { headers: { 'x-mod-key': key }, cache: 'no-store' });
+  let out = {}; try { out = await res.json(); } catch {}
+  if (!res.ok) { const e = new Error(out.error || 'Something went wrong.'); e.status = res.status; throw e; }
+  return out;
+}
+function item(p, acts) {
+  const details = [];
+  if (p.type === 'hitter') details.push(`${day(p.date)} · ${p.part} · ${p.level} · ${p.play}`);
+  if (p.type === 'event') details.push(`${p.court} · ${day(p.date)} · ${p.part} · for ${String(p.who || '').toLowerCase()}`);
+  return `<article class="item">
+    <span class="kind">${esc(KIND(p))} · ${esc(when(p.t))}${p.n ? ` · ${p.n} agree` : ''}</span>
+    <h3>${esc(p.type === 'event' ? p.title : p.court)}</h3>
+    ${details.map(d => `<p class="small">${esc(d)}</p>`).join('')}
+    ${p.text ? `<p>${esc(p.text)}</p>` : ''}
+    ${p.name ? `<p class="small">Signed: ${esc(p.name)}</p>` : ''}
+    ${p.contact ? `<p class="small">Reach: ${esc(p.contact)}</p>` : ''}
+    ${p.email ? `<p class="private">Email (private): ${esc(p.email)}</p>` : ''}
+    <div class="acts">${acts.map(([a, label, cls]) => `<button class="btn ${cls}" type="button" data-a="${a}" data-id="${esc(p.id)}">${label}</button>`).join('')}</div>
+  </article>`;
+}
+async function load() {
+  $('msg').textContent = '';
+  try {
+    const d = await call();
+    $('login').hidden = true; $('panel').hidden = false; $('bar').hidden = false;
+    $('nPending').textContent = d.pending.length; $('nBoard').textContent = d.board.length;
+    $('pending').innerHTML = d.pending.map(p => item(p, [['approve', 'Approve', 'yes'], ['reject', 'Reject', 'no']])).join('') || '<p class="empty">Nothing waiting.</p>';
+    $('board').innerHTML = d.board.map(p => item(p, [['remove', 'Take down', 'no']])).join('') || '<p class="empty">The board is empty.</p>';
+    $('removed').innerHTML = d.removed.map(p => item(p, [['restore', 'Put back', '']])).join('') || '<p class="empty">Nothing taken down.</p>';
+    $('rally').innerHTML = d.rally.map(r => `<tr><td class="ini">${esc(r.ini)}</td><td>${r.best}</td><td class="small">${esc(when(r.t))}</td><td><button class="btn no" type="button" data-a="rally-remove" data-k="${esc(r.k)}">Remove</button></td></tr>`).join('') || '<tr><td class="small">No rallies yet.</td></tr>';
+    document.title = (d.pending.length ? `(${d.pending.length}) ` : '') + 'Moderator · Brooklyn Challenger';
+  } catch (e) {
+    if (e.status === 401 || e.status === 503) { signOut(); $('msg').textContent = e.message; }
+    else $('msg').textContent = e.message;
+  }
+}
+function signOut() {
+  key = ''; try { localStorage.removeItem('bc-mod'); sessionStorage.removeItem('bc-mod'); } catch {}
+  $('panel').hidden = true; $('bar').hidden = true; $('login').hidden = false;
+}
+$('login').addEventListener('submit', e => {
+  e.preventDefault(); key = $('key').value;
+  try { ($('remember').checked ? localStorage : sessionStorage).setItem('bc-mod', key); } catch {}
+  $('key').value = ''; load();
+});
+$('out').addEventListener('click', signOut);
+$('refresh').addEventListener('click', load);
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-a]'); if (!b) return;
+  b.disabled = true;
+  try { await call(b.dataset.a === 'rally-remove' ? { a: 'rally-remove', k: b.dataset.k } : { a: b.dataset.a, id: b.dataset.id }); load(); }
+  catch (err) { b.disabled = false; $('msg').textContent = err.message; }
+});
+if (key) load(); else $('login').hidden = false;
+setInterval(() => { if (key && !document.hidden) load(); }, 60000);
+</script>
+</body>
+</html>
