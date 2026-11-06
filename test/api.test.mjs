@@ -130,9 +130,9 @@ await call(mod, 'POST', { a: 'rally-remove', k: r.body.rally.find(x => x.ini ===
 r = await call(rally, 'GET');
 ok('moderator removes a leaderboard row', r.body.top.length === 1);
 
-// cross-site posts are refused
-const x = await board(new Request('https://example.netlify.app/api', { method: 'POST', headers: { origin: 'https://evil.example' }, body: '{}' }), { ip: '5.5.5.5' });
-ok('cross-site POST refused', x.status === 403);
+// a sign-in whose Origin doesn't match the request host still works (it was refused on iPhone before)
+const x = await rally(new Request('https://internal.example/api/rally', { method: 'POST', headers: { origin: 'https://brooklynchallenger.netlify.app', 'content-type': 'application/json' }, body: JSON.stringify({ d: dev(11), ini: 'NIKO', best: 7 }) }), { ip: '5.5.5.5' });
+ok('leaderboard sign works whatever the Origin header says', x.status === 200);
 
 await server.stop();
 rmSync(dir, { recursive: true, force: true });

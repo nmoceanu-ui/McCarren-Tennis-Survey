@@ -27,11 +27,12 @@ export const handle = fn => async (req, context) => {
   }
 };
 
-// Reads a small JSON body from a same-site POST.
+// Reads a small JSON body from a POST. There is deliberately no Origin check: the API has no logins or cookies,
+// so a request from another page can do nothing a direct request couldn't, and an Origin check refused real
+// visitors on iPhone ("Not allowed." when signing the leaderboard, 5 Nov 2026). Abuse is handled by the
+// per-visitor limits, the word filter and the moderator.
 export async function body(req) {
   if (req.method !== 'POST') throw new HttpError(405, 'Method not allowed.');
-  const origin = req.headers.get('origin');
-  if (origin && new URL(origin).host !== new URL(req.url).host) throw new HttpError(403, 'Not allowed.');
   const text = await req.text();
   if (text.length > 6000) throw new HttpError(413, 'That is too long.');
   try { const d = JSON.parse(text); if (d && typeof d === 'object') return d; } catch {}
